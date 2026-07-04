@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヨロガードスクール | 学んだのに、"売る商品"がないあなたへ。</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%23ffb366' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23ffb366' stroke-width='1' opacity='.5'/%3E%3C/svg%3E">
+<style>
+  /* ============================================================
+     YOLOGUARD SCHOOL — WATER ENGINE + MOTION KIT 移植版
+     palette: 暁 / daybreak orange（学び直し＝夜明け）
+     ============================================================ */
+  :root{
+    --bg:#05070b;
+    --text:#f2f4f7;
+    --sub:#98a0b3;
+    --line:rgba(255,255,255,0.08);
+    --accent:#ffb366;
+    --accent-rgb:255,179,102;
+    --card:rgba(255,255,255,0.03);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    line-height:1.8;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;}
+
+  /* ===== Loader ===== */
+  #loader{
+    position:fixed;inset:0;z-index:1000;
+    background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .9s ease, visibility .9s;
+  }
+  #loader.done{opacity:0;visibility:hidden;pointer-events:none}
+  .loader-brand{
+    font-size:13px;letter-spacing:0.5em;text-transform:uppercase;
+    color:var(--sub);
+    animation:loaderPulse 2s ease-in-out infinite;
+  }
+  @keyframes loaderPulse{0%,100%{opacity:.5}50%{opacity:1}}
+  .loader-num{
+    position:fixed;right:28px;bottom:22px;
+    font-size:clamp(48px,8vw,84px);
+    font-weight:800;color:var(--text);
+    opacity:.9;font-variant-numeric:tabular-nums;
+    letter-spacing:0.04em;line-height:1;
+  }
+  .loader-bar{
+    position:fixed;left:0;bottom:0;height:2px;width:100%;
+    transform-origin:left;
+    transform:scaleX(var(--load,0));
+    background:var(--accent);
+  }
+
+  /* ===== Custom cursor ===== */
+  #cursor{
+    position:fixed;top:0;left:0;z-index:999;
+    width:36px;height:36px;margin:-18px 0 0 -18px;
+    pointer-events:none;
+    display:none;
+  }
+  body.has-cursor #cursor{display:block}
+  #cursor .dot{
+    position:absolute;top:50%;left:50%;
+    width:5px;height:5px;margin:-2.5px 0 0 -2.5px;
+    border-radius:50%;background:var(--accent);
+    transition:transform .25s ease;
+  }
+  #cursor .ring{
+    position:absolute;inset:0;border-radius:50%;
+    border:1px solid rgba(var(--accent-rgb),0.55);
+    transform:scale(.55);
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  #cursor.is-hover .ring{transform:scale(1);border-color:rgba(var(--accent-rgb),0.9)}
+  #cursor.is-hover .dot{transform:scale(.5)}
+  #cursor .charge{
+    position:absolute;inset:0;border-radius:50%;
+    border:2px solid var(--accent);
+    transform:scale(calc(.55 + var(--charge,0) * 1.5));
+    opacity:calc(var(--charge,0) * .9);
+    transition:opacity .2s;
+  }
+  body.has-cursor, body.has-cursor a, body.has-cursor button{cursor:none}
+
+  /* ===== Header ===== */
+  .header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(5,7,11,0.55);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid transparent;
+    transition:background .5s, border-color .5s;
+    opacity:0;transform:translateY(-12px);
+  }
+  body.is-loaded .header{
+    opacity:1;transform:none;
+    transition:opacity 1s ease .35s, transform 1s ease .35s, background .5s, border-color .5s;
+  }
+  .header.scrolled{
+    background:rgba(5,7,11,0.8);
+    border-bottom-color:var(--line);
+  }
+  .header-inner{
+    max-width:1200px;margin:0 auto;
+    padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .logo{display:flex;flex-direction:column;line-height:1.3;}
+  .logo-en{font-weight:800;letter-spacing:0.18em;font-size:15px;color:var(--text);}
+  .logo-ja{font-size:10px;color:var(--sub);letter-spacing:0.2em;}
+  .nav{display:flex;align-items:center;gap:28px;}
+  .nav a{font-size:13px;color:var(--sub);letter-spacing:0.06em;transition:color .3s;}
+  .nav a:hover{color:var(--text);}
+  .ripple-count{
+    font-size:11px;letter-spacing:0.22em;color:var(--sub);
+    font-variant-numeric:tabular-nums;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px 14px;
+    white-space:nowrap;
+  }
+  .ripple-count b{color:var(--accent);font-weight:700;margin-left:6px}
+  @media (max-width:720px){
+    .ripple-count{display:none;}
+    .nav-links{display:none !important;}
+  }
+  .header-cta{
+    display:inline-block;
+    font-size:13px;font-weight:700;color:#1a0f04;
+    background:linear-gradient(135deg,#ffc98c,#ffb366 55%,#f59a45);
+    padding:10px 22px;border-radius:999px;
+    transition:box-shadow .3s, transform .3s;
+    white-space:nowrap;
+  }
+  .header-cta:hover{box-shadow:0 0 24px rgba(255,179,102,0.5);transform:translateY(-1px);}
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    min-height:100svh;height:auto;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    touch-action:pan-y;
+    -webkit-user-select:none;user-select:none;
+    -webkit-touch-callout:none;
+  }
+  #water{
+    position:absolute;inset:0;width:100%;height:100%;
+    display:block;
+  }
+  .hero-veil{
+    position:absolute;left:0;right:0;bottom:0;height:22%;
+    background:linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;z-index:2;
+    max-width:1040px;padding:120px 24px 120px;
+    text-align:center;
+    pointer-events:none;
+  }
+  .hero-inner a{pointer-events:auto;}
+  .hero-label{
+    display:inline-block;
+    font-size:12px;letter-spacing:0.35em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:28px;
+    opacity:0;transform:translateY(14px);
+    transition:opacity 1s ease .2s, transform 1s ease .2s;
+  }
+  .hero-title{
+    font-size:clamp(36px,6.5vw,76px);
+    font-weight:800;line-height:1.35;
+    letter-spacing:0.02em;
+    margin-bottom:28px;
+  }
+  .hero-title .accent{color:var(--accent);}
+  .hero-title .ch{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(0.55em);
+    filter:blur(6px);
+    transition:opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1), filter .8s ease;
+  }
+  body.is-loaded .hero-title .ch{opacity:1;transform:none;filter:none}
+  .hero-sub{
+    max-width:680px;margin:0 auto 40px;
+    font-size:clamp(14px,1.8vw,17px);
+    color:var(--sub);line-height:2.1;
+    opacity:0;transform:translateY(14px);
+    transition:opacity 1.1s ease .9s, transform 1.1s ease .9s;
+  }
+  .hero-cta-wrap{
+    opacity:0;transform:translateY(14px);
+    transition:opacity 1.1s ease 1.15s, transform 1.1s ease 1.15s;
+  }
+  .hero-badges{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+    margin-top:36px;
+    opacity:0;transform:translateY(12px);
+    transition:opacity 1.1s ease 1.35s, transform 1.1s ease 1.35s;
+  }
+  .hero-hint{
+    margin-top:30px;
+    font-size:11px;letter-spacing:0.28em;
+    color:rgba(var(--accent-rgb),0.75);
+    opacity:0;transform:translateY(10px);
+    transition:opacity 1.1s ease 1.55s, transform 1.1s ease 1.55s;
+  }
+  body.is-loaded .hero-label,
+  body.is-loaded .hero-sub,
+  body.is-loaded .hero-cta-wrap,
+  body.is-loaded .hero-badges,
+  body.is-loaded .hero-hint{opacity:1;transform:none}
+  .hero-caption{
+    position:absolute;left:28px;bottom:30px;z-index:2;
+    font-size:10.5px;letter-spacing:0.12em;
+    color:rgba(255,255,255,0.34);
+    max-width:280px;line-height:1.9;
+    pointer-events:none;
+    opacity:0;transition:opacity 1.4s ease 1.7s;
+  }
+  body.is-loaded .hero-caption{opacity:1}
+  @media (max-width:720px){.hero-caption{display:none}}
+  .cta-btn{
+    display:inline-block;
+    background:linear-gradient(135deg,#ffc98c,#ffb366 55%,#f59a45);
+    color:#1a0f04;
+    font-weight:700;font-size:16px;
+    padding:18px 44px;border-radius:999px;
+    letter-spacing:0.04em;
+    transition:box-shadow .4s, transform .4s;
+    box-shadow:0 0 0 rgba(255,179,102,0);
+    will-change:transform;
+  }
+  .cta-btn:hover{
+    box-shadow:0 0 40px rgba(255,179,102,0.55);
+    transform:translateY(-2px);
+  }
+  .badge{
+    font-size:12px;color:var(--sub);
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    border-radius:999px;padding:8px 18px;
+    letter-spacing:0.04em;
+  }
+  .badge b{color:var(--accent);font-weight:700;}
+  .scroll-indicator{
+    position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+    z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;
+    pointer-events:none;
+    opacity:0;transition:opacity 1.4s ease 1.9s;
+  }
+  body.is-loaded .scroll-indicator{opacity:1}
+  .scroll-indicator span{
+    font-size:10px;letter-spacing:0.3em;color:var(--sub);text-transform:uppercase;
+  }
+  .scroll-line{
+    width:1px;height:64px;
+    background:linear-gradient(to bottom, var(--accent), transparent);
+    animation:scrollPulse 2.4s ease-in-out infinite;
+    transform-origin:top;
+  }
+  @keyframes scrollPulse{
+    0%{transform:scaleY(0);opacity:0;}
+    35%{transform:scaleY(1);opacity:1;}
+    100%{transform:scaleY(1);opacity:0;}
+  }
+
+  /* ===== Marquee ===== */
+  .marquee{
+    overflow:hidden;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    -webkit-user-select:none;user-select:none;
+  }
+  .marquee-track{
+    display:flex;gap:0;width:max-content;
+    animation:marquee 46s linear infinite;
+  }
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .marquee-track span{
+    font-size:clamp(44px,7vw,84px);
+    font-weight:800;
+    letter-spacing:0.06em;
+    line-height:1.15;
+    white-space:nowrap;
+    color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,0.16);
+    padding-right:.8em;
+  }
+  .marquee-track span i{
+    font-style:normal;
+    color:rgba(var(--accent-rgb),0.4);
+    -webkit-text-stroke:0;
+    font-size:.4em;vertical-align:.45em;
+    padding-right:.8em;
+  }
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ===== Sections ===== */
+  section{
+    padding:120px 24px;
+    position:relative;
+  }
+  .container{max-width:1040px;margin:0 auto;}
+  .section-label{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:22px;
+  }
+  .section-label::before{
+    content:"";display:block;width:36px;height:2px;background:var(--accent);
+  }
+  .section-label span{
+    font-size:12px;letter-spacing:0.3em;text-transform:lowercase;color:var(--accent);
+  }
+  h2{
+    font-size:clamp(28px,4.5vw,46px);
+    font-weight:800;line-height:1.5;
+    margin-bottom:24px;letter-spacing:0.02em;
+  }
+  .lead{color:var(--sub);font-size:clamp(14px,1.7vw,16px);max-width:720px;line-height:2.1;}
+  .divider{border:none;border-top:1px solid var(--line);max-width:1040px;margin:0 auto;}
+
+  /* reveal */
+  .reveal{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .8s cubic-bezier(.22,.61,.36,1), transform .8s cubic-bezier(.22,.61,.36,1);
+  }
+  .reveal.on{opacity:1;transform:translateY(0);}
+  .d1{transition-delay:.12s;} .d2{transition-delay:.24s;} .d3{transition-delay:.36s;} .d4{transition-delay:.48s;}
+
+  /* cards */
+  .grid{display:grid;gap:20px;margin-top:56px;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:860px){
+    .grid-3{grid-template-columns:1fr;}
+    .grid-2{grid-template-columns:1fr;}
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:36px 30px;
+    transition:transform .4s, border-color .4s, box-shadow .4s;
+    position:relative;overflow:hidden;
+  }
+  .card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(255,179,102,0.35);
+    box-shadow:0 20px 48px rgba(0,0,0,0.45);
+  }
+  /* ホバー光源（カード共通） */
+  .card::after,
+  .problem-item::after,
+  .usp-col::after{
+    content:"";
+    position:absolute;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity:0;
+    top:var(--my,50%);left:var(--mx,50%);
+    transform:translate(-50%,-50%);
+    transition:opacity .5s;
+    pointer-events:none;
+    filter:blur(40px);
+  }
+  .card:hover::after,
+  .problem-item:hover::after,
+  .usp-col:hover::after{opacity:.10}
+  .card-num{
+    font-size:12px;letter-spacing:0.3em;color:var(--accent);
+    margin-bottom:16px;display:block;
+  }
+  .card h3{font-size:19px;font-weight:700;margin-bottom:14px;line-height:1.6;}
+  .card p{font-size:14px;color:var(--sub);line-height:2;}
+
+  .big-num{
+    font-size:clamp(40px,6vw,72px);
+    font-weight:800;color:var(--accent);
+    line-height:1.1;letter-spacing:0.01em;
+    font-variant-numeric:tabular-nums;
+  }
+  .big-num small{font-size:0.42em;font-weight:700;margin-left:2px;}
+  .num-caption{font-size:12px;color:var(--sub);margin-top:10px;line-height:1.8;}
+
+  /* problem list */
+  .problem-list{display:grid;gap:16px;margin-top:52px;}
+  .problem-item{
+    display:flex;gap:20px;align-items:flex-start;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;padding:28px 30px;
+    transition:transform .4s, border-color .4s;
+    position:relative;overflow:hidden;
+  }
+  .problem-item:hover{transform:translateY(-4px);border-color:rgba(255,179,102,0.3);}
+  .problem-mark{
+    flex-shrink:0;
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid rgba(255,179,102,0.5);
+    color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:700;margin-top:2px;
+  }
+  .problem-item h3{font-size:17px;font-weight:700;margin-bottom:8px;line-height:1.7;}
+  .problem-item p{font-size:14px;color:var(--sub);line-height:2;}
+  .problem-conclusion{
+    margin-top:48px;text-align:center;
+    font-size:clamp(18px,2.8vw,26px);font-weight:800;line-height:2;
+  }
+  .problem-conclusion .accent{color:var(--accent);}
+
+  /* stat band */
+  .stat-band{
+    margin-top:56px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:48px 32px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:40px;
+  }
+  .stat-band .stat{flex:0 0 auto;}
+  .stat-band .stat-text{flex:1 1 320px;font-size:14px;color:var(--sub);line-height:2.1;}
+  .stat-band .stat-text b{color:var(--text);}
+
+  /* usp */
+  .usp-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:56px;}
+  @media (max-width:860px){.usp-compare{grid-template-columns:1fr;}}
+  .usp-col{
+    border-radius:16px;padding:40px 32px;
+    border:1px solid var(--line);
+    position:relative;overflow:hidden;
+  }
+  .usp-col.before{background:rgba(255,255,255,0.015);}
+  .usp-col.after{
+    background:linear-gradient(180deg, rgba(255,179,102,0.07), rgba(255,179,102,0.02));
+    border-color:rgba(255,179,102,0.35);
+  }
+  .usp-tag{
+    display:inline-block;font-size:11px;letter-spacing:0.25em;
+    padding:6px 16px;border-radius:999px;margin-bottom:22px;
+  }
+  .before .usp-tag{border:1px solid var(--line);color:var(--sub);}
+  .after .usp-tag{border:1px solid rgba(255,179,102,0.5);color:var(--accent);}
+  .usp-col h3{font-size:clamp(20px,2.6vw,26px);font-weight:800;line-height:1.7;margin-bottom:16px;}
+  .usp-col p{font-size:14px;color:var(--sub);line-height:2.1;}
+  .after h3 .accent{color:var(--accent);}
+
+  /* safety */
+  .safety-steps{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:stretch;margin-top:56px;}
+  @media (max-width:760px){
+    .safety-steps{grid-template-columns:1fr;}
+    .safety-arrow{transform:rotate(90deg);margin:0 auto;}
+  }
+  .safety-arrow{
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent);font-size:26px;font-weight:800;
+  }
+
+  /* steps */
+  .step-list{display:grid;gap:0;margin-top:56px;border-top:1px solid var(--line);}
+  .step-row{
+    display:grid;grid-template-columns:120px 1fr;gap:28px;
+    padding:40px 8px;border-bottom:1px solid var(--line);
+    transition:background .4s;
+  }
+  .step-row:hover{background:rgba(255,255,255,0.02);}
+  @media (max-width:640px){.step-row{grid-template-columns:1fr;gap:12px;}}
+  .step-no{
+    font-size:clamp(32px,4vw,44px);font-weight:800;color:var(--accent);
+    line-height:1;letter-spacing:0.02em;
+  }
+  .step-no small{display:block;font-size:11px;letter-spacing:0.3em;color:var(--sub);margin-top:8px;font-weight:400;}
+  .step-body h3{font-size:19px;font-weight:700;margin-bottom:10px;line-height:1.7;}
+  .step-body p{font-size:14px;color:var(--sub);line-height:2;}
+
+  /* honesty */
+  .honesty{
+    margin-top:64px;
+    border:1px solid rgba(255,179,102,0.4);
+    background:linear-gradient(180deg, rgba(255,179,102,0.06), rgba(255,179,102,0.015));
+    border-radius:16px;
+    padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);
+    text-align:center;
+  }
+  .honesty-label{
+    font-size:12px;letter-spacing:0.35em;color:var(--accent);
+    text-transform:uppercase;margin-bottom:28px;display:block;
+  }
+  .honesty p.main{
+    font-size:clamp(18px,2.8vw,27px);
+    font-weight:800;line-height:2.1;
+  }
+  .honesty p.main .accent{color:var(--accent);}
+  .honesty p.note{margin-top:24px;font-size:13px;color:var(--sub);line-height:2;}
+
+  /* trust */
+  .trust-wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:56px;
+  }
+  @media (max-width:860px){.trust-wrap{grid-template-columns:1fr;}}
+
+  /* FAQ */
+  .faq-list{margin-top:56px;border-top:1px solid var(--line);}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    width:100%;text-align:left;
+    background:none;border:none;color:var(--text);
+    font-family:inherit;font-size:16px;font-weight:700;line-height:1.8;
+    padding:28px 48px 28px 8px;
+    cursor:pointer;position:relative;
+    transition:color .3s;
+  }
+  .faq-q:hover{color:var(--accent);}
+  .faq-q::before{content:"Q.";color:var(--accent);margin-right:14px;font-weight:800;}
+  .faq-q::after{
+    content:"+";position:absolute;right:12px;top:50%;
+    transform:translateY(-50%);
+    color:var(--accent);font-size:22px;font-weight:400;
+    transition:transform .35s;
+  }
+  .faq-item.open .faq-q::after{transform:translateY(-50%) rotate(45deg);}
+  .faq-a{
+    max-height:0;overflow:hidden;
+    transition:max-height .5s cubic-bezier(.22,.61,.36,1);
+  }
+  .faq-a-inner{
+    padding:0 8px 32px 44px;
+    font-size:14px;color:var(--sub);line-height:2.1;
+  }
+  @media (max-width:640px){.faq-a-inner{padding-left:8px;}}
+
+  /* final cta */
+  .final-cta{
+    text-align:center;
+    padding:160px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .final-cta::before{
+    content:"";position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    width:720px;height:720px;max-width:120vw;
+    background:radial-gradient(circle, rgba(255,179,102,0.09) 0%, transparent 62%);
+    pointer-events:none;
+  }
+  .final-cta .container{position:relative;z-index:1;}
+  .final-cta h2{margin-bottom:20px;}
+  .final-cta .lead{margin:0 auto 48px;}
+  .cta-note{
+    margin-top:18px;font-size:11px;color:var(--sub);letter-spacing:0.05em;
+  }
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding:56px 24px 44px;
+  }
+  .footer-inner{
+    max-width:1040px;margin:0 auto;
+    display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;
+  }
+  .footer-links{display:flex;flex-wrap:wrap;gap:24px;}
+  .footer-links a{font-size:13px;color:var(--sub);transition:color .3s;}
+  .footer-links a:hover{color:var(--accent);}
+  .footer-copy{font-size:12px;color:var(--sub);letter-spacing:0.06em;}
+
+  @media (max-width:820px){
+    .nav .nav-links{display:none;}
+    section{padding:96px 20px;}
+  }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce){
+    #loader{transition:none}
+    .hero-title .ch{opacity:1;transform:none;filter:none;transition:none}
+    .hero-label,.hero-sub,.hero-cta-wrap,.hero-badges,.hero-hint,.hero-caption,.scroll-indicator{opacity:1;transform:none;transition:none}
+    .header{opacity:1;transform:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .marquee-track{animation:none}
+    .scroll-line{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Loader ===== -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-brand">YOLOGUARD SCHOOL</div>
+  <div class="loader-num" id="loaderNum">00</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ===== Custom cursor ===== -->
+<div id="cursor" aria-hidden="true">
+  <div class="ring"></div>
+  <div class="charge"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="ヨロガードスクール トップへ">
+      <span class="logo-en">YOLOGUARD SCHOOL</span>
+      <span class="logo-ja">ヨロガードスクール</span>
+    </a>
+    <nav class="nav">
+      <div class="nav-links" style="display:flex;gap:28px;">
+        <a href="#problem">課題</a>
+        <a href="#why">なぜ経理か</a>
+        <a href="#usp">手放れの型</a>
+        <a href="#curriculum">学びの設計</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="ripple-count" title="あなたが起こした波紋の数">波紋<b id="rippleCount">0000</b></div>
+      <a href="#cta" class="header-cta">無料セミナーに参加</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<div class="hero" id="top">
+  <canvas id="water" aria-hidden="true"></canvas>
+  <div class="hero-veil"></div>
+  <div class="hero-inner">
+    <span class="hero-label">Yologuard School</span>
+    <h1 class="hero-title" id="heroTitle">学んだのに、<br>"<span class="accent">売る商品</span>"がない<br>あなたへ。</h1>
+    <p class="hero-sub">コンサルもAIもマーケも学んだ。でも「で、何を売るの？」に答えられない——。<br>未経験から半年で「時給3,500円の経理部長」の型を身につけ、最終的に現場を手放して回す。<br>AIに消えない × 景気に強い"手放せる鉄板ビジネス"を、経理で持つ学校。</p>
+    <div class="hero-cta-wrap">
+      <a href="#cta" class="cta-btn magnetic">無料の学び直しセミナーに参加する（LINE登録）</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">経理リーダー不足 <b>67.8%</b>（帝国データバンク2025）</span>
+      <span class="badge">補助金 <b>70%還元</b> 対象</span>
+    </div>
+    <p class="hero-hint">クリック＝波紋　　長押し＝石を投げる</p>
+  </div>
+  <div class="hero-caption">この水面は、画像でも動画でもありません。コードがリアルタイムに描いています。</div>
+  <div class="scroll-indicator" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- ===== Problem ===== -->
+<section id="problem">
+  <div class="container">
+    <div class="section-label reveal"><span>problem</span></div>
+    <h2 class="reveal">スキルは増えた。<br>なのに、売るものがない。</h2>
+    <p class="lead reveal d1">学び続けてきた人ほど、この壁にぶつかっています。原因はあなたの努力不足ではありません。</p>
+    <div class="problem-list">
+      <div class="problem-item reveal">
+        <div class="problem-mark">1</div>
+        <div>
+          <h3>学んだスキルは、みんな持っている</h3>
+          <p>同じ講座、同じ教材で学んだ人が市場に溢れる。差別化できないスキルは、最後は価格競争に巻き込まれます。</p>
+        </div>
+      </div>
+      <div class="problem-item reveal d1">
+        <div class="problem-mark">2</div>
+        <div>
+          <h3>自分が動き続けないと、収入はゼロ</h3>
+          <p>時間を切り売りする働き方は、止まった瞬間に収入も止まる。頑張るほど、自分の時間だけが削られていきます。</p>
+        </div>
+      </div>
+      <div class="problem-item reveal d2">
+        <div class="problem-mark">3</div>
+        <div>
+          <h3>AIが、基礎作業を奪い始めた</h3>
+          <p>「作業ができる」だけの価値は、AIの進化とともに急速に目減りしています。作業スキルの上に立つ人だけが残ります。</p>
+        </div>
+      </div>
+    </div>
+    <p class="problem-conclusion reveal">問題は、スキル不足じゃない。<br>"<span class="accent">持てる商品（鉄板）</span>"がないことだ。</p>
+  </div>
+</section>
+
+<!-- ===== Marquee ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>学ぶ<i>●</i></span><span>持つ<i>●</i></span><span>任せる<i>●</i></span><span>手放す<i>●</i></span><span>経理<i>●</i></span><span>鉄板<i>●</i></span>
+  </div>
+</div>
+
+<!-- ===== Why Keiri ===== -->
+<section id="why">
+  <div class="container">
+    <div class="section-label reveal"><span>why accounting</span></div>
+    <h2 class="reveal">なぜ、その"鉄板"が<br>経理なのか。</h2>
+    <p class="lead reveal d1">流行りのスキルではなく、構造的に消えない領域を選ぶ。それが商品選びの鉄則です。</p>
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <span class="card-num">01</span>
+        <h3>全企業が、必ずお金を払う</h3>
+        <p>経理は「あったら嬉しい」ではなく「なければ会社が回らない」領域。業種を問わず、すべての企業に需要が存在します。</p>
+      </div>
+      <div class="card reveal d1">
+        <span class="card-num">02</span>
+        <h3>AIに消えない</h3>
+        <p>入力や仕訳などの"作業"はAIに置き換わります。しかし、判断とガバナンス——「これで正しいか」を決める役割は残り続けます。</p>
+      </div>
+      <div class="card reveal d2">
+        <span class="card-num">03</span>
+        <h3>景気に強い</h3>
+        <p>好況でも不況でも、決算と資金管理はなくなりません。景気の波に左右されにくい、数少ない安定領域です。</p>
+      </div>
+    </div>
+    <div class="stat-band reveal">
+      <div class="stat">
+        <div class="big-num"><span class="countup" data-target="67.8">0</span><small>%</small></div>
+        <div class="num-caption">経理リーダー不足<br>（帝国データバンク2025・過去最高）</div>
+      </div>
+      <p class="stat-text">経理リーダーの不足は<b>過去最高の67.8%</b>。外部からの採用は構造的に困難になっており、<b>内部で育てられる人材・外部から支えられる人材の価値は上がり続けています</b>。この需給ギャップこそ、いま経理の型を持つべき理由です。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== USP ===== -->
+<section id="usp">
+  <div class="container">
+    <div class="section-label reveal"><span>the difference</span></div>
+    <h2 class="reveal">"作業者"で終わらない。<br>現場を回させる「オーナー」になる。</h2>
+    <p class="lead reveal d1">ここが、他の資格スクール・スキル講座との決定的な違いです。</p>
+    <div class="usp-compare">
+      <div class="usp-col before reveal">
+        <span class="usp-tag">よくあるスクール</span>
+        <h3>スキルを覚えて、<br>自分が作業する</h3>
+        <p>資格やスキルを身につけても、手を動かすのは自分。案件が増えるほど自分の時間が消え、止まれば収入も止まる。労働集約の構造から抜けられません。</p>
+      </div>
+      <div class="usp-col after reveal d1">
+        <span class="usp-tag">ヨロガードスクール</span>
+        <h3>人とAIに現場を回させ、<br><span class="accent">複数社を見る「オーナー」</span>になる</h3>
+        <p>型を身につけた後は、作業を人とAIに任せ、自分は判断とディレクションに集中する。複数社を同時に見られる"プチフランチャイズ型"の働き方へ。これが「手放れ」の設計です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== Safety ===== -->
+<section id="safety">
+  <div class="container">
+    <div class="section-label reveal"><span>safety first</span></div>
+    <h2 class="reveal">いきなり独立を、<br>強制しません。</h2>
+    <p class="lead reveal d1">「まず安定、それから手放す」。生活を賭けさせない、段階設計です。</p>
+    <div class="safety-steps">
+      <div class="card reveal">
+        <span class="card-num">STEP 1 — まず安定</span>
+        <h3>雇用で安定する</h3>
+        <p>まずは「経理部長として通用する力」を身につけ、雇用というかたちで安定した足場を固める。焦って飛ぶ必要はありません。</p>
+      </div>
+      <div class="safety-arrow reveal d1" aria-hidden="true">→</div>
+      <div class="card reveal d2">
+        <span class="card-num">STEP 2 — 準備ができたら</span>
+        <h3>独立して、手放す</h3>
+        <p>足場と型が整ったら、独立して現場を人とAIに任せるフェーズへ。自分のタイミングで、無理なく移行できます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== Curriculum ===== -->
+<section id="curriculum">
+  <div class="container">
+    <div class="section-label reveal"><span>curriculum</span></div>
+    <h2 class="reveal">未経験から半年。<br>学びの設計は、4ステップ。</h2>
+    <p class="lead reveal d1">教材を読んで終わり、ではありません。実案件に接続することを前提にした設計です。</p>
+    <div class="step-list">
+      <div class="step-row reveal">
+        <div class="step-no">01<small>Pavilion</small></div>
+        <div class="step-body">
+          <h3>業種パビリオン</h3>
+          <p>飲食・EC・建設・SaaS。業種ごとに異なる経理の実案件を疑似体験し、「どの業種が来ても対応できる」土台をつくります。</p>
+        </div>
+      </div>
+      <div class="step-row reveal">
+        <div class="step-no">02<small>Roleplay</small></div>
+        <div class="step-body">
+          <h3>社長AIロールプレイ</h3>
+          <p>AIが演じる経営者を相手に、報告・提案・交渉を練習。経理でいちばん難しい「経営者対応」を、失敗しても安全な環境で鍛えます。</p>
+        </div>
+      </div>
+      <div class="step-row reveal">
+        <div class="step-no">03<small>OJT</small></div>
+        <div class="step-body">
+          <h3>実案件OJT</h3>
+          <p>疑似体験から、本物の案件へ。運営する経理BPOの現場に接続し、実務の中で型を仕上げていきます。</p>
+        </div>
+      </div>
+      <div class="step-row reveal">
+        <div class="step-no">04<small>Ownership</small></div>
+        <div class="step-body">
+          <h3>手放れ（分業ディレクション）</h3>
+          <p>自分で全部やる状態から、人とAIに作業を振り分けて回す状態へ。「オーナーとして複数社を見る」働き方に移行します。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="honesty reveal">
+      <span class="honesty-label">Our Promise</span>
+      <p class="main">「必ず稼げる、とは言いません。<br>でも『時給3,500円の経理部長になる<br>道筋とやり方が<span class="accent">明確にわかり、できるようになる</span>』<br>——これは断定します。」</p>
+      <p class="note">結果を保証する言葉で誘うことは、私たちの誠実さに反します。私たちが約束するのは、道筋と型です。</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== Trust ===== -->
+<section id="trust">
+  <div class="container">
+    <div class="section-label reveal"><span>who we are</span></div>
+    <h2 class="reveal">現役の経理BPO会社が、<br>運営しています。</h2>
+    <div class="trust-wrap">
+      <div class="card reveal">
+        <span class="card-num">Operation</span>
+        <h3>教材で終わらない、現場がある学校</h3>
+        <p>ヨロガードスクールは、経理BPO事業「ヨロガード」を営む株式会社YOLO'sが運営しています。評論ではなく、いま現場で使われている経理の型を教えます。</p>
+      </div>
+      <div class="card reveal d1">
+        <span class="card-num">Connection</span>
+        <h3>実案件の現場に、接続できる</h3>
+        <p>学んだことを試す場所が、運営会社の中にある。「教材を終えたのに実務経験ゼロ」で放り出さないこと——それがBPO会社が学校をやる最大の強みです。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label reveal"><span>faq</span></div>
+    <h2 class="reveal">よくあるご質問</h2>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">未経験でも大丈夫ですか？</button>
+        <div class="faq-a"><div class="faq-a-inner">はい。ヨロガードスクールは「未経験から半年で、時給3,500円の経理部長の型を身につける」ことを前提に設計されています。業種パビリオンでの疑似体験から始まるので、実務経験ゼロからスタートできます。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">簿記の資格は必要ですか？</button>
+        <div class="faq-a"><div class="faq-a-inner">必須ではありません。このスクールの目的は資格取得ではなく、実務で通用する「型」を身につけることです。資格の勉強とは順番も中身も異なる、実案件ベースの学びを設計しています。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">働きながらでも続けられますか？</button>
+        <div class="faq-a"><div class="faq-a-inner">続けられる設計にしています。動画教材と実践を組み合わせたカリキュラムなので、まとまった時間が取りにくい方でも、自分のペースで進められます。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">すぐに独立しないといけませんか？</button>
+        <div class="faq-a"><div class="faq-a-inner">いいえ。独立を強制することはありません。「まず雇用で安定（経理部長として通用する力をつける）→ 準備ができたら独立で手放す」という段階設計です。移行のタイミングはご自身で選べます。</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">受講料はいくらですか？</button>
+        <div class="faq-a"><div class="faq-a-inner">受講料やコースの詳細は、無料の「学び直しセミナー」の中でご案内しています。なお、本スクールは補助金70%還元の対象です。あわせてセミナーでご説明します。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Final CTA ===== -->
+<section class="final-cta" id="cta">
+  <div class="container">
+    <div class="section-label reveal" style="justify-content:center;"><span>free seminar</span></div>
+    <h2 class="reveal">まず、無料の<br>「学び直しセミナー」から。</h2>
+    <p class="lead reveal d1" style="text-align:center;">なぜ経理なのか。手放れの型とは何か。あなたに合うのか。<br>売り込みの前に、まず判断材料をすべてお渡しします。LINE登録ですぐ参加できます。</p>
+    <div class="reveal d2">
+      <a href="#" class="cta-btn magnetic">無料の学び直しセミナーに参加する（LINE登録）</a>
+      <p class="cta-note">※LINE登録リンクは後日差し替え</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="logo">
+      <span class="logo-en">YOLOGUARD SCHOOL</span>
+      <span class="logo-ja">運営：株式会社YOLO's</span>
+    </div>
+    <nav class="footer-links">
+      <a href="yoroliku_lp.html">ヨロリク</a>
+      <a href="yologuard_lp.html">ヨロガード</a>
+      <a href="yolos_hp.html">会社HP</a>
+    </nav>
+    <p class="footer-copy">© 2026 YOLO's Inc.</p>
+  </div>
+</footer>
+
+<script>
+/* ==================================================================
+   WATER ENGINE  (WebGL raymarched night-water)
+   共通API: window.__water = { ready, ripple(uvx,uvy,strength), setMouse(uvx,uvy) }
+   uv は heroキャンバス内の 0..1（左上原点）
+   PALETTE: 暁 / daybreak orange — ヨロガードスクール（学び直し＝夜明け）
+   ================================================================== */
+(function () {
+  "use strict";
+
+  /* ---- パレット（暁 / daybreak orange — 夜明け前の空と水面） ---- */
+  var PALETTE = {
+    zenith:  [0.050, 0.050, 0.110],
+    horizon: [0.550, 0.230, 0.100],
+    lightDir:[0.36, 0.16, -0.92],
+    lightCol:[1.00, 0.62, 0.30],
+    deepA:   [0.020, 0.014, 0.030],
+    deepB:   [0.090, 0.045, 0.045],
+    stars:   0.2,
+    amp:     0.9
+  };
+
+  var MAX_RIPPLES = 20;
+  var canvas = document.getElementById("water");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var gl = null;
+  try {
+    gl = canvas.getContext("webgl", { antialias: false, alpha: false, powerPreference: "high-performance" })
+      || canvas.getContext("experimental-webgl", { antialias: false, alpha: false });
+  } catch (e) { gl = null; }
+
+  if (!gl) { fallback2D(); return; }
+
+  var VERT = "attribute vec2 aPos; void main(){ gl_Position = vec4(aPos,0.0,1.0); }";
+
+  var FRAG = [
+    "#ifdef GL_FRAGMENT_PRECISION_HIGH", "precision highp float;", "#else", "precision mediump float;", "#endif",
+    "uniform vec2  uRes;",
+    "uniform float uTime;",
+    "uniform vec2  uMouseP;",
+    "uniform vec4  uRipples[" + MAX_RIPPLES + "];",
+    "uniform vec3  uZenith; uniform vec3 uHorizon;",
+    "uniform vec3  uLightDir; uniform vec3 uLightCol;",
+    "uniform vec3  uDeepA; uniform vec3 uDeepB;",
+    "uniform float uStars; uniform float uAmp;",
+    "float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }",
+    "float noise(vec2 p){",
+    "  vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);",
+    "  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);",
+    "}",
+    "vec3 camRay(vec2 uv){",
+    "  vec2 ndc = uv*2.0-1.0; ndc.x *= uRes.x/uRes.y;",
+    "  vec3 fw = normalize(vec3(0.0,-0.32,-1.0));",
+    "  vec3 rt = normalize(cross(fw, vec3(0.0,1.0,0.0)));",
+    "  vec3 up = cross(rt, fw);",
+    "  return normalize(fw + ndc.x*rt*0.62 + ndc.y*up*0.62);",
+    "}",
+    "float heightField(vec2 p){",
+    "  float t=uTime; float h=0.0;",
+    "  h += sin(p.x*0.32 + t*0.55)*0.085*uAmp;",
+    "  h += sin(dot(p,vec2(0.24,0.31)) + t*0.42)*0.065*uAmp;",
+    "  h += sin(dot(p,vec2(-0.12,0.45)) - t*0.68)*0.04*uAmp;",
+    "  h += (noise(p*0.9 + vec2(t*0.22,t*0.13))-0.5)*0.10*uAmp;",
+    "  float fine = 0.5+0.5*uAmp;",
+    "  h += (noise(p*2.6 + vec2(-t*0.35,t*0.28))-0.5)*0.038*fine;",
+    "  h += (noise(p*6.0 + vec2(t*0.6,-t*0.4))-0.5)*0.014*fine;",
+    "  for (int i=0;i<" + MAX_RIPPLES + ";i++){",
+    "    float age = uTime - uRipples[i].z;",
+    "    if (age < 0.0 || age > 7.0 || uRipples[i].w <= 0.0) continue;",
+    "    float d = length(p - uRipples[i].xy);",
+    "    float r = age*1.35;",
+    "    float band = exp(-pow((d-r)*2.2, 2.0));",
+    "    float decay = exp(-age*0.75)*exp(-d*0.06);",
+    "    h += sin((d-r)*9.0)*band*decay*0.16*uRipples[i].w;",
+    "  }",
+    "  float md = length(p - uMouseP);",
+    "  h += exp(-md*md*0.55)*0.045*sin(uTime*2.4);",
+    "  return h;",
+    "}",
+    "vec3 skyColor(vec3 rd){",
+    "  float hor = pow(clamp(1.0 - rd.y*2.2, 0.0, 1.0), 2.1);",
+    "  vec3 col = mix(uZenith, uHorizon, hor);",
+    "  float md = dot(rd, normalize(uLightDir));",
+    "  col += uLightCol * smoothstep(0.9994, 0.99975, md) * 1.1;",
+    "  col += uLightCol * pow(max(md,0.0), 220.0) * 0.40;",
+    "  col += uLightCol * pow(max(md,0.0), 24.0) * 0.16;",
+    "  vec2 sp = rd.xy / max(rd.z*-1.0+1.4, 0.35) * 46.0;",
+    "  float star = step(0.9975, hash(floor(sp)));",
+    "  col += vec3(star) * hash(floor(sp)+7.0) * smoothstep(0.02,0.2,rd.y) * 0.55 * uStars;",
+    "  return col;",
+    "}",
+    "void main(){",
+    "  vec2 uv = gl_FragCoord.xy / uRes;",
+    "  vec3 ro = vec3(0.0, 2.6, 5.5);",
+    "  vec3 rd = camRay(uv);",
+    "  vec3 col;",
+    "  if (rd.y < 0.012){",
+    "    float t = -ro.y / min(rd.y, -0.015);",
+    "    vec2 p = (ro + rd*t).xz;",
+    "    float dist = t;",
+    "    float eps = 0.045 + dist*0.012;",
+    "    float h  = heightField(p);",
+    "    float hx = heightField(p + vec2(eps,0.0));",
+    "    float hz = heightField(p + vec2(0.0,eps));",
+    "    vec3 n = normalize(vec3(h-hx, eps*1.35, h-hz));",
+    "    vec3 R = reflect(rd, n); R.y = abs(R.y);",
+    "    vec3 refl = skyColor(R);",
+    "    vec3 L = normalize(uLightDir);",
+    "    float spec = pow(max(dot(R,L),0.0), 340.0);",
+    "    float glit = pow(max(dot(R,L),0.0), 60.0);",
+    "    float sparkle = 0.6 + 0.4*noise(p*14.0 + uTime*1.5);",
+    "    vec3 light = uLightCol * (spec*3.2 + glit*0.30) * sparkle;",
+    "    float fresnel = 0.028 + 0.972*pow(1.0 - max(dot(-rd,n),0.0), 5.0);",
+    "    vec3 deep = mix(uDeepA, uDeepB, clamp(h*6.0+0.5, 0.0, 1.0));",
+    "    col = mix(deep, refl, clamp(fresnel*1.7, 0.0, 1.0)) + light;",
+    "    float fog = 1.0 - exp(-dist*0.028);",
+    "    col = mix(col, skyColor(vec3(rd.x,0.02,rd.z)), fog*0.9);",
+    "  } else {",
+    "    col = skyColor(rd);",
+    "  }",
+    "  vec2 q = uv - 0.5;",
+    "  col *= 1.0 - dot(q,q)*0.85;",
+    "  col = pow(col, vec3(0.90));",
+    "  gl_FragColor = vec4(col, 1.0);",
+    "}"
+  ].join("\n");
+
+  function compile(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { return null; }
+    return s;
+  }
+  var vs = compile(gl.VERTEX_SHADER, VERT);
+  var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) { fallback2D(); return; }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { fallback2D(); return; }
+  gl.useProgram(prog);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  var aPos = gl.getAttribLocation(prog, "aPos");
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  var U = {};
+  ["uRes","uTime","uMouseP","uZenith","uHorizon","uLightDir","uLightCol","uDeepA","uDeepB","uStars","uAmp"].forEach(function (n) {
+    U[n] = gl.getUniformLocation(prog, n);
+  });
+  U.uRipples = gl.getUniformLocation(prog, "uRipples") || gl.getUniformLocation(prog, "uRipples[0]");
+
+  var DPR_CAP = 1.5, RES_SCALE = 0.75;
+  var ripples = new Float32Array(MAX_RIPPLES * 4);
+  for (var ri = 0; ri < MAX_RIPPLES; ri++) ripples[ri*4+2] = -100;
+  var rippleIdx = 0;
+  var start = performance.now();
+  var running = true, inView = true;
+  var mouseP = { x: 0, z: 0, tx: 0, tz: 0 };
+  var cw = 1, ch = 1;
+
+  function resize() {
+    var rect = canvas.parentElement.getBoundingClientRect();
+    cw = rect.width; ch = rect.height;
+    var s = Math.min(window.devicePixelRatio || 1, DPR_CAP) * RES_SCALE;
+    canvas.width = Math.max(2, Math.round(cw * s));
+    canvas.height = Math.max(2, Math.round(ch * s));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function now() { return (performance.now() - start) / 1000; }
+
+  /* 画面uv(左上原点) → 水面平面座標（シェーダーのcamRayと同一の数式） */
+  function planeHit(uvx, uvyTop) {
+    var P = 0.32, F = 0.62;
+    var L = Math.sqrt(1 + P*P);
+    var ax = (uvx*2 - 1) * (canvas.width / canvas.height);
+    var ay = ((1 - uvyTop)*2 - 1);
+    var rdx = ax * F;
+    var rdy = -P/L + ay * F * (1/L);
+    var rdz = -1/L + ay * F * (-P/L);
+    var len = Math.sqrt(rdx*rdx + rdy*rdy + rdz*rdz);
+    rdx/=len; rdy/=len; rdz/=len;
+    var t = -2.6 / Math.min(rdy, -0.015);
+    return { x: rdx*t, z: 5.5 + rdz*t };
+  }
+
+  window.__water = {
+    ready: true,
+    ripple: function (uvx, uvy, strength) {
+      var p = planeHit(uvx, uvy);
+      var k = rippleIdx * 4;
+      ripples[k] = p.x; ripples[k+1] = p.z;
+      ripples[k+2] = now();
+      ripples[k+3] = Math.min(strength || 1, 2.6);
+      rippleIdx = (rippleIdx + 1) % MAX_RIPPLES;
+    },
+    setMouse: function (uvx, uvy) {
+      var p = planeHit(uvx, uvy);
+      mouseP.tx = p.x; mouseP.tz = p.z;
+    }
+  };
+
+  document.addEventListener("visibilitychange", function () {
+    running = !document.hidden;
+    if (running && inView) requestAnimationFrame(frame);
+  });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        var was = inView; inView = en.isIntersecting;
+        if (inView && !was && running) requestAnimationFrame(frame);
+      });
+    }, { threshold: 0 }).observe(canvas.parentElement);
+  }
+
+  var drewOnce = false;
+  function frame() {
+    if (!running || !inView) return;
+    if (reduced && drewOnce) return;   /* reduced: 1フレームだけ描いて静止 */
+    drewOnce = true;
+    var t = reduced ? 0.0 : now();
+    mouseP.x += (mouseP.tx - mouseP.x) * 0.06;
+    mouseP.z += (mouseP.tz - mouseP.z) * 0.06;
+    gl.uniform2f(U.uRes, canvas.width, canvas.height);
+    gl.uniform1f(U.uTime, t);
+    gl.uniform2f(U.uMouseP, mouseP.x, mouseP.z);
+    gl.uniform4fv(U.uRipples, ripples);
+    gl.uniform3fv(U.uZenith, PALETTE.zenith);
+    gl.uniform3fv(U.uHorizon, PALETTE.horizon);
+    gl.uniform3fv(U.uLightDir, PALETTE.lightDir);
+    gl.uniform3fv(U.uLightCol, PALETTE.lightCol);
+    gl.uniform3fv(U.uDeepA, PALETTE.deepA);
+    gl.uniform3fv(U.uDeepB, PALETTE.deepB);
+    gl.uniform1f(U.uStars, PALETTE.stars);
+    gl.uniform1f(U.uAmp, PALETTE.amp);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!reduced) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---- WebGL不可時の2Dフォールバック（粒子+波紋） ---- */
+  function fallback2D() {
+    var ctx2 = canvas.getContext("2d");
+    if (!ctx2) { window.__water = { ready:false, ripple:function(){}, setMouse:function(){} }; return; }
+    var ACCENT = "255,179,102";
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0, parts = [], rips = [];
+    function rs(){
+      var r = canvas.parentElement.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W*dpr; canvas.height = H*dpr;
+      ctx2.setTransform(dpr,0,0,dpr,0,0);
+    }
+    function init(){
+      parts.length = 0;
+      var n = Math.min(100, Math.max(40, Math.round(W*H/16000)));
+      for (var i=0;i<n;i++) parts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:.8+Math.random()*1.7,ph:Math.random()*6.28,sp:.004+Math.random()*.008});
+    }
+    rs(); init();
+    window.addEventListener("resize", function(){ rs(); init(); });
+    window.__water = {
+      ready: true,
+      ripple: function(uvx,uvy,s){ rips.push({x:uvx*W,y:uvy*H,r:4,max:80+s*140,a:.14+s*.16,sp:1.1+s*.8}); if(rips.length>40)rips.shift(); },
+      setMouse: function(){}
+    };
+    (function lp(){
+      ctx2.clearRect(0,0,W,H);
+      var i,j,p,q;
+      for(i=0;i<parts.length;i++){p=parts[i];p.ph+=p.sp;p.x+=p.vx+Math.sin(p.ph)*.12;p.y+=p.vy+Math.cos(p.ph*.8)*.08;if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;if(p.y<-20)p.y=H+20;if(p.y>H+20)p.y=-20;}
+      for(i=0;i<parts.length;i++){p=parts[i];for(j=i+1;j<parts.length;j++){q=parts[j];var dx=p.x-q.x,dy=p.y-q.y,d2=dx*dx+dy*dy;if(d2<12100){ctx2.strokeStyle="rgba("+ACCENT+","+((1-Math.sqrt(d2)/110)*.1).toFixed(3)+")";ctx2.lineWidth=.6;ctx2.beginPath();ctx2.moveTo(p.x,p.y);ctx2.lineTo(q.x,q.y);ctx2.stroke();}}}
+      for(i=0;i<parts.length;i++){p=parts[i];ctx2.fillStyle="rgba("+ACCENT+","+(.35+Math.sin(p.ph*2)*.2).toFixed(3)+")";ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,6.283);ctx2.fill();}
+      for(i=rips.length-1;i>=0;i--){var rp=rips[i];rp.r+=rp.sp;var lf=1-rp.r/rp.max;if(lf<=0){rips.splice(i,1);continue;}ctx2.strokeStyle="rgba("+ACCENT+","+(rp.a*lf).toFixed(3)+")";ctx2.lineWidth=1;ctx2.beginPath();ctx2.arc(rp.x,rp.y,rp.r,0,6.283);ctx2.stroke();}
+      if (!reduced) requestAnimationFrame(lp);
+    })();
+  }
+})();
+
+/* ==================================================================
+   MOTION KIT  (ローダー / 文字リベール / カウンター / カーソル /
+   ポインター操作: 波紋・石投げ・引き波 / カウントアップ / マグネット)
+   ================================================================== */
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isTouch = window.matchMedia("(pointer: coarse)").matches;
+  var water = function () { return window.__water || { ready: false }; };
+  var hero = document.querySelector(".hero");
+
+  /* ---------- 見出しを1文字ずつ<span>化（accent等の入れ子対応） ---------- */
+  (function splitTitle() {
+    var h1 = document.getElementById("heroTitle");
+    if (!h1) return;
+    var delay = 0;
+    function split(srcParent, dstParent) {
+      var nodes = Array.prototype.slice.call(srcParent.childNodes);
+      nodes.forEach(function (node) {
+        if (node.nodeType === 3) {
+          Array.prototype.forEach.call(node.textContent, function (chr) {
+            var s = document.createElement("span");
+            s.className = "ch";
+            s.textContent = chr;
+            s.style.transitionDelay = (0.15 + delay * 0.045) + "s";
+            dstParent.appendChild(s);
+            delay++;
+          });
+        } else if (node.nodeType === 1 && node.childNodes.length) {
+          var clone = node.cloneNode(false);
+          dstParent.appendChild(clone);
+          split(node, clone);
+        } else {
+          dstParent.appendChild(node.cloneNode(false));
+        }
+      });
+    }
+    var srcNodes = document.createElement("div");
+    while (h1.firstChild) srcNodes.appendChild(h1.firstChild);
+    split(srcNodes, h1);
+  })();
+
+  /* ---------- ローダー ---------- */
+  var loader = document.getElementById("loader");
+  var loaderNum = document.getElementById("loaderNum");
+  function easeOutQuart(x){ return 1 - Math.pow(1 - x, 4); }
+  function finishLoader() {
+    if (!loader) return;
+    loaderNum.textContent = "100";
+    document.documentElement.style.setProperty("--load", 1);
+    loader.classList.add("done");
+    document.body.classList.add("is-loaded");
+    var l = loader; loader = null;
+    setTimeout(function(){ l.remove(); }, 1100);
+    /* 演出: 着水の波紋 */
+    setTimeout(function(){ if (water().ready) water().ripple(0.50, 0.66, 1.8); }, 500);
+    setTimeout(function(){ if (water().ready) water().ripple(0.34, 0.58, 0.8); }, 950);
+    setTimeout(function(){ if (water().ready) water().ripple(0.68, 0.52, 0.9); }, 1300);
+  }
+  function runLoader() {
+    if (reduced) { finishLoader(); return; }
+    var t0 = performance.now(), DUR = 1300;
+    (function tick(t){
+      var p = Math.min((t - t0) / DUR, 1);
+      var v = Math.round(easeOutQuart(p) * 100);
+      loaderNum.textContent = (v < 10 ? "0" : "") + v;
+      document.documentElement.style.setProperty("--load", easeOutQuart(p));
+      if (p < 1) requestAnimationFrame(tick); else finishLoader();
+    })(t0);
+  }
+  if (document.readyState === "complete") runLoader();
+  else window.addEventListener("load", runLoader);
+  setTimeout(function(){ if (loader) finishLoader(); }, 4000);
+
+  /* ---------- 波紋カウンター ---------- */
+  var count = 0;
+  var countEl = document.getElementById("rippleCount");
+  function bump(){ count++; if (countEl) countEl.textContent = String(count).padStart(4, "0"); }
+
+  /* すべての波紋はここを通す */
+  function drop(uvx, uvy, strength, silent) {
+    if (!water().ready) return;
+    water().ripple(uvx, uvy, strength);
+    if (!silent) bump();
+  }
+
+  /* ---------- カスタムカーソル ---------- */
+  var cursor = document.getElementById("cursor");
+  var charge = { active: false, t0: 0 };
+  if (isTouch || reduced) {
+    if (cursor) cursor.remove();
+    cursor = null;
+  } else {
+    document.body.classList.add("has-cursor");
+    var cx = innerWidth/2, cy = innerHeight/2, tx = cx, ty = cy;
+    addEventListener("pointermove", function(e){ tx = e.clientX; ty = e.clientY; }, { passive: true });
+    (function loop(){
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      cursor.style.transform = "translate(" + cx + "px," + cy + "px)";
+      if (charge.active) {
+        var d = Math.min((performance.now() - charge.t0) / 1100, 1);
+        cursor.style.setProperty("--charge", d);
+      }
+      requestAnimationFrame(loop);
+    })();
+    document.addEventListener("pointerover", function(e){
+      cursor.classList.toggle("is-hover", !!(e.target.closest && e.target.closest("a, button")));
+    });
+  }
+
+  /* ---------- ポインター操作（波紋 / 長押し石投げ / 引き波） ---------- */
+  function heroUV(e) {
+    var r = hero.getBoundingClientRect();
+    return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height, inside: e.clientY >= r.top && e.clientY <= r.bottom };
+  }
+  function overUI(e) {
+    return !!(e.target && e.target.closest && e.target.closest("header, a, button, nav"));
+  }
+
+  addEventListener("pointermove", function (e) {
+    if (!water().ready) return;
+    var uv = heroUV(e);
+    if (uv.inside) water().setMouse(uv.x, uv.y);
+  }, { passive: true });
+
+  hero.addEventListener("pointerdown", function (e) {
+    if (overUI(e)) return;
+    charge.active = true;
+    charge.t0 = performance.now();
+  });
+
+  addEventListener("pointerup", function (e) {
+    if (!charge.active) return;
+    charge.active = false;
+    if (cursor) cursor.style.setProperty("--charge", 0);
+    if (overUI(e)) return;
+    var uv = heroUV(e);
+    if (!uv.inside) return;
+    var held = Math.min((performance.now() - charge.t0) / 1100, 1);
+    if (held < 0.18) {
+      drop(uv.x, uv.y, 1.15);                 /* クリック＝波紋 */
+    } else {
+      var power = 1.2 + held * 1.4;           /* 長押し＝石を投げる */
+      drop(uv.x, uv.y, power);
+      var n = held > 0.6 ? 3 : 2;             /* 石らしい飛沫 */
+      for (var i = 1; i <= n; i++) {
+        (function (i) {
+          setTimeout(function () {
+            drop(uv.x + (Math.random()-0.5)*0.05, uv.y + (Math.random()-0.5)*0.04, 0.4 + held*0.4, true);
+          }, 90 * i);
+        })(i);
+      }
+    }
+  });
+
+  /* ドラッグで引き波 */
+  var lastWake = 0;
+  hero.addEventListener("pointermove", function (e) {
+    if (e.buttons !== 1 || overUI(e)) return;
+    var t = performance.now();
+    if (t - lastWake > 110) {
+      lastWake = t;
+      var uv = heroUV(e);
+      drop(uv.x, uv.y, 0.35, true);
+    }
+  }, { passive: true });
+
+  /* 自然の雫（たまにぽつり） */
+  (function ambient() {
+    setTimeout(function () {
+      if (!reduced && water().ready && !document.hidden) {
+        drop(0.15 + Math.random()*0.7, 0.55 + Math.random()*0.3, 0.35 + Math.random()*0.25, true);
+      }
+      ambient();
+    }, 5000 + Math.random() * 4000);
+  })();
+
+  /* ---------- ヘッダー背景切替 ---------- */
+  var headerEl = document.getElementById("siteHeader");
+  addEventListener("scroll", function () {
+    headerEl.classList.toggle("scrolled", scrollY > 40);
+  }, { passive: true });
+
+  /* ---------- スクロールリベール ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduced) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("on"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("on"); });
+  }
+
+  /* ---------- 数字カウントアップ（小数対応） ---------- */
+  var counters = document.querySelectorAll(".countup");
+  function animateCount(el) {
+    var raw = el.getAttribute("data-target") || "";
+    var target = parseFloat(raw);
+    var dec = (raw.split(".")[1] || "").length;
+    function fmt(v) {
+      return dec > 0 ? v.toFixed(dec) : Math.round(v).toLocaleString("ja-JP");
+    }
+    if (reduced || !isFinite(target)) { el.textContent = fmt(target); return; }
+    var t0 = performance.now(), DUR = 1600;
+    (function tick(t) {
+      var p = Math.min((t - t0) / DUR, 1);
+      el.textContent = fmt(easeOutQuart(p) * target);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  if ("IntersectionObserver" in window && !reduced) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { animateCount(en.target); cio.unobserve(en.target); }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cio.observe(el); });
+  } else {
+    counters.forEach(function (el) {
+      var raw = el.getAttribute("data-target") || "";
+      var dec = (raw.split(".")[1] || "").length;
+      var v = parseFloat(raw);
+      el.textContent = dec > 0 ? v.toFixed(dec) : Math.round(v).toLocaleString("ja-JP");
+    });
+  }
+
+  /* ---------- マーキー複製（切れ目なく） ---------- */
+  var track = document.getElementById("marqueeTrack");
+  if (track) track.innerHTML += track.innerHTML;
+
+  /* ---------- カードのホバー光源追従 ---------- */
+  document.querySelectorAll(".card, .problem-item, .usp-col").forEach(function (card) {
+    card.addEventListener("pointermove", function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
+      card.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+    });
+  });
+
+  /* ---------- マグネティックボタン ---------- */
+  if (!isTouch && !reduced) {
+    document.querySelectorAll(".magnetic").forEach(function (btn) {
+      btn.addEventListener("pointermove", function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width/2);
+        var dy = e.clientY - (r.top + r.height/2);
+        btn.style.transform = "translate(" + dx*0.22 + "px," + dy*0.3 + "px)";
+      });
+      btn.addEventListener("pointerleave", function () {
+        btn.style.transition = "transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .4s";
+        btn.style.transform = "";
+        setTimeout(function(){ btn.style.transition = ""; }, 500);
+      });
+    });
+  }
+
+  /* ---------- FAQ accordion ---------- */
+  document.querySelectorAll(".faq-item").forEach(function(item){
+    var q = item.querySelector(".faq-q");
+    var a = item.querySelector(".faq-a");
+    q.addEventListener("click", function(){
+      var isOpen = item.classList.toggle("open");
+      q.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      a.style.maxHeight = isOpen ? a.scrollHeight + "px" : "0px";
+    });
+  });
+})();
+</script>
+</body>
+</html>

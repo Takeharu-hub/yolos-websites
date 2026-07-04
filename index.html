@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOLO's Webサイト一覧 | レビュー用ポータル</title>
+<style>
+:root{--bg:#05070b;--text:#f2f4f7;--sub:#98a0b3;--line:rgba(255,255,255,0.08);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.7;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:48px 24px;}
+.wrap{max-width:920px;width:100%;}
+.label{font-size:12px;letter-spacing:0.35em;text-transform:uppercase;color:#8fb8ff;margin-bottom:16px;}
+h1{font-size:clamp(28px,5vw,48px);font-weight:800;margin-bottom:8px;}
+.note{color:var(--sub);font-size:14px;margin-bottom:40px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+a.card{display:block;text-decoration:none;color:var(--text);background:rgba(255,255,255,0.03);border:1px solid var(--line);border-radius:16px;padding:28px 24px;transition:transform .3s,border-color .3s;}
+a.card:hover{transform:translateY(-4px);border-color:var(--ac);}
+.en{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ac);margin-bottom:10px;}
+.card h2{font-size:20px;font-weight:700;margin-bottom:6px;}
+.card p{color:var(--sub);font-size:13px;}
+.tag{display:inline-block;margin-top:14px;font-size:12px;color:var(--ac);border:1px solid var(--ac);border-radius:999px;padding:3px 12px;}
+footer{margin-top:40px;color:var(--sub);font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="label">YOLO's Web Portfolio — Draft v1</p>
+  <h1>Webサイト一覧</h1>
+  <p class="note">minamo-studio風トンマナで統一した4サイトのドラフト。クリックで各ページへ。</p>
+  <div class="grid">
+    <a class="card" href="yoroliku_lp.html" style="--ac:#6ea8ff;">
+      <p class="en">Yoloriku</p>
+      <h2>ヨロリク LP</h2>
+      <p>採用活動を、辞める。— SNS採用支援／採用メディア資産</p>
+      <span class="tag">事業LP</span>
+    </a>
+    <a class="card" href="yologuard_lp.html" style="--ac:#6fe3a8;">
+      <p class="en">Yologuard</p>
+      <h2>ヨロガード LP</h2>
+      <p>経理を、経営の武器に。— 管理部長代行×経理BPO</p>
+      <span class="tag">事業LP</span>
+    </a>
+    <a class="card" href="yologuard_school_lp.html" style="--ac:#ffb366;">
+      <p class="en">Yologuard School</p>
+      <h2>ヨロガードスクール LP</h2>
+      <p>学んだのに、"売る商品"がないあなたへ。— 経理教育2C</p>
+      <span class="tag">事業LP</span>
+    </a>
+    <a class="card" href="yolos_hp.html" style="--ac:#8fb8ff;">
+      <p class="en">YOLO's Inc.</p>
+      <h2>株式会社YOLO's HP</h2>
+      <p>仕組みが、人を自由にする。— コーポレートサイト</p>
+      <span class="tag">会社HP</span>
+    </a>
+  </div>
+  <footer>© 2026 YOLO's Inc.</footer>
+</div>
+</body>
+</html>

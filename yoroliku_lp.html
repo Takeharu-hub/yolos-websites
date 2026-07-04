@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヨロリク | 採用活動を、辞める。</title>
+<meta name="description" content="ヨロリク｜中小企業向けSNS採用支援。求人広告に払い続ける消耗戦から、持続的に応募を生む「採用メディア資産」へ。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%236ea8ff' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%236ea8ff' stroke-width='1' opacity='.5'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#05070b;
+    --text:#f2f4f7;
+    --sub:#98a0b3;
+    --line:rgba(255,255,255,0.08);
+    --accent:#6ea8ff;
+    --accent-rgb:110,168,255;
+    --card:rgba(255,255,255,0.03);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    line-height:1.8;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;}
+
+  /* ---------- Loader ---------- */
+  #loader{
+    position:fixed;inset:0;z-index:1000;
+    background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .9s ease, visibility .9s;
+  }
+  #loader.done{opacity:0;visibility:hidden;pointer-events:none}
+  .loader-brand{
+    font-size:13px;letter-spacing:0.5em;text-transform:uppercase;
+    color:var(--sub);
+    animation:loaderPulse 2s ease-in-out infinite;
+  }
+  @keyframes loaderPulse{0%,100%{opacity:.5}50%{opacity:1}}
+  .loader-num{
+    position:fixed;right:28px;bottom:22px;
+    font-size:clamp(48px,8vw,84px);
+    font-weight:800;color:var(--text);
+    opacity:.9;font-variant-numeric:tabular-nums;
+    letter-spacing:0.04em;line-height:1;
+  }
+  .loader-bar{
+    position:fixed;left:0;bottom:0;height:2px;width:100%;
+    transform-origin:left;
+    transform:scaleX(var(--load,0));
+    background:var(--accent);
+  }
+
+  /* ---------- Custom cursor ---------- */
+  #cursor{
+    position:fixed;top:0;left:0;z-index:999;
+    width:36px;height:36px;margin:-18px 0 0 -18px;
+    pointer-events:none;
+    display:none;
+  }
+  body.has-cursor #cursor{display:block}
+  #cursor .dot{
+    position:absolute;top:50%;left:50%;
+    width:5px;height:5px;margin:-2.5px 0 0 -2.5px;
+    border-radius:50%;background:var(--accent);
+    transition:transform .25s ease;
+  }
+  #cursor .ring{
+    position:absolute;inset:0;border-radius:50%;
+    border:1px solid rgba(var(--accent-rgb),0.55);
+    transform:scale(.55);
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  #cursor.is-hover .ring{transform:scale(1);border-color:rgba(var(--accent-rgb),0.9)}
+  #cursor.is-hover .dot{transform:scale(.5)}
+  #cursor .charge{
+    position:absolute;inset:0;border-radius:50%;
+    border:2px solid var(--accent);
+    transform:scale(calc(.55 + var(--charge,0) * 1.5));
+    opacity:calc(var(--charge,0) * .9);
+    transition:opacity .2s;
+  }
+  body.has-cursor, body.has-cursor a, body.has-cursor button, body.has-cursor summary{cursor:none}
+
+  /* ---------- Header ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(5,7,11,0.55);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid transparent;
+    transition:background .5s, border-color .5s;
+    opacity:0;transform:translateY(-12px);
+  }
+  body.is-loaded header{
+    opacity:1;transform:none;
+    transition:opacity 1s ease .35s, transform 1s ease .35s, background .5s, border-color .5s;
+  }
+  header.scrolled{
+    background:rgba(5,7,11,0.8);
+    border-bottom-color:var(--line);
+  }
+  .header-inner{
+    max-width:1200px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;
+  }
+  .logo{display:flex;align-items:baseline;gap:10px;}
+  .logo .en{
+    font-weight:800;letter-spacing:0.22em;font-size:17px;color:var(--text);
+  }
+  .logo .ja{font-size:11px;color:var(--sub);letter-spacing:0.2em;}
+  nav{display:flex;align-items:center;gap:28px;}
+  nav .nav-links{display:flex;gap:26px;}
+  nav .nav-links a{
+    font-size:13px;color:var(--sub);letter-spacing:0.08em;
+    transition:color .3s;
+  }
+  nav .nav-links a:hover{color:var(--text);}
+  .ripple-count{
+    font-size:11px;letter-spacing:0.22em;color:var(--sub);
+    font-variant-numeric:tabular-nums;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px 14px;
+    white-space:nowrap;
+  }
+  .ripple-count b{color:var(--accent);font-weight:700;margin-left:6px}
+  .btn-cta{
+    display:inline-block;
+    background:linear-gradient(135deg,#6ea8ff 0%,#4a7fe8 100%);
+    color:#fff;font-weight:700;
+    border-radius:999px;
+    padding:10px 26px;font-size:13px;letter-spacing:0.05em;
+    transition:box-shadow .3s, transform .3s;
+    will-change:transform;
+  }
+  .btn-cta:hover{
+    box-shadow:0 0 28px rgba(var(--accent-rgb),0.55);
+    transform:translateY(-1px);
+  }
+  @media(max-width:820px){
+    nav .nav-links{display:none;}
+  }
+  @media(max-width:720px){
+    .ripple-count{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    height:100svh;
+    min-height:560px;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    touch-action:pan-y;
+    -webkit-user-select:none;user-select:none;
+    -webkit-touch-callout:none;
+  }
+  #water{
+    position:absolute;inset:0;width:100%;height:100%;
+    display:block;
+  }
+  .hero-veil{
+    position:absolute;left:0;right:0;bottom:0;height:22%;
+    background:linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;z-index:2;
+    padding:0 24px;
+    max-width:1040px;
+  }
+  .hero-label{
+    display:block;
+    color:var(--accent);
+    font-size:12px;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    margin-bottom:28px;
+    font-weight:600;
+    opacity:0;transform:translateY(14px);
+    transition:opacity 1s ease .2s, transform 1s ease .2s;
+  }
+  .hero h1{
+    font-size:clamp(38px,7vw,84px);
+    font-weight:800;
+    line-height:1.3;
+    letter-spacing:0.02em;
+    margin-bottom:28px;
+  }
+  .hero h1 .accent{color:var(--accent);}
+  .hero h1 .ch{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(0.55em);
+    filter:blur(6px);
+    transition:opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1), filter .8s ease;
+  }
+  body.is-loaded .hero h1 .ch{opacity:1;transform:none;filter:none}
+  .hero-sub{
+    color:var(--sub);
+    font-size:clamp(14px,1.8vw,17px);
+    line-height:2.1;
+    margin-bottom:44px;
+    opacity:0;transform:translateY(14px);
+    transition:opacity 1.1s ease .9s, transform 1.1s ease .9s;
+  }
+  .hero .btn-cta{
+    padding:18px 44px;font-size:15px;
+    opacity:0;transform:translateY(14px);
+  }
+  body.is-loaded .hero .btn-cta{
+    opacity:1;transform:none;
+    transition:opacity 1.1s ease 1.1s, transform 1.1s ease 1.1s, box-shadow .3s;
+  }
+  .hero-hint{
+    margin-top:34px;
+    font-size:11px;letter-spacing:0.28em;
+    color:rgba(var(--accent-rgb),0.75);
+    opacity:0;transform:translateY(10px);
+    transition:opacity 1.1s ease 1.3s, transform 1.1s ease 1.3s;
+  }
+  body.is-loaded .hero-label,
+  body.is-loaded .hero-sub,
+  body.is-loaded .hero-hint{opacity:1;transform:none}
+  .hero-caption{
+    position:absolute;left:28px;bottom:30px;z-index:2;
+    font-size:10.5px;letter-spacing:0.12em;
+    color:rgba(255,255,255,0.34);
+    max-width:280px;line-height:1.9;
+    text-align:left;
+    pointer-events:none;
+    opacity:0;transition:opacity 1.4s ease 1.6s;
+  }
+  body.is-loaded .hero-caption{opacity:1}
+  @media(max-width:720px){.hero-caption{display:none}}
+  .scroll-indicator{
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    opacity:0;transition:opacity 1.4s ease 1.8s;
+    pointer-events:none;
+  }
+  body.is-loaded .scroll-indicator{opacity:1}
+  .scroll-indicator span{
+    font-size:10px;letter-spacing:0.3em;color:var(--sub);
+    text-transform:uppercase;
+  }
+  .scroll-indicator .line{
+    width:1px;height:64px;
+    background:rgba(255,255,255,0.15);
+    position:relative;overflow:hidden;
+  }
+  .scroll-indicator .line::after{
+    content:"";
+    position:absolute;top:-40%;left:0;
+    width:100%;height:40%;
+    background:var(--accent);
+    animation:scrollLine 2.2s ease-in-out infinite;
+  }
+  @keyframes scrollLine{
+    0%{top:-40%;}
+    100%{top:110%;}
+  }
+
+  /* ---------- Marquee ---------- */
+  .marquee{
+    overflow:hidden;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    -webkit-user-select:none;user-select:none;
+  }
+  .marquee-track{
+    display:flex;gap:0;width:max-content;
+    animation:marquee 46s linear infinite;
+  }
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .marquee-track span{
+    font-size:clamp(44px,7vw,84px);
+    font-weight:800;
+    letter-spacing:0.06em;
+    line-height:1.15;
+    white-space:nowrap;
+    color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,0.16);
+    padding-right:.8em;
+  }
+  .marquee-track span i{
+    font-style:normal;
+    color:rgba(var(--accent-rgb),0.4);
+    -webkit-text-stroke:0;
+    font-size:.4em;vertical-align:.45em;
+    padding-right:.8em;
+  }
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ---------- Sections ---------- */
+  section{
+    padding:120px 24px;
+    max-width:1040px;
+    margin:0 auto;
+  }
+  .sec-label{
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:22px;
+  }
+  .sec-label .bar{
+    width:36px;height:2px;background:var(--accent);
+  }
+  .sec-label .txt{
+    font-size:12px;letter-spacing:0.3em;color:var(--accent);
+    text-transform:lowercase;font-weight:600;
+  }
+  h2{
+    font-size:clamp(28px,4.5vw,46px);
+    font-weight:800;
+    line-height:1.45;
+    letter-spacing:0.02em;
+    margin-bottom:24px;
+  }
+  .lead{
+    color:var(--sub);
+    font-size:clamp(14px,1.7vw,16px);
+    max-width:720px;
+    margin-bottom:56px;
+  }
+  .accent-txt{color:var(--accent);}
+
+  /* reveal */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .reveal.on{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* cards */
+  .grid{
+    display:grid;gap:20px;
+  }
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media(max-width:860px){
+    .grid-3,.grid-4{grid-template-columns:1fr;}
+    .grid-2{grid-template-columns:1fr;}
+    section{padding:90px 24px;}
+  }
+  .card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:32px 28px;
+    transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+    overflow:hidden;
+  }
+  .card::after,
+  .funnel-step::after{
+    content:"";
+    position:absolute;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity:0;
+    top:var(--my,50%);left:var(--mx,50%);
+    transform:translate(-50%,-50%);
+    transition:opacity .5s;
+    pointer-events:none;
+    filter:blur(40px);
+  }
+  .card:hover::after,
+  .funnel-step:hover::after{opacity:.12}
+  .card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(var(--accent-rgb),0.35);
+    box-shadow:0 16px 40px rgba(0,0,0,0.4);
+  }
+  .card h3{
+    font-size:17px;font-weight:700;margin-bottom:12px;
+    line-height:1.5;
+  }
+  .card p{
+    font-size:13.5px;color:var(--sub);line-height:1.9;
+  }
+  .card .num{
+    font-size:12px;letter-spacing:0.25em;color:var(--accent);
+    font-weight:700;display:block;margin-bottom:14px;
+  }
+
+  /* big numbers */
+  .bignum{
+    font-size:clamp(40px,6vw,72px);
+    font-weight:800;
+    color:var(--accent);
+    line-height:1.1;
+    letter-spacing:0.01em;
+    font-variant-numeric:tabular-nums;
+  }
+  .bignum small{
+    font-size:0.38em;font-weight:700;color:var(--text);
+    margin-left:4px;
+  }
+  .stat-card{
+    text-align:center;
+    padding:44px 20px;
+  }
+  .stat-card .cap{
+    margin-top:14px;font-size:13px;color:var(--sub);letter-spacing:0.05em;
+  }
+
+  /* problem */
+  .problem-hero{
+    text-align:center;
+    padding:56px 24px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:var(--card);
+    margin-bottom:24px;
+  }
+  .problem-hero .cap-top{
+    font-size:13px;color:var(--sub);letter-spacing:0.1em;margin-bottom:10px;
+  }
+  .problem-hero .cap-bottom{
+    font-size:13px;color:var(--sub);margin-top:12px;
+  }
+
+  /* funnel */
+  .funnel{
+    display:flex;align-items:stretch;gap:0;
+    flex-wrap:wrap;
+  }
+  .funnel-step{
+    flex:1;min-width:180px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 22px;
+    position:relative;
+    margin:0 10px 20px;
+    transition:transform .35s ease, border-color .35s ease;
+    overflow:hidden;
+  }
+  .funnel-step:hover{
+    transform:translateY(-6px);
+    border-color:rgba(var(--accent-rgb),0.35);
+  }
+  .funnel-step .stage{
+    font-size:11px;letter-spacing:0.28em;color:var(--accent);
+    text-transform:uppercase;font-weight:700;margin-bottom:10px;display:block;
+  }
+  .funnel-step h3{font-size:18px;font-weight:800;margin-bottom:8px;}
+  .funnel-step p{font-size:12.5px;color:var(--sub);line-height:1.8;}
+  .funnel-arrow{
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent);font-size:20px;
+    padding:0 2px;margin-bottom:20px;
+  }
+  @media(max-width:860px){
+    .funnel{flex-direction:column;}
+    .funnel-step{margin:0 0 8px;}
+    .funnel-arrow{transform:rotate(90deg);padding:6px 0;margin-bottom:8px;}
+  }
+  .funnel-note{
+    margin-top:28px;
+    border-left:2px solid var(--accent);
+    padding:18px 24px;
+    background:var(--card);
+    border-radius:0 12px 12px 0;
+    font-size:14px;color:var(--sub);
+  }
+  .funnel-note strong{color:var(--text);}
+
+  /* pricing */
+  .price-card{
+    border:1px solid rgba(var(--accent-rgb),0.3);
+    border-radius:16px;
+    background:linear-gradient(180deg,rgba(110,168,255,0.06) 0%,rgba(255,255,255,0.02) 100%);
+    padding:56px 40px;
+    text-align:center;
+  }
+  .price-card .plan-name{
+    font-size:13px;letter-spacing:0.3em;color:var(--accent);
+    text-transform:uppercase;font-weight:700;margin-bottom:20px;
+  }
+  .price-main{
+    display:flex;justify-content:center;align-items:baseline;gap:8px;
+    flex-wrap:wrap;margin-bottom:8px;
+  }
+  .price-rows{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    margin:36px 0 28px;
+  }
+  @media(max-width:720px){.price-rows{grid-template-columns:1fr;}}
+  .price-row{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:24px 16px;
+    background:rgba(5,7,11,0.4);
+  }
+  .price-row .k{font-size:12px;color:var(--sub);letter-spacing:0.1em;margin-bottom:8px;}
+  .price-row .v{font-size:clamp(24px,3.4vw,34px);font-weight:800;color:var(--accent);line-height:1.2;}
+  .price-row .v small{font-size:0.45em;color:var(--text);font-weight:700;}
+  .price-note{
+    font-size:13px;color:var(--sub);line-height:2;
+  }
+  .price-note strong{color:var(--text);}
+
+  /* flow */
+  .flow{counter-reset:step;}
+  .flow-item{
+    display:flex;gap:24px;
+    padding:28px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .flow-item:first-child{border-top:1px solid var(--line);}
+  .flow-item .no{
+    flex:0 0 auto;
+    font-size:clamp(26px,3.5vw,36px);font-weight:800;color:var(--accent);
+    width:64px;line-height:1.3;
+  }
+  .flow-item .body h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+  .flow-item .body p{font-size:13.5px;color:var(--sub);}
+
+  /* FAQ */
+  details{
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:var(--card);
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  summary{
+    list-style:none;
+    cursor:pointer;
+    padding:22px 26px;
+    font-weight:700;font-size:15px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    transition:color .3s;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::after{
+    content:"+";
+    color:var(--accent);
+    font-size:20px;font-weight:400;
+    flex:0 0 auto;
+    transition:transform .3s;
+  }
+  details[open] summary::after{transform:rotate(45deg);}
+  details .a{
+    padding:0 26px 24px;
+    font-size:13.5px;color:var(--sub);line-height:1.9;
+  }
+
+  /* target */
+  .target-tags{
+    display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;
+  }
+  .tag{
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:10px 22px;
+    font-size:13px;color:var(--sub);
+    background:var(--card);
+  }
+  .tag.hl{color:var(--accent);border-color:rgba(var(--accent-rgb),0.35);}
+
+  /* contact */
+  .contact-box{
+    text-align:center;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:var(--card);
+    padding:72px 32px;
+  }
+  .contact-box h2{margin-bottom:16px;}
+  .contact-box p{color:var(--sub);font-size:14px;margin-bottom:36px;}
+  .contact-box .btn-cta{padding:18px 44px;font-size:15px;}
+  .contact-sub{
+    margin-top:22px;font-size:13px;color:var(--sub);
+  }
+  .contact-sub a{color:var(--accent);border-bottom:1px solid rgba(var(--accent-rgb),0.4);}
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding:56px 24px 40px;
+  }
+  .footer-inner{
+    max-width:1040px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:32px;flex-wrap:wrap;
+  }
+  .footer-inner .logo .en{font-size:15px;}
+  .footer-links{
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .footer-links a{
+    font-size:13px;color:var(--sub);transition:color .3s;
+  }
+  .footer-links a:hover{color:var(--text);}
+  .copyright{
+    max-width:1040px;margin:40px auto 0;
+    font-size:12px;color:var(--sub);
+    border-top:1px solid var(--line);
+    padding-top:24px;
+  }
+
+  /* ---------- Reduced motion ---------- */
+  @media(prefers-reduced-motion:reduce){
+    #loader{transition:none}
+    .hero h1 .ch{opacity:1;transform:none;filter:none;transition:none}
+    .hero-label,.hero-sub,.hero-hint,.hero-caption,.scroll-indicator,
+    .hero .btn-cta{opacity:1;transform:none;transition:none}
+    header{opacity:1;transform:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .marquee-track{animation:none}
+    .scroll-indicator .line::after{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= Loader ================= -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-brand">YOLORIKU</div>
+  <div class="loader-num" id="loaderNum">00</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ================= Custom cursor ================= -->
+<div id="cursor" aria-hidden="true">
+  <div class="ring"></div>
+  <div class="charge"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- ========== Header ========== -->
+<header id="siteHeader">
+  <div class="header-inner">
+    <a class="logo" href="#top">
+      <span class="en">YOLORIKU</span>
+      <span class="ja">ヨロリク</span>
+    </a>
+    <nav>
+      <div class="nav-links">
+        <a href="#problem">課題</a>
+        <a href="#concept">コンセプト</a>
+        <a href="#service">サービス</a>
+        <a href="#results">実績</a>
+        <a href="#pricing">料金</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="ripple-count" title="あなたが起こした波紋の数">波紋<b id="rippleCount">0000</b></div>
+      <a class="btn-cta" href="#contact">無料相談する</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ========== Hero ========== -->
+<div class="hero" id="top">
+  <canvas id="water" aria-hidden="true"></canvas>
+  <div class="hero-veil"></div>
+  <div class="hero-inner">
+    <span class="hero-label">Recruiting Media Asset</span>
+    <h1 id="heroTitle">採用活動を、<br class="sp-br"><span class="accent">辞める。</span></h1>
+    <p class="hero-sub">
+      求人広告に払い続ける消耗戦から、<br>
+      持続的に応募を生む「採用メディア資産」へ。
+    </p>
+    <a class="btn-cta magnetic" href="#contact">無料相談する</a>
+    <p class="hero-hint">クリック＝波紋　　長押し＝石を投げる</p>
+  </div>
+  <div class="hero-caption">この水面は、画像でも動画でもありません。コードがリアルタイムに描いています。</div>
+  <div class="scroll-indicator">
+    <span>scroll</span>
+    <div class="line"></div>
+  </div>
+</div>
+
+<!-- ========== Problem ========== -->
+<section id="problem">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">problem</span>
+  </div>
+  <h2 class="reveal">払い続けても、<br>何も残らない採用。</h2>
+  <p class="lead reveal">
+    求人広告も人材紹介も、お金を払うのをやめた瞬間に応募が止まります。毎年ゼロからやり直す消耗戦。それは「投資」ではなく「消費」です。
+  </p>
+  <div class="problem-hero reveal">
+    <p class="cap-top">業界平均の採用コストは</p>
+    <div class="bignum">約<span class="countup" data-target="128">0</span><small>万円 / 人</small></div>
+    <p class="cap-bottom">1人採用するたびに、この金額が消えていきます。</p>
+  </div>
+  <div class="grid grid-3">
+    <div class="card reveal">
+      <span class="num">01</span>
+      <h3>毎年、払い続けるしかない</h3>
+      <p>求人広告・人材紹介は、掲載や紹介のたびに費用が発生。翌年もまた同じ金額を払うことになります。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">02</span>
+      <h3>やめた瞬間、採用が止まる</h3>
+      <p>出稿をやめれば応募もゼロに。事業の生命線である採用が、外部の広告費に完全に依存した状態になります。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">03</span>
+      <h3>何も積み上がらない</h3>
+      <p>払った費用は会社に何も残しません。認知もブランドもフォロワーも、資産としては一切蓄積されません。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Marquee ========== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>認知<i>●</i></span><span>理解<i>●</i></span><span>行動<i>●</i></span><span>応募<i>●</i></span><span>資産<i>●</i></span><span>採用<i>●</i></span>
+  </div>
+</div>
+
+<!-- ========== Concept ========== -->
+<section id="concept">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">concept</span>
+  </div>
+  <h2 class="reveal">TikTokアカウントを、<br><span class="accent-txt">企業の採用資産</span>に。</h2>
+  <p class="lead reveal">
+    ヨロリクが構築するのは、単なるSNS運用ではありません。フォロワー・動画・エンゲージメントが積み上がり、<strong style="color:var(--text)">運用を続けるほど採用コストが下がっていく</strong>構造＝「採用メディア資産」です。
+  </p>
+  <div class="grid grid-2">
+    <div class="card reveal">
+      <h3>続けるほど、採用コストが下がる</h3>
+      <p>フォロワーと動画は消えない資産。投稿が蓄積するほど認知の土台が育ち、広告に頼らず応募が生まれる構造に変わっていきます。</p>
+    </div>
+    <div class="card reveal">
+      <h3>採用だけで終わらない波及効果</h3>
+      <p>企業ブランディング、既存社員のモチベーション向上、取引先との関係強化。採用メディア資産は、採用以外の経営課題にも波及します。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Why TikTok ========== -->
+<section id="why">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">why tiktok</span>
+  </div>
+  <h2 class="reveal">なぜ、TikTokなのか。</h2>
+  <p class="lead reveal">
+    「うちの業界にTikTok？」——そう思った会社ほど、チャンスがあります。
+  </p>
+  <div class="grid grid-3">
+    <div class="card reveal">
+      <span class="num">reason 01</span>
+      <h3>フォロワーゼロでも拡散する</h3>
+      <p>TikTokのアルゴリズムは「関心」ベース。フォロワーが少なくても、動画の内容次第で見るべき人に届きます。始めたばかりの企業アカウントでも戦えます。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">reason 02</span>
+      <h3>Z世代に、直接届く</h3>
+      <p>主要ユーザーは18〜25歳のZ世代。求人媒体では出会えない若手人材に、日常のスキマ時間で自然に接触できます。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">reason 03</span>
+      <h3>職場のリアルが伝わる</h3>
+      <p>文章と写真では伝わらない職場の空気・人・働き方が、動画なら伝わる。入社前後のギャップが減り、ミスマッチが激減します。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Funnel ========== -->
+<section id="funnel">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">funnel design</span>
+  </div>
+  <h2 class="reveal">「見られる」で終わらせない、<br>応募までの導線設計。</h2>
+  <p class="lead reveal">
+    動画がバズっても、応募につながらなければ意味がありません。ヨロリクは認知から応募まで、一気通貫で導線を設計します。
+  </p>
+  <div class="funnel reveal">
+    <div class="funnel-step">
+      <span class="stage">01 / 認知</span>
+      <h3>SNS</h3>
+      <p>TikTokで職場のリアルを発信し、未来の応募者と出会う。</p>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step">
+      <span class="stage">02 / 理解</span>
+      <h3>LP</h3>
+      <p>興味を持った人に、会社の魅力と働き方を深く伝える。</p>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step">
+      <span class="stage">03 / 行動</span>
+      <h3>LINE</h3>
+      <p>気軽な友だち追加で、応募前の心理ハードルを下げる。</p>
+    </div>
+    <div class="funnel-arrow">→</div>
+    <div class="funnel-step">
+      <span class="stage">04 / 成果</span>
+      <h3>応募</h3>
+      <p>一人ひとりに寄り添うコミュニケーションで応募へ。</p>
+    </div>
+  </div>
+  <div class="funnel-note reveal">
+    <strong>応募率 約3倍の「手動口説き」。</strong><br>
+    自動配信だけで終わる競合と違い、ヨロリクはLINE追加後に一人ひとりへ「手動の口説き」を実施。この一手間が、応募率を約3倍に引き上げます。
+  </div>
+</section>
+
+<!-- ========== Service ========== -->
+<section id="service">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">service</span>
+  </div>
+  <h2 class="reveal">標準6役務。<br>採用に必要な全部が、入っている。</h2>
+  <p class="lead reveal">
+    企画から撮影・運用・分析まで。採用メディア資産の構築に必要な役務を、ワンパッケージで提供します。
+  </p>
+  <div class="grid grid-3">
+    <div class="card reveal">
+      <span class="num">01</span>
+      <h3>SNS動画制作・運用</h3>
+      <p>TikTok または Instagram で月8本の動画を制作・投稿。企画から編集まで丸ごと対応します。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">02</span>
+      <h3>Indeed / 求人ボックス運用</h3>
+      <p>SNSと並行して求人検索エンジンも運用。認知と応募の取りこぼしを防ぎます。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">03</span>
+      <h3>LINE公式アカウント構築</h3>
+      <p>アカウント構築・配信設計に加え、応募率を左右する「口説きスクリプト」まで提供します。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">04</span>
+      <h3>AI企画エンジン</h3>
+      <p>業種×ターゲットの掛け合わせで動画企画を自動生成。ネタ切れせずに投稿を継続できます。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">05</span>
+      <h3>AIレポート（月1回）</h3>
+      <p>再生・フォロワー・導線の数字をAIが月次で分析。次の一手が数字で見える状態を保ちます。</p>
+    </div>
+    <div class="card reveal">
+      <span class="num">06</span>
+      <h3>月1回30分MTG</h3>
+      <p>月1回30分の定例で方針をすり合わせ。忙しい経営者の時間を奪わない設計です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Results ========== -->
+<section id="results">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">results</span>
+  </div>
+  <h2 class="reveal">数字が、証明している。</h2>
+  <div class="grid grid-4" style="margin-top:56px;">
+    <div class="card stat-card reveal">
+      <div class="bignum"><span class="countup" data-target="50">0</span><small>社+</small></div>
+      <p class="cap">支援アカウント数</p>
+    </div>
+    <div class="card stat-card reveal">
+      <div class="bignum"><span class="countup" data-target="3">0</span><small>億回+</small></div>
+      <p class="cap">累計再生数</p>
+    </div>
+    <div class="card stat-card reveal">
+      <div class="bignum"><span class="countup" data-target="5000">0</span><small>本+</small></div>
+      <p class="cap">動画制作本数</p>
+    </div>
+    <div class="card stat-card reveal">
+      <div class="bignum"><span class="countup" data-target="50">0</span><small>件+</small></div>
+      <p class="cap">最短3ヶ月での応募達成</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Pricing ========== -->
+<section id="pricing">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">pricing</span>
+  </div>
+  <h2 class="reveal">初期費用0円。<br>成果が出なければ、月20万円だけ。</h2>
+  <p class="lead reveal">
+    プランは1つだけ。迷わせない、シンプルなローリスク設計です。
+  </p>
+  <div class="price-card reveal">
+    <p class="plan-name">採用資産パッケージ</p>
+    <div class="price-rows">
+      <div class="price-row">
+        <p class="k">初期費用</p>
+        <p class="v">0<small>円</small></p>
+      </div>
+      <div class="price-row">
+        <p class="k">月額</p>
+        <p class="v">20<small>万円</small></p>
+      </div>
+      <div class="price-row">
+        <p class="k">成果報酬</p>
+        <p class="v">5<small>万円 / LINE友だち追加1件</small></p>
+      </div>
+    </div>
+    <p class="price-note">
+      最低契約期間は3ヶ月。<br>
+      <strong>応募がゼロなら、お支払いは月20万円のみ。</strong>成果が出た分だけコストが増える、ローリスクな料金構造です。
+    </p>
+  </div>
+</section>
+
+<!-- ========== Target ========== -->
+<section id="target">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">for whom</span>
+  </div>
+  <h2 class="reveal">こんな会社のための<br>サービスです。</h2>
+  <p class="lead reveal">
+    従業員10〜100名の中小企業。特に、若手採用に苦戦しやすい現場系の業界で力を発揮します。
+  </p>
+  <div class="target-tags reveal">
+    <span class="tag hl">建設業</span>
+    <span class="tag hl">不動産業</span>
+    <span class="tag hl">運送業</span>
+    <span class="tag">従業員10〜100名</span>
+    <span class="tag">求人広告費が資産にならないと感じている</span>
+    <span class="tag">若手・Z世代の採用に苦戦している</span>
+  </div>
+</section>
+
+<!-- ========== Flow ========== -->
+<section id="flow">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">process</span>
+  </div>
+  <h2 class="reveal">運用の流れ</h2>
+  <p class="lead reveal">
+    戦略設計から改善まで、資産が育つサイクルを回し続けます。
+  </p>
+  <div class="flow">
+    <div class="flow-item reveal">
+      <div class="no">01</div>
+      <div class="body">
+        <h3>戦略コンセプト設計</h3>
+        <p>採用ペルソナの定義とN1分析で、「誰に・何を・どう伝えるか」を最初に固めます。</p>
+      </div>
+    </div>
+    <div class="flow-item reveal">
+      <div class="no">02</div>
+      <div class="body">
+        <h3>アカウント・導線構築</h3>
+        <p>SNSアカウント、LP、LINEまで、応募につながる導線を一気通貫で構築します。</p>
+      </div>
+    </div>
+    <div class="flow-item reveal">
+      <div class="no">03</div>
+      <div class="body">
+        <h3>企画・台本・撮影・編集</h3>
+        <p>AI企画エンジンで企画を量産し、台本・撮影・編集まで制作を回します。</p>
+      </div>
+    </div>
+    <div class="flow-item reveal">
+      <div class="no">04</div>
+      <div class="body">
+        <h3>投稿・運用</h3>
+        <p>月8本の動画を投稿・運用。フォロワーとエンゲージメントを資産として積み上げます。</p>
+      </div>
+    </div>
+    <div class="flow-item reveal">
+      <div class="no">05</div>
+      <div class="body">
+        <h3>月次分析・改善</h3>
+        <p>AIレポートと月1回30分のMTGで数字を確認し、翌月の打ち手に反映します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section id="faq">
+  <div class="sec-label reveal">
+    <span class="bar"></span><span class="txt">faq</span>
+  </div>
+  <h2 class="reveal">よくあるご質問</h2>
+  <div style="margin-top:56px;">
+    <details class="reveal">
+      <summary>撮影は自分たちでやるのですか？</summary>
+      <div class="a">基本は自社での撮影に対応いただきますが、撮影代行のオプションもご用意しています。台本と撮影指示はこちらで用意するので、スマホがあれば始められます。</div>
+    </details>
+    <details class="reveal">
+      <summary>効果が出るまでどのくらいかかりますか？</summary>
+      <div class="a">Indeed等の広告運用は初月から効果が出始めます。オーガニックのSNS資産は積み上げ型のため、3〜6ヶ月かけて育っていくイメージです。だからこそ、続けるほど採用コストが下がります。</div>
+    </details>
+    <details class="reveal">
+      <summary>途中で解約はできますか？</summary>
+      <div class="a">最低契約期間は3ヶ月です。それ以降は1ヶ月単位でご継続・解約を選べます。</div>
+    </details>
+    <details class="reveal">
+      <summary>TikTokとInstagram、どちらで運用しますか？</summary>
+      <div class="a">貴社の採用ターゲットに合わせて、TikTokまたはInstagramのいずれかを選定します。若手・Z世代採用がメインならTikTokを推奨するケースが多いです。</div>
+    </details>
+    <details class="reveal">
+      <summary>SNSに炎上リスクはありませんか？</summary>
+      <div class="a">企画・台本の段階でリスクをチェックする体制で運用します。職場のリアルを誠実に伝える発信が基本方針のため、過激な演出でバズを狙うことはしません。</div>
+    </details>
+  </div>
+</section>
+
+<!-- ========== Contact ========== -->
+<section id="contact">
+  <div class="contact-box reveal">
+    <div class="sec-label" style="justify-content:center;">
+      <span class="bar"></span><span class="txt">contact</span>
+    </div>
+    <h2>まずは、無料相談から。</h2>
+    <p>「うちの業界でもできる？」——その疑問に、事例と数字でお答えします。</p>
+    <a class="btn-cta magnetic" href="https://www.yolo-shonan.com/" target="_blank" rel="noopener">無料相談する</a>
+    <p class="contact-sub">
+      お問い合わせは <a href="https://www.yolo-shonan.com/" target="_blank" rel="noopener">公式サイト</a> またはお電話で承っております。
+    </p>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a class="logo" href="#top">
+        <span class="en">YOLORIKU</span>
+        <span class="ja">ヨロリク</span>
+      </a>
+      <p style="font-size:12px;color:var(--sub);margin-top:14px;">
+        運営: 株式会社YOLO's<br>
+        中小企業のための「採用メディア資産」構築サービス
+      </p>
+    </div>
+    <div class="footer-links">
+      <a href="yologuard_lp.html">ヨロガード</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール</a>
+      <a href="yolos_hp.html">会社HP（YOLO's）</a>
+      <a href="https://www.yolo-shonan.com/" target="_blank" rel="noopener">公式サイト</a>
+    </div>
+  </div>
+  <p class="copyright">© 2026 YOLO's Inc.</p>
+</footer>
+
+<script>
+/* ==================================================================
+   WATER ENGINE  (WebGL raymarched night-water)
+   共通API: window.__water = { ready, ripple(uvx,uvy,strength), setMouse(uvx,uvy) }
+   uv は heroキャンバス内の 0..1（左上原点）
+   PALETTE を差し替えるだけで各事業サイトの「空の色」が変わる
+   ================================================================== */
+(function () {
+  "use strict";
+
+  /* ---- パレット（月夜の深い青 — ヨロリク） ---- */
+  var PALETTE = {
+    zenith:  [0.008, 0.020, 0.055],
+    horizon: [0.045, 0.110, 0.220],
+    lightDir:[-0.42, 0.34, -0.84],
+    lightCol:[0.75, 0.87, 1.00],
+    deepA:   [0.006, 0.016, 0.040],
+    deepB:   [0.012, 0.050, 0.100],
+    stars:   0.9,
+    amp:     1.0
+  };
+
+  var MAX_RIPPLES = 20;
+  var canvas = document.getElementById("water");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var gl = null;
+  try {
+    gl = canvas.getContext("webgl", { antialias: false, alpha: false, powerPreference: "high-performance" })
+      || canvas.getContext("experimental-webgl", { antialias: false, alpha: false });
+  } catch (e) { gl = null; }
+
+  if (!gl) { fallback2D(); return; }
+
+  var VERT = "attribute vec2 aPos; void main(){ gl_Position = vec4(aPos,0.0,1.0); }";
+
+  var FRAG = [
+    "#ifdef GL_FRAGMENT_PRECISION_HIGH", "precision highp float;", "#else", "precision mediump float;", "#endif",
+    "uniform vec2  uRes;",
+    "uniform float uTime;",
+    "uniform vec2  uMouseP;",
+    "uniform vec4  uRipples[" + MAX_RIPPLES + "];",
+    "uniform vec3  uZenith; uniform vec3 uHorizon;",
+    "uniform vec3  uLightDir; uniform vec3 uLightCol;",
+    "uniform vec3  uDeepA; uniform vec3 uDeepB;",
+    "uniform float uStars; uniform float uAmp;",
+    "float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }",
+    "float noise(vec2 p){",
+    "  vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);",
+    "  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);",
+    "}",
+    "vec3 camRay(vec2 uv){",
+    "  vec2 ndc = uv*2.0-1.0; ndc.x *= uRes.x/uRes.y;",
+    "  vec3 fw = normalize(vec3(0.0,-0.32,-1.0));",
+    "  vec3 rt = normalize(cross(fw, vec3(0.0,1.0,0.0)));",
+    "  vec3 up = cross(rt, fw);",
+    "  return normalize(fw + ndc.x*rt*0.62 + ndc.y*up*0.62);",
+    "}",
+    "float heightField(vec2 p){",
+    "  float t=uTime; float h=0.0;",
+    "  h += sin(p.x*0.32 + t*0.55)*0.085*uAmp;",
+    "  h += sin(dot(p,vec2(0.24,0.31)) + t*0.42)*0.065*uAmp;",
+    "  h += sin(dot(p,vec2(-0.12,0.45)) - t*0.68)*0.04*uAmp;",
+    "  h += (noise(p*0.9 + vec2(t*0.22,t*0.13))-0.5)*0.10*uAmp;",
+    "  float fine = 0.5+0.5*uAmp;",
+    "  h += (noise(p*2.6 + vec2(-t*0.35,t*0.28))-0.5)*0.038*fine;",
+    "  h += (noise(p*6.0 + vec2(t*0.6,-t*0.4))-0.5)*0.014*fine;",
+    "  for (int i=0;i<" + MAX_RIPPLES + ";i++){",
+    "    float age = uTime - uRipples[i].z;",
+    "    if (age < 0.0 || age > 7.0 || uRipples[i].w <= 0.0) continue;",
+    "    float d = length(p - uRipples[i].xy);",
+    "    float r = age*1.35;",
+    "    float band = exp(-pow((d-r)*2.2, 2.0));",
+    "    float decay = exp(-age*0.75)*exp(-d*0.06);",
+    "    h += sin((d-r)*9.0)*band*decay*0.16*uRipples[i].w;",
+    "  }",
+    "  float md = length(p - uMouseP);",
+    "  h += exp(-md*md*0.55)*0.045*sin(uTime*2.4);",
+    "  return h;",
+    "}",
+    "vec3 skyColor(vec3 rd){",
+    "  float hor = pow(clamp(1.0 - rd.y*2.2, 0.0, 1.0), 2.1);",
+    "  vec3 col = mix(uZenith, uHorizon, hor);",
+    "  float md = dot(rd, normalize(uLightDir));",
+    "  col += uLightCol * smoothstep(0.9994, 0.99975, md) * 1.1;",
+    "  col += uLightCol * pow(max(md,0.0), 220.0) * 0.40;",
+    "  col += uLightCol * pow(max(md,0.0), 24.0) * 0.16;",
+    "  vec2 sp = rd.xy / max(rd.z*-1.0+1.4, 0.35) * 46.0;",
+    "  float star = step(0.9975, hash(floor(sp)));",
+    "  col += vec3(star) * hash(floor(sp)+7.0) * smoothstep(0.02,0.2,rd.y) * 0.55 * uStars;",
+    "  return col;",
+    "}",
+    "void main(){",
+    "  vec2 uv = gl_FragCoord.xy / uRes;",
+    "  vec3 ro = vec3(0.0, 2.6, 5.5);",
+    "  vec3 rd = camRay(uv);",
+    "  vec3 col;",
+    "  if (rd.y < 0.012){",
+    "    float t = -ro.y / min(rd.y, -0.015);",
+    "    vec2 p = (ro + rd*t).xz;",
+    "    float dist = t;",
+    "    float eps = 0.045 + dist*0.012;",
+    "    float h  = heightField(p);",
+    "    float hx = heightField(p + vec2(eps,0.0));",
+    "    float hz = heightField(p + vec2(0.0,eps));",
+    "    vec3 n = normalize(vec3(h-hx, eps*1.35, h-hz));",
+    "    vec3 R = reflect(rd, n); R.y = abs(R.y);",
+    "    vec3 refl = skyColor(R);",
+    "    vec3 L = normalize(uLightDir);",
+    "    float spec = pow(max(dot(R,L),0.0), 340.0);",
+    "    float glit = pow(max(dot(R,L),0.0), 60.0);",
+    "    float sparkle = 0.6 + 0.4*noise(p*14.0 + uTime*1.5);",
+    "    vec3 light = uLightCol * (spec*3.2 + glit*0.30) * sparkle;",
+    "    float fresnel = 0.028 + 0.972*pow(1.0 - max(dot(-rd,n),0.0), 5.0);",
+    "    vec3 deep = mix(uDeepA, uDeepB, clamp(h*6.0+0.5, 0.0, 1.0));",
+    "    col = mix(deep, refl, clamp(fresnel*1.7, 0.0, 1.0)) + light;",
+    "    float fog = 1.0 - exp(-dist*0.028);",
+    "    col = mix(col, skyColor(vec3(rd.x,0.02,rd.z)), fog*0.9);",
+    "  } else {",
+    "    col = skyColor(rd);",
+    "  }",
+    "  vec2 q = uv - 0.5;",
+    "  col *= 1.0 - dot(q,q)*0.85;",
+    "  col = pow(col, vec3(0.90));",
+    "  gl_FragColor = vec4(col, 1.0);",
+    "}"
+  ].join("\n");
+
+  function compile(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { return null; }
+    return s;
+  }
+  var vs = compile(gl.VERTEX_SHADER, VERT);
+  var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) { fallback2D(); return; }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { fallback2D(); return; }
+  gl.useProgram(prog);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  var aPos = gl.getAttribLocation(prog, "aPos");
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  var U = {};
+  ["uRes","uTime","uMouseP","uZenith","uHorizon","uLightDir","uLightCol","uDeepA","uDeepB","uStars","uAmp"].forEach(function (n) {
+    U[n] = gl.getUniformLocation(prog, n);
+  });
+  U.uRipples = gl.getUniformLocation(prog, "uRipples") || gl.getUniformLocation(prog, "uRipples[0]");
+
+  var DPR_CAP = 1.5, RES_SCALE = 0.75;
+  var ripples = new Float32Array(MAX_RIPPLES * 4);
+  for (var ri = 0; ri < MAX_RIPPLES; ri++) ripples[ri*4+2] = -100;
+  var rippleIdx = 0;
+  var start = performance.now();
+  var running = true, inView = true;
+  var mouseP = { x: 0, z: 0, tx: 0, tz: 0 };
+  var cw = 1, ch = 1;
+
+  function resize() {
+    var rect = canvas.parentElement.getBoundingClientRect();
+    cw = rect.width; ch = rect.height;
+    var s = Math.min(window.devicePixelRatio || 1, DPR_CAP) * RES_SCALE;
+    canvas.width = Math.max(2, Math.round(cw * s));
+    canvas.height = Math.max(2, Math.round(ch * s));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function now() { return (performance.now() - start) / 1000; }
+
+  /* 画面uv(左上原点) → 水面平面座標（シェーダーのcamRayと同一の数式） */
+  function planeHit(uvx, uvyTop) {
+    var P = 0.32, F = 0.62;
+    var L = Math.sqrt(1 + P*P);
+    var ax = (uvx*2 - 1) * (canvas.width / canvas.height);
+    var ay = ((1 - uvyTop)*2 - 1);
+    var rdx = ax * F;
+    var rdy = -P/L + ay * F * (1/L);
+    var rdz = -1/L + ay * F * (-P/L);
+    var len = Math.sqrt(rdx*rdx + rdy*rdy + rdz*rdz);
+    rdx/=len; rdy/=len; rdz/=len;
+    var t = -2.6 / Math.min(rdy, -0.015);
+    return { x: rdx*t, z: 5.5 + rdz*t };
+  }
+
+  window.__water = {
+    ready: true,
+    ripple: function (uvx, uvy, strength) {
+      var p = planeHit(uvx, uvy);
+      var k = rippleIdx * 4;
+      ripples[k] = p.x; ripples[k+1] = p.z;
+      ripples[k+2] = now();
+      ripples[k+3] = Math.min(strength || 1, 2.6);
+      rippleIdx = (rippleIdx + 1) % MAX_RIPPLES;
+    },
+    setMouse: function (uvx, uvy) {
+      var p = planeHit(uvx, uvy);
+      mouseP.tx = p.x; mouseP.tz = p.z;
+    }
+  };
+
+  document.addEventListener("visibilitychange", function () {
+    running = !document.hidden;
+    if (running && inView) requestAnimationFrame(frame);
+  });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        var was = inView; inView = en.isIntersecting;
+        if (inView && !was && running) requestAnimationFrame(frame);
+      });
+    }, { threshold: 0 }).observe(canvas.parentElement);
+  }
+
+  var drewOnce = false;
+  function frame() {
+    if (!running || !inView) return;
+    if (reduced && drewOnce) return;   /* reduced: 1フレームだけ描いて静止 */
+    drewOnce = true;
+    var t = reduced ? 0.0 : now();
+    mouseP.x += (mouseP.tx - mouseP.x) * 0.06;
+    mouseP.z += (mouseP.tz - mouseP.z) * 0.06;
+    gl.uniform2f(U.uRes, canvas.width, canvas.height);
+    gl.uniform1f(U.uTime, t);
+    gl.uniform2f(U.uMouseP, mouseP.x, mouseP.z);
+    gl.uniform4fv(U.uRipples, ripples);
+    gl.uniform3fv(U.uZenith, PALETTE.zenith);
+    gl.uniform3fv(U.uHorizon, PALETTE.horizon);
+    gl.uniform3fv(U.uLightDir, PALETTE.lightDir);
+    gl.uniform3fv(U.uLightCol, PALETTE.lightCol);
+    gl.uniform3fv(U.uDeepA, PALETTE.deepA);
+    gl.uniform3fv(U.uDeepB, PALETTE.deepB);
+    gl.uniform1f(U.uStars, PALETTE.stars);
+    gl.uniform1f(U.uAmp, PALETTE.amp);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!reduced) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---- WebGL不可時の2Dフォールバック（粒子+波紋） ---- */
+  function fallback2D() {
+    var ctx2 = canvas.getContext("2d");
+    if (!ctx2) { window.__water = { ready:false, ripple:function(){}, setMouse:function(){} }; return; }
+    var ACCENT = "110,168,255";
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0, parts = [], rips = [];
+    function rs(){
+      var r = canvas.parentElement.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W*dpr; canvas.height = H*dpr;
+      ctx2.setTransform(dpr,0,0,dpr,0,0);
+    }
+    function init(){
+      parts.length = 0;
+      var n = Math.min(100, Math.max(40, Math.round(W*H/16000)));
+      for (var i=0;i<n;i++) parts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:.8+Math.random()*1.7,ph:Math.random()*6.28,sp:.004+Math.random()*.008});
+    }
+    rs(); init();
+    window.addEventListener("resize", function(){ rs(); init(); });
+    window.__water = {
+      ready: true,
+      ripple: function(uvx,uvy,s){ rips.push({x:uvx*W,y:uvy*H,r:4,max:80+s*140,a:.14+s*.16,sp:1.1+s*.8}); if(rips.length>40)rips.shift(); },
+      setMouse: function(){}
+    };
+    (function lp(){
+      ctx2.clearRect(0,0,W,H);
+      var i,j,p,q;
+      for(i=0;i<parts.length;i++){p=parts[i];p.ph+=p.sp;p.x+=p.vx+Math.sin(p.ph)*.12;p.y+=p.vy+Math.cos(p.ph*.8)*.08;if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;if(p.y<-20)p.y=H+20;if(p.y>H+20)p.y=-20;}
+      for(i=0;i<parts.length;i++){p=parts[i];for(j=i+1;j<parts.length;j++){q=parts[j];var dx=p.x-q.x,dy=p.y-q.y,d2=dx*dx+dy*dy;if(d2<12100){ctx2.strokeStyle="rgba("+ACCENT+","+((1-Math.sqrt(d2)/110)*.1).toFixed(3)+")";ctx2.lineWidth=.6;ctx2.beginPath();ctx2.moveTo(p.x,p.y);ctx2.lineTo(q.x,q.y);ctx2.stroke();}}}
+      for(i=0;i<parts.length;i++){p=parts[i];ctx2.fillStyle="rgba("+ACCENT+","+(.35+Math.sin(p.ph*2)*.2).toFixed(3)+")";ctx2.beginPath();ctx2.arc(p.x,p.y,p.r,0,6.283);ctx2.fill();}
+      for(i=rips.length-1;i>=0;i--){var rp=rips[i];rp.r+=rp.sp;var lf=1-rp.r/rp.max;if(lf<=0){rips.splice(i,1);continue;}ctx2.strokeStyle="rgba("+ACCENT+","+(rp.a*lf).toFixed(3)+")";ctx2.lineWidth=1;ctx2.beginPath();ctx2.arc(rp.x,rp.y,rp.r,0,6.283);ctx2.stroke();}
+      if (!reduced) requestAnimationFrame(lp);
+    })();
+  }
+})();
+
+/* ==================================================================
+   MOTION KIT  (ローダー / 文字リベール / カウンター / カーソル /
+   ポインター操作: 波紋・石投げ・引き波 / カウントアップ / マグネット)
+   ================================================================== */
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isTouch = window.matchMedia("(pointer: coarse)").matches;
+  var water = function () { return window.__water || { ready: false }; };
+  var hero = document.querySelector(".hero");
+
+  /* ---------- 見出しを1文字ずつ<span>化（要素内テキストも再帰処理） ---------- */
+  (function splitTitle() {
+    var h1 = document.getElementById("heroTitle");
+    if (!h1) return;
+    var delay = 0;
+    function split(node, parent) {
+      if (node.nodeType === 3) {
+        Array.prototype.forEach.call(node.textContent, function (chr) {
+          var s = document.createElement("span");
+          s.className = "ch";
+          s.textContent = chr;
+          s.style.transitionDelay = (0.15 + delay * 0.045) + "s";
+          parent.appendChild(s);
+          delay++;
+        });
+      } else {
+        var clone = node.cloneNode(false);
+        parent.appendChild(clone);
+        Array.prototype.slice.call(node.childNodes).forEach(function (n) { split(n, clone); });
+      }
+    }
+    var nodes = Array.prototype.slice.call(h1.childNodes);
+    h1.textContent = "";
+    nodes.forEach(function (node) { split(node, h1); });
+  })();
+
+  /* ---------- ローダー ---------- */
+  var loader = document.getElementById("loader");
+  var loaderNum = document.getElementById("loaderNum");
+  function easeOutQuart(x){ return 1 - Math.pow(1 - x, 4); }
+  function finishLoader() {
+    if (!loader) return;
+    loaderNum.textContent = "100";
+    document.documentElement.style.setProperty("--load", 1);
+    loader.classList.add("done");
+    document.body.classList.add("is-loaded");
+    var l = loader; loader = null;
+    setTimeout(function(){ l.remove(); }, 1100);
+    /* 演出: 着水の波紋 */
+    setTimeout(function(){ if (water().ready) water().ripple(0.50, 0.66, 1.8); }, 500);
+    setTimeout(function(){ if (water().ready) water().ripple(0.34, 0.58, 0.8); }, 950);
+    setTimeout(function(){ if (water().ready) water().ripple(0.68, 0.52, 0.9); }, 1300);
+  }
+  function runLoader() {
+    if (reduced) { finishLoader(); return; }
+    var t0 = performance.now(), DUR = 1300;
+    (function tick(t){
+      var p = Math.min((t - t0) / DUR, 1);
+      var v = Math.round(easeOutQuart(p) * 100);
+      loaderNum.textContent = (v < 10 ? "0" : "") + v;
+      document.documentElement.style.setProperty("--load", easeOutQuart(p));
+      if (p < 1) requestAnimationFrame(tick); else finishLoader();
+    })(t0);
+  }
+  if (document.readyState === "complete") runLoader();
+  else window.addEventListener("load", runLoader);
+  setTimeout(function(){ if (loader) finishLoader(); }, 4000);
+
+  /* ---------- 波紋カウンター ---------- */
+  var count = 0;
+  var countEl = document.getElementById("rippleCount");
+  function bump(){ count++; if (countEl) countEl.textContent = String(count).padStart(4, "0"); }
+
+  /* すべての波紋はここを通す */
+  function drop(uvx, uvy, strength, silent) {
+    if (!water().ready) return;
+    water().ripple(uvx, uvy, strength);
+    if (!silent) bump();
+  }
+
+  /* ---------- カスタムカーソル ---------- */
+  var cursor = document.getElementById("cursor");
+  var charge = { active: false, t0: 0 };
+  if (isTouch || reduced) {
+    if (cursor) cursor.remove();
+    cursor = null;
+  } else {
+    document.body.classList.add("has-cursor");
+    var cx = innerWidth/2, cy = innerHeight/2, tx = cx, ty = cy;
+    addEventListener("pointermove", function(e){ tx = e.clientX; ty = e.clientY; }, { passive: true });
+    (function loop(){
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      cursor.style.transform = "translate(" + cx + "px," + cy + "px)";
+      if (charge.active) {
+        var d = Math.min((performance.now() - charge.t0) / 1100, 1);
+        cursor.style.setProperty("--charge", d);
+      }
+      requestAnimationFrame(loop);
+    })();
+    document.addEventListener("pointerover", function(e){
+      cursor.classList.toggle("is-hover", !!(e.target.closest && e.target.closest("a, button, summary")));
+    });
+  }
+
+  /* ---------- ポインター操作（波紋 / 長押し石投げ / 引き波） ---------- */
+  function heroUV(e) {
+    var r = hero.getBoundingClientRect();
+    return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height, inside: e.clientY >= r.top && e.clientY <= r.bottom };
+  }
+  function overUI(e) {
+    return !!(e.target && e.target.closest && e.target.closest("header, a, button, nav"));
+  }
+
+  addEventListener("pointermove", function (e) {
+    if (!water().ready) return;
+    var uv = heroUV(e);
+    if (uv.inside) water().setMouse(uv.x, uv.y);
+  }, { passive: true });
+
+  hero.addEventListener("pointerdown", function (e) {
+    if (overUI(e)) return;
+    charge.active = true;
+    charge.t0 = performance.now();
+  });
+
+  addEventListener("pointerup", function (e) {
+    if (!charge.active) return;
+    charge.active = false;
+    if (cursor) cursor.style.setProperty("--charge", 0);
+    if (overUI(e)) return;
+    var uv = heroUV(e);
+    if (!uv.inside) return;
+    var held = Math.min((performance.now() - charge.t0) / 1100, 1);
+    if (held < 0.18) {
+      drop(uv.x, uv.y, 1.15);                 /* クリック＝波紋 */
+    } else {
+      var power = 1.2 + held * 1.4;           /* 長押し＝石を投げる */
+      drop(uv.x, uv.y, power);
+      var n = held > 0.6 ? 3 : 2;             /* 石らしい飛沫 */
+      for (var i = 1; i <= n; i++) {
+        (function (i) {
+          setTimeout(function () {
+            drop(uv.x + (Math.random()-0.5)*0.05, uv.y + (Math.random()-0.5)*0.04, 0.4 + held*0.4, true);
+          }, 90 * i);
+        })(i);
+      }
+    }
+  });
+
+  /* ドラッグで引き波 */
+  var lastWake = 0;
+  hero.addEventListener("pointermove", function (e) {
+    if (e.buttons !== 1 || overUI(e)) return;
+    var t = performance.now();
+    if (t - lastWake > 110) {
+      lastWake = t;
+      var uv = heroUV(e);
+      drop(uv.x, uv.y, 0.35, true);
+    }
+  }, { passive: true });
+
+  /* 自然の雫（たまにぽつり） */
+  (function ambient() {
+    setTimeout(function () {
+      if (!reduced && water().ready && !document.hidden) {
+        drop(0.15 + Math.random()*0.7, 0.55 + Math.random()*0.3, 0.35 + Math.random()*0.25, true);
+      }
+      ambient();
+    }, 5000 + Math.random() * 4000);
+  })();
+
+  /* ---------- ヘッダー背景切替 ---------- */
+  var headerEl = document.getElementById("siteHeader");
+  addEventListener("scroll", function () {
+    headerEl.classList.toggle("scrolled", scrollY > 40);
+  }, { passive: true });
+
+  /* ---------- スクロールリベール ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !reduced) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("on"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("on"); });
+  }
+
+  /* ---------- 数字カウントアップ ---------- */
+  var counters = document.querySelectorAll(".countup");
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute("data-target"), 10);
+    if (reduced || !isFinite(target)) { el.textContent = target.toLocaleString("ja-JP"); return; }
+    var t0 = performance.now(), DUR = 1600;
+    (function tick(t) {
+      var p = Math.min((t - t0) / DUR, 1);
+      el.textContent = Math.round(easeOutQuart(p) * target).toLocaleString("ja-JP");
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  if ("IntersectionObserver" in window && !reduced) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { animateCount(en.target); cio.unobserve(en.target); }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cio.observe(el); });
+  } else {
+    counters.forEach(function (el) { el.textContent = parseInt(el.getAttribute("data-target"), 10).toLocaleString("ja-JP"); });
+  }
+
+  /* ---------- マーキー複製（切れ目なく） ---------- */
+  var track = document.getElementById("marqueeTrack");
+  if (track) track.innerHTML += track.innerHTML;
+
+  /* ---------- カードのホバー光源追従 ---------- */
+  document.querySelectorAll(".card, .funnel-step").forEach(function (card) {
+    card.addEventListener("pointermove", function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
+      card.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+    });
+  });
+
+  /* ---------- マグネティックボタン ---------- */
+  if (!isTouch && !reduced) {
+    document.querySelectorAll(".magnetic").forEach(function (btn) {
+      btn.addEventListener("pointermove", function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width/2);
+        var dy = e.clientY - (r.top + r.height/2);
+        btn.style.transform = "translate(" + dx*0.22 + "px," + dy*0.3 + "px)";
+      });
+      btn.addEventListener("pointerleave", function () {
+        btn.style.transition = "transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .3s";
+        btn.style.transform = "";
+        setTimeout(function(){ btn.style.transition = ""; }, 500);
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
