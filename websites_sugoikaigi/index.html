@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOLO's｜仕組みが、人を自由にする。— 事業ポータル</title>
+<style>
+:root{
+  --accent:#8fb8ff;
+  --accent-deep:#2a56c9;
+  --accent-soft:#dbe7ff;
+  --panel-a:#1e3a6e;
+  --panel-b:#0f1f3d;
+  --ink:#232323;
+  /* 事業カラー */
+  --c-riku:#6ea8ff; --c-riku-a:#17346b; --c-riku-b:#0a1a3a; --c-riku-soft:#ddeaff;
+  --c-guard:#6fe3a8; --c-guard-a:#0d4a30; --c-guard-b:#062617; --c-guard-soft:#dcf7ea;
+  --c-school:#ffb366; --c-school-a:#7a3a0e; --c-school-b:#3c1c06; --c-school-soft:#ffe8d3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:var(--ink);background:#fff;line-height:1.8;overflow-x:clip}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ===== header ===== */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;gap:16px;padding:12px 22px;background:rgba(255,255,255,.94);border-bottom:1px solid rgba(35,35,35,.1);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.brand{font-weight:800;font-size:16px;letter-spacing:.05em;white-space:nowrap}
+.brand em{font-style:italic;color:var(--accent-deep)}
+.gnav{display:flex;gap:14px;margin-left:auto;font-size:12.5px;font-weight:700;flex-wrap:wrap}
+.gnav a{padding:4px 2px;border-bottom:2px solid transparent}
+.gnav a:hover{border-bottom-color:var(--accent)}
+.gnav a[aria-current="page"]{border-bottom-color:var(--accent-deep);color:var(--accent-deep)}
+.head-cta{margin-left:8px;background:var(--ink);color:#fff;font-weight:700;font-size:12.5px;padding:10px 18px;border-radius:2px;white-space:nowrap}
+.head-cta:hover{background:var(--accent-deep)}
+@media(max-width:767px){.gnav{display:none}.head-cta{margin-left:auto}}
+
+/* ===== skewワイプ入場 ===== */
+.wipe{clip-path:polygon(0 0,0 0,0 0,0 0);transition:clip-path 1s ease-out}
+.wipe.in{clip-path:polygon(0 0,220% 0,0 220%,0 0)}
+
+/* ===== hero ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:linear-gradient(125deg,var(--panel-a) 0%,var(--panel-b) 70%);color:#fff;padding:130px 6vw 110px}
+.hero-stripe{position:absolute;top:0;right:0;width:36%;height:100%;background:repeating-linear-gradient(-55deg,var(--accent) 0 10px,transparent 10px 30px);opacity:.2;pointer-events:none}
+.hero-word{position:absolute;left:2vw;bottom:3vh;font-style:italic;font-weight:800;font-size:clamp(56px,12vw,170px);line-height:1;color:rgba(255,255,255,.05);white-space:nowrap;pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:1100px}
+.kicker{display:inline-block;font-style:italic;font-weight:800;letter-spacing:.14em;font-size:13px;color:var(--accent);border:1px solid var(--accent);padding:6px 14px;margin-bottom:26px}
+.hero h1{font-weight:800;font-size:clamp(34px,6.4vw,78px);line-height:1.28;letter-spacing:.02em}
+.hero h1 .line{display:block}
+.hero-lead{margin-top:24px;max-width:660px;font-size:clamp(14px,1.5vw,17px);color:rgba(255,255,255,.88)}
+.hero-cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn-primary{display:inline-block;background:var(--accent);color:var(--panel-b);font-weight:800;font-size:15px;padding:17px 38px;letter-spacing:.05em;box-shadow:6px 6px 0 rgba(0,0,0,.35);transition:transform .2s,box-shadow .2s}
+.btn-primary:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+.btn-ghost{display:inline-block;border:2px solid rgba(255,255,255,.65);color:#fff;font-weight:700;font-size:14px;padding:14px 30px}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+/* ===== ticker ===== */
+.ticker{overflow:hidden;background:var(--ink);color:#fff;padding:16px 0;border-top:4px solid var(--accent)}
+.ticker-track{display:flex;width:max-content;animation:tick var(--tick-duration,40s) linear infinite}
+.ticker-track span{white-space:nowrap;padding:0 26px;font-weight:800;font-size:14px;letter-spacing:.06em}
+.ticker-track span.tk-en{font-style:italic;color:var(--accent)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ===== sections ===== */
+section{padding:96px 6vw;position:relative}
+.sec-inner{max-width:1120px;margin:0 auto}
+.sec-en{font-style:italic;font-weight:800;font-size:clamp(44px,7vw,86px);line-height:1;color:var(--accent-soft)}
+.sec-ttl{font-size:clamp(24px,3.2vw,38px);font-weight:800;margin-top:-16px;position:relative}
+.sec-sub{margin-top:14px;color:#555;max-width:780px}
+
+/* ===== philosophy ===== */
+.philos{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;margin-top:50px;align-items:start}
+.philos-copy p{margin-bottom:16px;font-size:15px}
+.philos-box{background:linear-gradient(140deg,var(--panel-a),var(--panel-b));color:#fff;padding:40px 36px;position:relative}
+.philos-box::before{content:"Y";position:absolute;right:10px;bottom:-24px;font-style:italic;font-weight:800;font-size:130px;line-height:1;color:rgba(255,255,255,.06)}
+.philos-box h3{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:12px;font-style:italic;letter-spacing:.06em}
+.philos-box p{font-size:14px;color:rgba(255,255,255,.88)}
+@media(max-width:860px){.philos{grid-template-columns:1fr}}
+
+/* ===== 交互重なりパネル ===== */
+.stack{display:flex;flex-direction:column;gap:100px;margin-top:80px}
+.panel{position:relative}
+.panel .face{position:absolute;top:0;bottom:-36px;left:0;width:60%;z-index:0}
+.panel:nth-child(even) .face{left:auto;right:0}
+.panel .num{position:absolute;top:-54px;left:1%;z-index:2;font-style:italic;font-weight:800;font-size:clamp(64px,9vw,116px);line-height:1;opacity:.92}
+.panel:nth-child(even) .num{left:auto;right:1%}
+.panel .card{position:relative;z-index:1;width:min(560px,54%);margin-left:auto;margin-top:64px;color:#fff;padding:44px 42px 40px}
+.panel:nth-child(even) .card{margin-left:0;margin-right:auto}
+.card .card-en{font-style:italic;font-weight:800;letter-spacing:.12em;font-size:12px}
+.card h3{font-size:clamp(20px,2.4vw,27px);font-weight:800;margin:8px 0 14px}
+.card p{font-size:14px;color:rgba(255,255,255,.86)}
+.card .card-link{display:inline-block;margin-top:24px;font-weight:800;font-size:13px;padding-bottom:3px;border-bottom:2px solid currentColor}
+.card .card-link:hover{opacity:.75}
+@media(max-width:767px){
+  .stack{gap:60px}
+  .panel .face{position:relative;width:100%;height:140px;bottom:auto}
+  .panel .num{top:-30px;font-size:60px}
+  .panel .card{width:100%;margin:0}
+}
+/* パネル別カラー */
+.p-hp .num{color:var(--accent-deep)}
+.p-hp .face{background:repeating-linear-gradient(-55deg,rgba(255,255,255,.35) 0 12px,transparent 12px 30px),linear-gradient(120deg,var(--accent),var(--accent-soft))}
+.p-hp .card{background:linear-gradient(140deg,var(--panel-a),var(--panel-b))}
+.p-hp .card-en,.p-hp .card-link{color:var(--accent)}
+.p-riku .num{color:#1f5fd6}
+.p-riku .face{background:radial-gradient(rgba(255,255,255,.55) 2.2px,transparent 2.6px),linear-gradient(160deg,var(--c-riku),var(--c-riku-soft));background-size:22px 22px,auto}
+.p-riku .card{background:linear-gradient(140deg,var(--c-riku-a),var(--c-riku-b))}
+.p-riku .card-en,.p-riku .card-link{color:var(--c-riku)}
+.p-guard .num{color:#0e8f56}
+.p-guard .face{background:linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(135deg,var(--c-guard),var(--c-guard-soft));background-size:26px 26px,26px 26px,auto}
+.p-guard .card{background:linear-gradient(140deg,var(--c-guard-a),var(--c-guard-b))}
+.p-guard .card-en,.p-guard .card-link{color:var(--c-guard)}
+.p-school .num{color:#d96a12}
+.p-school .face{background:repeating-linear-gradient(45deg,rgba(255,255,255,.3) 0 18px,transparent 18px 36px),linear-gradient(200deg,var(--c-school),var(--c-school-soft))}
+.p-school .card{background:linear-gradient(140deg,var(--c-school-a),var(--c-school-b))}
+.p-school .card-en,.p-school .card-link{color:var(--c-school)}
+
+/* ===== 実績 ===== */
+.results{background:linear-gradient(140deg,var(--panel-a),var(--panel-b));color:#fff}
+.results .sec-en{color:rgba(255,255,255,.08)}
+.results .sec-sub{color:rgba(255,255,255,.8)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:50px}
+.stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);padding:32px 18px;text-align:center;position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:var(--accent)}
+.stat b{display:block;font-style:italic;font-weight:800;font-size:clamp(24px,2.8vw,36px);color:var(--accent);line-height:1.3}
+.stat small{display:block;margin-top:10px;font-size:12.5px;color:rgba(255,255,255,.8);font-weight:700}
+@media(max-width:860px){.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}}
+
+/* ===== footer ===== */
+.site-footer{background:#181818;color:#fff;padding:64px 6vw 30px}
+.foot-grid{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:44px;justify-content:space-between}
+.foot-brand{font-weight:800;font-size:20px}
+.foot-brand em{font-style:italic;color:var(--accent)}
+.foot-brand p{font-size:12.5px;font-weight:400;color:rgba(255,255,255,.65);margin-top:10px;max-width:320px}
+.foot-nav{display:flex;flex-direction:column;gap:10px;font-size:13.5px}
+.foot-nav a:hover{color:var(--accent)}
+.foot-head{font-style:italic;font-weight:800;font-size:12px;letter-spacing:.14em;color:var(--accent);margin-bottom:4px}
+.copyright{max-width:1120px;margin:44px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);font-size:12px;color:rgba(255,255,255,.6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* ===== reduced motion ===== */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .wipe{clip-path:none;transition:none}
+  .ticker-track{animation:none}
+  [data-plx]{transform:none !important}
+  .btn-primary{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">YOLO's <em>PORTAL</em></a>
+  <nav class="gnav" aria-label="サイト共通ナビゲーション">
+    <a href="index.html" aria-current="page">HOME</a>
+    <a href="yolos_hp.html">YOLO's（会社案内）</a>
+    <a href="yoroliku_lp.html">ヨロリク</a>
+    <a href="yologuard_lp.html">ヨロガード</a>
+    <a href="yologuard_school_lp.html">ヨロガードスクール</a>
+  </nav>
+  <a class="head-cta" href="yolos_hp.html#contact">お問い合わせ</a>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-stripe" data-plx="0.06"></div>
+  <p class="hero-word">You Only Live Once.</p>
+  <div class="hero-inner">
+    <span class="kicker wipe">YOLO's OFFICIAL PORTAL</span>
+    <h1>
+      <span class="line wipe" style="transition-delay:.1s">仕組みが、</span>
+      <span class="line wipe" style="transition-delay:.3s">人を自由にする。</span>
+    </h1>
+    <p class="hero-lead wipe" style="transition-delay:.5s">
+      YOLO＝You Only Live Once。一度きりの人生の時間を、消耗ではなく創造に使うために。
+      株式会社YOLO'sは、採用・経理・教育の現場に「積み上がる仕組み」をつくる会社です。
+      ここは4つの事業の入口。あなたの課題に合う扉から、お入りください。
+    </p>
+    <div class="hero-cta wipe" style="transition-delay:.7s">
+      <a class="btn-primary" href="#sites">4つの事業を見る</a>
+      <a class="btn-ghost" href="yolos_hp.html">コーポレートサイトへ</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>支援アカウント50社以上</span><span class="tk-en">SNS RECRUITING</span>
+    <span>累計再生3億回以上</span><span class="tk-en">AI ACTIVATION</span>
+    <span>動画制作5,000本以上</span><span class="tk-en">BACK OFFICE</span>
+    <span>最短3ヶ月での応募達成50件以上</span><span class="tk-en">YOU ONLY LIVE ONCE</span>
+    <span>SNS採用</span><span class="tk-en">RECRUITMENT MEDIA</span>
+    <span>経理BPO</span><span class="tk-en">ACCOUNTING EDUCATION</span>
+  </div>
+</div>
+
+<!-- ===== PHILOSOPHY ===== -->
+<section id="philosophy">
+  <div class="sec-inner">
+    <p class="sec-en">Philosophy</p>
+    <h2 class="sec-ttl wipe">「払い続ける」を、「積み上がる」に。</h2>
+    <div class="philos">
+      <div class="philos-copy">
+        <p>
+          採用にお金を払い続ける。経理を特定の誰かに頼り続ける。学んだのに、活かす場所がないまま時間だけが過ぎていく。
+          多くの会社と個人が抱えるこの消耗は、「仕組みがない」ことから生まれています。
+        </p>
+        <p>
+          YOLO'sがつくるのは、続けるほど資産になる仕組みです。SNSを企業の採用メディア資産に変える。
+          経理を経営の武器に変える。学びを「売れる商品」に変える。すべての事業に、同じ哲学が流れています。
+        </p>
+        <p class="wipe">
+          <strong>一度きりの人生。人の時間は、仕組みで守る。</strong>
+        </p>
+      </div>
+      <div class="philos-box wipe">
+        <h3>OUR STANCE</h3>
+        <p>
+          労働集約からの脱却。属人化からの解放。私たちは「人が頑張り続けないと回らない状態」を課題と捉え、
+          SNS・AI・業務設計の力で、人が本来やるべき仕事に集中できる環境をつくります。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SITES ===== -->
+<section id="sites" style="background:#f6f8fc">
+  <div class="sec-inner">
+    <p class="sec-en">Our Businesses</p>
+    <h2 class="sec-ttl wipe">4つの扉。</h2>
+    <p class="sec-sub">課題に合わせて、専用サイトをご用意しています。それぞれの事業が独立したサービスとして、あなたの「払い続ける」を終わらせにいきます。</p>
+
+    <div class="stack">
+      <!-- 01 コーポレート -->
+      <article class="panel p-hp">
+        <div class="face wipe" data-plx="0.04"></div>
+        <p class="num">01</p>
+        <div class="card wipe">
+          <p class="card-en">CORPORATE</p>
+          <h3>株式会社YOLO's（会社案内）</h3>
+          <p>
+            会社の全体像はこちらから。ビジョン、4つの事業、実績、代表メッセージ、会社概要をまとめたコーポレートサイトです。
+            「YOLO'sってどんな会社？」に、まずここで答えます。
+          </p>
+          <a class="card-link" href="yolos_hp.html">コーポレートサイトを見る →</a>
+        </div>
+      </article>
+
+      <!-- 02 ヨロリク -->
+      <article class="panel p-riku">
+        <div class="face wipe" data-plx="0.04"></div>
+        <p class="num">02</p>
+        <div class="card wipe">
+          <p class="card-en">SNS RECRUITING</p>
+          <h3>ヨロリク — 採用活動を、辞める。</h3>
+          <p>
+            求人媒体に払い続けるお金を、積み上がる「採用メディア資産」へ。TikTokを軸にしたSNS採用支援で、
+            建設・不動産・運送など現場を支える企業の採用を変えます。
+          </p>
+          <a class="card-link" href="yoroliku_lp.html">ヨロリクのサイトを見る →</a>
+        </div>
+      </article>
+
+      <!-- 03 ヨロガード -->
+      <article class="panel p-guard">
+        <div class="face wipe" data-plx="0.04"></div>
+        <p class="num">03</p>
+        <div class="card wipe">
+          <p class="card-en">ACCOUNTING BPO</p>
+          <h3>ヨロガード — 経理を、経営の武器に。</h3>
+          <p>
+            属人化した経理、忙殺される経営陣。ヨロガードは経理BPOと管理部長代行で、数字が「経営判断の材料」として
+            機能するバックオフィスをつくります。
+          </p>
+          <a class="card-link" href="yologuard_lp.html">ヨロガードのサイトを見る →</a>
+        </div>
+      </article>
+
+      <!-- 04 スクール -->
+      <article class="panel p-school">
+        <div class="face wipe" data-plx="0.04"></div>
+        <p class="num">04</p>
+        <div class="card wipe">
+          <p class="card-en">ACCOUNTING SCHOOL</p>
+          <h3>ヨロガードスクール — 学びを、売れる商品に。</h3>
+          <p>
+            学んだのに「売る商品」がない。そんなあなたのための、経理を武器にする学校です。
+            AIに消えない×景気に強い"手放せる鉄板ビジネス"を、段階設計で身につけます。
+          </p>
+          <a class="card-link" href="yologuard_school_lp.html">スクールのサイトを見る →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESULTS ===== -->
+<section class="results">
+  <div class="sec-inner">
+    <p class="sec-en">Track Record</p>
+    <h2 class="sec-ttl wipe">数字で見るYOLO's。</h2>
+    <p class="sec-sub">SNS採用支援の現場で積み上げてきた実績です。</p>
+    <div class="stats">
+      <div class="stat wipe"><b>50社以上</b><small>支援アカウント</small></div>
+      <div class="stat wipe" style="transition-delay:.15s"><b>3億回以上</b><small>累計再生</small></div>
+      <div class="stat wipe" style="transition-delay:.3s"><b>5,000本以上</b><small>動画制作</small></div>
+      <div class="stat wipe" style="transition-delay:.45s"><b>最短3ヶ月</b><small>での応募達成50件以上</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      YOLO's <em>PORTAL</em>
+      <p>仕組みが、人を自由にする。株式会社YOLO'sの事業ポータルサイトです。</p>
+    </div>
+    <nav class="foot-nav" aria-label="姉妹サイト">
+      <p class="foot-head">FAMILY SITES</p>
+      <a href="index.html">事業ポータル（HOME）</a>
+      <a href="yolos_hp.html">株式会社YOLO's コーポレートサイト</a>
+      <a href="yoroliku_lp.html">ヨロリク（SNS採用支援）</a>
+      <a href="yologuard_lp.html">ヨロガード（経理BPO・管理部長代行）</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール（経理教育）</a>
+    </nav>
+    <nav class="foot-nav" aria-label="このページ内">
+      <p class="foot-head">MENU</p>
+      <a href="#philosophy">私たちの哲学</a>
+      <a href="#sites">4つの事業</a>
+      <a href="yolos_hp.html#contact">お問い合わせ</a>
+    </nav>
+  </div>
+  <div class="copyright">
+    <span>© 株式会社YOLO's</span>
+    <span>You Only Live Once.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 1. skewワイプ入場（IntersectionObserver） */
+  var wipes = document.querySelectorAll('.wipe');
+  if (reduce || !('IntersectionObserver' in window)) {
+    wipes.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0});
+    wipes.forEach(function(el){ io.observe(el); });
+  }
+
+  /* 2. 無限ティッカー（複製＋速度をCSS変数へ注入） */
+  document.querySelectorAll('.ticker-track').forEach(function(track){
+    track.innerHTML += track.innerHTML;
+    if (!reduce) {
+      var half = track.scrollWidth / 2;
+      track.style.setProperty('--tick-duration', (half / 80).toFixed(1) + 's');
+    }
+  });
+
+  /* 3. 軽量パララックス（scroll + requestAnimationFrame） */
+  if (!reduce) {
+    var els = Array.prototype.slice.call(document.querySelectorAll('[data-plx]'));
+    var queued = false;
+    function update(){
+      queued = false;
+      var vh = window.innerHeight;
+      els.forEach(function(el){
+        var r = el.getBoundingClientRect();
+        var center = r.top + r.height / 2 - vh / 2;
+        el.style.transform = 'translateY(' + (-center * parseFloat(el.dataset.plx)).toFixed(1) + 'px)';
+      });
+    }
+    window.addEventListener('scroll', function(){
+      if (!queued) { queued = true; window.requestAnimationFrame(update); }
+    }, {passive:true});
+    update();
+  }
+})();
+</script>
+</body>
+</html>

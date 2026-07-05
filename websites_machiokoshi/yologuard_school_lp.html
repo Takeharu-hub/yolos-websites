@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヨロガードスクール｜学んだのに、"売る商品"がないあなたへ。経理を仕事にする学校</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#f7f6f5;
+  --ink:#39362f;
+  --sub:#6f6a62;
+  --line:#e6e2db;
+  --main:#ffb366;
+  --deep:#b25f1a;
+  --tint:#fdf1e4;
+  --tint2:#fef8f0;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.9;font-size:16px;
+}
+a{color:inherit;text-decoration:none}
+svg{display:block;max-width:100%;height:auto}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+.site-header{position:sticky;top:0;z-index:50;background:rgba(247,246,245,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hd-in{max-width:1160px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:.02em;line-height:1.3}
+.brand-name small{display:block;font-size:10px;font-weight:600;color:var(--sub);letter-spacing:.18em}
+.gnav{display:flex;gap:20px;font-size:13px;font-weight:700;color:var(--sub);white-space:nowrap}
+.gnav a{transition:color .2s}
+.gnav a:hover{color:var(--deep)}
+.btn{display:inline-block;background:var(--deep);color:#fff;border-radius:999px;padding:11px 26px;font-weight:700;font-size:14px;line-height:1.4;transition:transform .25s ease,box-shadow .25s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(178,95,26,.3)}
+.btn.big{padding:16px 46px;font-size:16px}
+@media(max-width:767px){.gnav{display:none}.brand-name{font-size:15px}}
+
+.hero{background:linear-gradient(180deg,#fde8d2 0%,#fdf3e6 62%,var(--bg) 100%);overflow:hidden}
+.hero-copy{max-width:1080px;margin:0 auto;padding:70px 24px 4px;text-align:center}
+.hero-copy .en{font-size:12px;font-weight:700;letter-spacing:.3em;color:var(--deep);margin-bottom:14px}
+.hero-copy h1{font-size:clamp(28px,5.4vw,52px);font-weight:800;letter-spacing:.04em;line-height:1.6}
+.hero-copy p.lead{margin:20px auto 0;max-width:700px;color:var(--sub);font-size:15.5px}
+.hero-copy .fv-points{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px}
+.hero-copy .fv-points span{background:#fff;border:1px solid var(--line);color:var(--deep);font-size:12.5px;font-weight:700;border-radius:999px;padding:7px 16px}
+.hero-copy .cta{margin-top:28px}
+.hero-copy .cta .sub{display:block;margin-top:10px;font-size:12px;color:var(--sub)}
+.hero-scene{margin-top:8px}
+.hero-scene svg{width:100%;height:auto}
+
+@keyframes drift{from{transform:translateX(-320px)}to{transform:translateX(1560px)}}
+.cloud{animation:drift 60s linear infinite}
+.cloud.c2{animation-duration:78s;animation-delay:-36s}
+.cloud.c3{animation-duration:66s;animation-delay:-52s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sunrays{animation:spin 70s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blink{0%,58%,100%{opacity:.25}66%,90%{opacity:1}}
+.win{opacity:.25;animation:blink 5.4s ease-in-out infinite}
+.win.d1{animation-delay:1.2s}
+.win.d2{animation-delay:2.4s}
+.win.d3{animation-delay:3.5s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.floaty{animation:floaty 6s ease-in-out infinite}
+.floaty.f2{animation-delay:2s}
+@keyframes wave{0%,100%{transform:rotate(0deg)}50%{transform:rotate(14deg)}}
+.flagcloth{animation:wave 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
+@keyframes growup{0%,15%{transform:scaleY(.2)}60%,100%{transform:scaleY(1)}}
+.sprout{animation:growup 7s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+@keyframes pageflip{0%,45%,100%{transform:scaleX(1)}55%,90%{transform:scaleX(-.9)}}
+.bookpage{animation:pageflip 6s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
+
+section.block{padding:88px 0}
+section.block.tint{background:var(--tint)}
+.sec-head{text-align:center;margin-bottom:48px}
+.sec-head .en{font-size:11px;font-weight:700;letter-spacing:.28em;color:var(--deep)}
+.sec-head h2{font-size:clamp(22px,3.6vw,32px);font-weight:800;letter-spacing:.06em;margin-top:6px}
+.sec-head p.note{color:var(--sub);font-size:14px;margin-top:14px;max-width:680px;margin-left:auto;margin-right:auto}
+
+.badge-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.badge{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 30px;text-align:center;min-width:250px;flex:0 1 320px;transition:transform .3s ease,box-shadow .3s ease}
+.badge:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(120,80,40,.12)}
+.badge .num{font-size:clamp(26px,3.4vw,36px);font-weight:800;color:var(--deep);line-height:1.4}
+.badge .num small{font-size:14px;font-weight:700}
+.badge h3{font-size:15px;font-weight:800;margin-top:4px}
+.badge .src{font-size:11px;color:var(--sub);margin-top:8px}
+
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.pain-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 28px;transition:transform .3s ease,box-shadow .3s ease}
+.pain-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(120,80,40,.12)}
+.pain-card h3{font-size:16.5px;font-weight:800;line-height:1.7}
+.pain-card p{font-size:14px;color:var(--sub);margin-top:12px}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;align-items:stretch}
+.step{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s ease,box-shadow .3s ease}
+.step:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(120,80,40,.13)}
+.step .step-tag{background:var(--deep);color:#fff;font-size:11px;font-weight:800;letter-spacing:.18em;text-align:center;padding:8px}
+.step .body{padding:24px 24px 28px;display:flex;flex-direction:column;flex:1}
+.step h3{font-size:16.5px;font-weight:800;line-height:1.7}
+.step p.desc{font-size:13.5px;color:var(--sub);margin-top:10px;flex:1}
+.step.s2 .step-tag{background:#c77a2e}
+.step.s3 .step-tag{background:#a5561a}
+.step.s4 .step-tag{background:#8a4512}
+.step .pav{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.step .pav span{background:var(--tint);color:var(--deep);border-radius:999px;font-size:11.5px;font-weight:700;padding:4px 12px}
+
+.safety{background:#fff;border:1px solid var(--line);border-radius:22px;padding:38px 34px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.safety .ico{flex:0 0 80px}
+.safety .txt{flex:1;min-width:250px}
+.safety h3{font-size:18px;font-weight:800}
+.safety p{font-size:14px;color:var(--sub);margin-top:10px}
+.safety .path{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px;font-size:13.5px;font-weight:800}
+.safety .path .node{background:var(--tint);color:var(--deep);border-radius:999px;padding:8px 20px}
+.safety .path .arrow{color:var(--sub)}
+
+.honest{background:linear-gradient(180deg,#fff 0%,var(--tint2) 100%);border:2px solid var(--main);border-radius:22px;padding:40px 36px;text-align:center;max-width:760px;margin:0 auto}
+.honest .en{font-size:11px;font-weight:700;letter-spacing:.28em;color:var(--deep)}
+.honest h3{font-size:clamp(19px,2.8vw,24px);font-weight:800;margin-top:8px;line-height:1.8}
+.honest p{font-size:14px;color:var(--sub);margin-top:14px}
+.honest strong{color:var(--deep)}
+
+.cta-band{background:var(--deep);color:#fff;text-align:center;padding:80px 24px}
+.cta-band h2{font-size:clamp(22px,3.6vw,32px);font-weight:800;letter-spacing:.06em}
+.cta-band p{margin:16px auto 0;max-width:640px;font-size:14.5px;opacity:.92}
+.cta-band .btn{background:#fff;color:var(--deep);margin-top:32px}
+.cta-band .btn:hover{box-shadow:0 10px 26px rgba(0,0,0,.28)}
+.cta-band .sub{display:block;margin-top:12px;font-size:12px;opacity:.8}
+
+footer{background:#2b2925;color:#d8d4cd;padding:56px 0 30px}
+.ft-in{max-width:1080px;margin:0 auto;padding:0 24px}
+.ft-title{font-weight:800;color:#fff;font-size:16px}
+.ft-links{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:18px;font-size:13.5px}
+.ft-links a{opacity:.85;transition:opacity .2s}
+.ft-links a:hover{opacity:1;text-decoration:underline}
+.copy{margin-top:34px;font-size:11.5px;opacity:.6}
+
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.on{opacity:1;transform:none}
+#toTop{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;background:var(--deep);color:#fff;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60;box-shadow:0 8px 20px rgba(178,95,26,.3)}
+#toTop.show{opacity:1;pointer-events:auto}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+  .sprout{transform:scaleY(1)}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="hd-in">
+    <a class="brand" href="yologuard_school_lp.html" aria-label="ヨロガードスクール トップへ">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 4 L38 11 L20 18 L2 11Z" fill="#b25f1a"/>
+        <path d="M10 15 V22 C10 26 14 29 20 29 C26 29 30 26 30 22 V15" fill="none" stroke="#ffb366" stroke-width="4" stroke-linecap="round"/>
+        <line x1="38" y1="12" x2="38" y2="23" stroke="#b25f1a" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-name">ヨロガードスクール<small>KEIRI CAREER SCHOOL</small></span>
+    </a>
+    <nav class="gnav" aria-label="姉妹サイト">
+      <a href="index.html">ポータル</a>
+      <a href="yolos_hp.html">運営会社</a>
+      <a href="yoroliku_lp.html">ヨロリク</a>
+      <a href="yologuard_lp.html">ヨロガード</a>
+    </nav>
+    <a class="btn" href="#cta">無料セミナー</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-copy">
+    <p class="en">KEIRI CAREER SCHOOL "YOLOGUARD SCHOOL"</p>
+    <h1>学んだのに、<br>"売る商品"がないあなたへ。</h1>
+    <p class="lead">未経験から半年で「時給3,500円の経理部長」の型を身につけ、最終的には手放す。AIに消えない×景気に強い"手放せる鉄板ビジネス"を、経理で持つための学校です。</p>
+    <div class="fv-points">
+      <span>経理リーダー不足67.8%（帝国データバンク2025）</span>
+      <span>補助金70%還元対象</span>
+    </div>
+    <p class="cta">
+      <a class="btn big" href="#">無料「学び直しセミナー」にLINEで参加する</a><!-- リンク後日差し替え -->
+      <span class="sub">セミナーは無料です。LINE登録後、開催日程をご案内します。</span>
+    </p>
+  </div>
+  <div class="hero-scene" aria-hidden="true">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" role="img" aria-label="学びが育つキャンパスのイラスト">
+      <g class="sunrays">
+        <g stroke="#ffce7a" stroke-width="4" stroke-linecap="round">
+          <line x1="110" y1="20" x2="110" y2="36"/>
+          <line x1="110" y1="120" x2="110" y2="136"/>
+          <line x1="52" y1="78" x2="68" y2="78"/>
+          <line x1="152" y1="78" x2="168" y2="78"/>
+          <line x1="70" y1="38" x2="81" y2="49"/>
+          <line x1="139" y1="107" x2="150" y2="118"/>
+          <line x1="150" y1="38" x2="139" y2="49"/>
+          <line x1="81" y1="107" x2="70" y2="118"/>
+        </g>
+      </g>
+      <circle cx="110" cy="78" r="30" fill="#ffd98a"/>
+      <g class="cloud" fill="#ffffff" opacity=".95">
+        <ellipse cx="60" cy="60" rx="46" ry="17"/><ellipse cx="96" cy="50" rx="30" ry="14"/>
+      </g>
+      <g class="cloud c2" fill="#ffffff" opacity=".8">
+        <ellipse cx="20" cy="126" rx="38" ry="14"/><ellipse cx="50" cy="118" rx="24" ry="11"/>
+      </g>
+      <g class="cloud c3" fill="#ffffff" opacity=".7">
+        <ellipse cx="40" cy="28" rx="30" ry="11"/><ellipse cx="64" cy="22" rx="18" ry="8"/>
+      </g>
+      <!-- floating open book -->
+      <g class="floaty">
+        <path d="M930 100 L980 88 L980 138 L930 150Z" fill="#fff" stroke="#e0a94f" stroke-width="3"/>
+        <path d="M1030 100 L980 88 L980 138 L1030 150Z" fill="#fdf1e4" stroke="#e0a94f" stroke-width="3"/>
+        <g class="bookpage">
+          <path d="M980 88 L1016 96 L1016 142 L980 138Z" fill="#fff" stroke="#e0a94f" stroke-width="2"/>
+        </g>
+      </g>
+      <!-- floating graduation cap -->
+      <g class="floaty f2">
+        <path d="M830 150 L886 168 L830 186 L774 168Z" fill="#b25f1a"/>
+        <rect x="822" y="182" width="16" height="18" rx="3" fill="#8a4512"/>
+        <line x1="886" y1="170" x2="886" y2="196" stroke="#8a4512" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="886" cy="199" r="4" fill="#ffb366"/>
+      </g>
+      <ellipse cx="240" cy="330" rx="340" ry="66" fill="#efe4d3"/>
+      <ellipse cx="1000" cy="336" rx="360" ry="70" fill="#f2e8d9"/>
+      <rect x="0" y="300" width="1200" height="100" fill="#ecdfc9"/>
+      <!-- school building -->
+      <g>
+        <rect x="480" y="130" width="220" height="170" rx="10" fill="#ffb366"/>
+        <path d="M470 132 L590 78 L710 132Z" fill="#b25f1a"/>
+        <rect x="574" y="96" width="32" height="36" rx="4" fill="#fff" opacity=".9"/>
+        <circle cx="590" cy="114" r="10" fill="#fdf1e4" stroke="#b25f1a" stroke-width="3"/>
+        <line x1="590" y1="114" x2="590" y2="107" stroke="#b25f1a" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="590" y1="114" x2="596" y2="117" stroke="#b25f1a" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="500" y="160" width="24" height="18" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="540" y="160" width="24" height="18" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="616" y="160" width="24" height="18" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="656" y="160" width="24" height="18" rx="3" class="win d3" fill="#fffbe8"/>
+        <rect x="500" y="196" width="24" height="18" rx="3" class="win d3" fill="#fffbe8"/>
+        <rect x="540" y="196" width="24" height="18" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="616" y="196" width="24" height="18" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="656" y="196" width="24" height="18" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="568" y="242" width="44" height="58" rx="5" fill="#8a4512"/>
+        <circle cx="604" cy="272" r="3.5" fill="#ffd98a"/>
+      </g>
+      <!-- flag pole -->
+      <g>
+        <line x1="740" y1="150" x2="740" y2="300" stroke="#9c7a54" stroke-width="6" stroke-linecap="round"/>
+        <g class="flagcloth">
+          <path d="M743 152 L800 162 L743 176Z" fill="#b25f1a"/>
+        </g>
+      </g>
+      <!-- pavilion tents (industry pavilions) -->
+      <g>
+        <path d="M180 260 L240 226 L300 260 V300 H180Z" fill="#f2b56f"/>
+        <path d="M180 260 L240 226 L300 260Z" fill="#c77a2e"/>
+        <rect x="226" y="268" width="28" height="32" rx="4" fill="#8a4512"/>
+        <path d="M330 266 L380 238 L430 266 V300 H330Z" fill="#f6c88f"/>
+        <path d="M330 266 L380 238 L430 266Z" fill="#d98d3f"/>
+        <rect x="368" y="272" width="24" height="28" rx="4" fill="#8a4512"/>
+      </g>
+      <!-- growing sprout in planter -->
+      <g>
+        <rect x="1060" y="272" width="80" height="28" rx="6" fill="#9c7a54"/>
+        <g class="sprout">
+          <path d="M1100 272 V232" stroke="#3fa374" stroke-width="6" stroke-linecap="round"/>
+          <path d="M1100 244 C1088 238 1082 226 1084 214 C1096 218 1102 228 1100 244Z" fill="#7dbd78"/>
+          <path d="M1100 236 C1112 230 1118 218 1116 206 C1104 210 1098 220 1100 236Z" fill="#8fc98a"/>
+        </g>
+      </g>
+      <!-- trees -->
+      <g>
+        <rect x="110" y="272" width="8" height="28" fill="#9c7a54"/><circle cx="114" cy="262" r="20" fill="#8fc98a"/>
+        <rect x="1160" y="274" width="8" height="26" fill="#9c7a54"/><circle cx="1164" cy="264" r="18" fill="#7dbd78"/>
+      </g>
+      <!-- path -->
+      <rect x="0" y="326" width="1200" height="40" fill="#e3d3ba"/>
+      <line x1="0" y1="346" x2="1200" y2="346" stroke="#ffffff" stroke-width="4" stroke-dasharray="26 22"/>
+      <ellipse cx="150" cy="392" rx="70" ry="16" fill="#e0d0b4"/>
+      <ellipse cx="1050" cy="392" rx="80" ry="16" fill="#e0d0b4"/>
+    </svg>
+  </div>
+</div>
+
+<section class="block" id="pain">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">PROBLEM</p>
+      <h2>「学び」で終わって、「商売」にならない</h2>
+      <p class="note">資格、動画教材、スクール。学ぶこと自体はやってきた。でも、その学びを「お金を払ってもらえる商品」に変える方法は、誰も教えてくれなかった——そんな悩みに応える学校です。</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <h3>学んだスキルが<br>収入につながらない</h3>
+        <p>知識は増えたのに、「で、何を売ればいいの？」が分からない。学びを商品に変換する型がないまま、次の教材を探し続けてしまう。</p>
+      </div>
+      <div class="pain-card reveal">
+        <h3>AIに仕事を奪われないか<br>不安がある</h3>
+        <p>単純作業はどんどんAIに置き換わっていく時代。だからこそ「AIを使いこなして経営者に貢献する側」に回るスキルを選ぶ必要があります。</p>
+      </div>
+      <div class="pain-card reveal">
+        <h3>景気に左右されない<br>安定した武器がほしい</h3>
+        <p>経理は、会社が存続する限りなくならない仕事。好況でも不況でも必要とされ続ける、生活の土台になる領域です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block tint" id="reason">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">WHY KEIRI</p>
+      <h2>なぜ、いま「経理」なのか</h2>
+      <p class="note">市場が人材を求めているのに、担い手が足りない。だから未経験からでも入り込む余地が大きい領域です。</p>
+    </div>
+    <div class="badge-row">
+      <div class="badge reveal">
+        <p class="num">67.8<small>%</small></p>
+        <h3>経理リーダー人材が不足</h3>
+        <p class="src">出典: 帝国データバンク（2025）</p>
+      </div>
+      <div class="badge reveal">
+        <p class="num">70<small>%</small></p>
+        <h3>補助金の還元対象</h3>
+        <p class="src">受講条件により適用。詳細はセミナーでご説明します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="curriculum">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">CURRICULUM</p>
+      <h2>「時給3,500円の経理部長」の型を、4段階で身につける</h2>
+      <p class="note">教科書を読む座学ではありません。実在の業種・実在の案件を想定した、実戦形式の学びの設計です。</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <p class="step-tag">STEP 1</p>
+        <div class="body">
+          <h3>業種パビリオンで学ぶ</h3>
+          <p class="desc">業種ごとにお金の流れも経理の勘所も違います。代表的な4業種の「パビリオン」を巡りながら、業種別の経理実務を体で覚えます。</p>
+          <div class="pav"><span>飲食</span><span>EC</span><span>建設</span><span>SaaS</span></div>
+        </div>
+      </div>
+      <div class="step s2 reveal">
+        <p class="step-tag">STEP 2</p>
+        <div class="body">
+          <h3>社長AIロールプレイ</h3>
+          <p class="desc">AIが演じる「社長」を相手に、月次報告や資金繰りの相談をロールプレイ。経営者との対話力を、失敗しても安全な環境で何度でも鍛えます。</p>
+        </div>
+      </div>
+      <div class="step s3 reveal">
+        <p class="step-tag">STEP 3</p>
+        <div class="body">
+          <h3>実案件OJT</h3>
+          <p class="desc">学んだ型を、実際の案件で実践するOJTフェーズ。現場のフィードバックを受けながら、「商品として通用する品質」まで磨き込みます。</p>
+        </div>
+      </div>
+      <div class="step s4 reveal">
+        <p class="step-tag">STEP 4</p>
+        <div class="body">
+          <h3>手放れ（仕組み化）</h3>
+          <p class="desc">最終ゴールは、自分が手を動かし続けることではなく「手放すこと」。業務を仕組み化して引き継げる状態を作り、次の案件・次の展開に進みます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block tint" id="safety">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">SAFETY NET</p>
+      <h2>いきなり独立させない、段階設計</h2>
+    </div>
+    <div class="safety reveal">
+      <svg class="ico" viewBox="0 0 80 80" width="80" height="80" aria-hidden="true">
+        <path d="M40 6 L70 18 V40 C70 58 56 68 40 74 C24 68 10 58 10 40 V18Z" fill="#ffb366"/>
+        <path d="M26 40 L36 50 L56 28" fill="none" stroke="#8a4512" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="txt">
+        <h3>「まず雇用で安定 → 独立で手放す」</h3>
+        <p>収入の土台がないまま独立を煽ることはしません。まずは雇用された経理人材として安定した収入を確保し、型が身についてから、独立して仕組みを手放すステップへ。生活を壊さずにキャリアを乗り換えるための順番を設計しています。</p>
+        <div class="path">
+          <span class="node">学ぶ</span><span class="arrow">→</span>
+          <span class="node">雇用で安定</span><span class="arrow">→</span>
+          <span class="node">独立で手放す</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="honest">
+  <div class="wrap">
+    <div class="honest reveal">
+      <p class="en">OUR PROMISE</p>
+      <h3>私たちは「必ず稼げる」とは言いません。</h3>
+      <p>収入は、本人の行動量と市場の状況に左右されます。だから私たちが断定するのは、<strong>「何が明確にわかるようになるか」「何ができるようになるか」</strong>だけです。誇大な約束で入学してもらうより、誠実な説明で納得して始めてもらうことを選びます。</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band" id="cta">
+  <div class="reveal">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.28em;opacity:.85">FREE SEMINAR</p>
+    <h2>まずは、無料の「学び直しセミナー」から。</h2>
+    <p>カリキュラムの中身、補助金の適用条件、あなたの現状からの最短ルート。すべてセミナーで具体的にお話しします。合わないと思ったら、そこで終わりにして構いません。</p>
+    <a class="btn big" href="#">LINEで無料セミナーに登録する</a><!-- リンク後日差し替え -->
+    <span class="sub">登録は無料です。日程はLINEでご案内します。</span>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-in">
+    <p class="ft-title">YOLO's SITE MAP</p>
+    <nav class="ft-links" aria-label="姉妹サイト一覧">
+      <a href="index.html">ポータル</a>
+      <a href="yolos_hp.html">株式会社YOLO's コーポレート</a>
+      <a href="yoroliku_lp.html">ヨロリク｜SNS採用支援</a>
+      <a href="yologuard_lp.html">ヨロガード｜経理BPO・管理部長代行</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール｜経理教育（このページ）</a>
+    </nav>
+    <p class="copy">© 株式会社YOLO's</p>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="ページトップへ戻る">↑</button>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    targets.forEach(function(el){ el.classList.add('on'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    targets.forEach(function(el){ io.observe(el); });
+  }
+  var tb = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){
+    tb.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  tb.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

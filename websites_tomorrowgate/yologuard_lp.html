@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヨロガード｜経理を、経営の武器に。— 経理BPO・管理部長代行</title>
+<style>
+:root{
+  --bg:#131313;
+  --bg2:#1d1d1d;
+  --line:#2b2b2b;
+  --fg:#e2e2e2;
+  --dim:#bababa;
+  --faint:#3a3a3a;
+  --accent:#6fe3a8;
+  --accent-rgb:111,227,168;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--dim);
+  font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  line-height:1.9;
+  letter-spacing:.05em;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+::selection{background:rgba(var(--accent-rgb),.35);color:#fff;}
+
+/* ---------- header ---------- */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(19,19,19,.78);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.logo{color:var(--fg);font-weight:800;font-size:17px;letter-spacing:.16em;white-space:nowrap;}
+.logo i{font-style:normal;color:var(--accent);}
+.gnav{display:flex;gap:24px;font-size:11px;letter-spacing:.16em;align-items:center;}
+.gnav a{color:var(--dim);transition:color .3s;}
+.gnav a:hover{color:var(--fg);}
+.gnav a.current{color:var(--accent);}
+.header-cta{
+  display:inline-block;
+  border:1px solid var(--accent);color:var(--accent);
+  padding:9px 20px;font-size:11px;letter-spacing:.16em;border-radius:2px;
+  transition:box-shadow .3s,background .3s,color .3s;white-space:nowrap;
+}
+.header-cta:hover{background:var(--accent);color:#0d0d0d;box-shadow:0 0 24px rgba(var(--accent-rgb),.45);}
+@media (max-width:767px){
+  .gnav{display:none;}
+  .site-header{padding:14px 18px;}
+}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:150px 6vw 110px;
+  overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%, #1d1d1d 0%, #131313 60%);
+}
+#mv{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.hero-inner{position:relative;z-index:2;max-width:1160px;}
+.hero-eyebrow{
+  color:var(--accent);font-size:12px;letter-spacing:.44em;margin-bottom:34px;
+  display:flex;align-items:center;gap:16px;
+}
+.hero-eyebrow::before{content:"";display:block;width:52px;height:1px;background:var(--accent);}
+h1.catch{
+  color:var(--fg);
+  font-size:clamp(38px,8.4vw,104px);
+  font-weight:800;letter-spacing:.06em;line-height:1.28;
+}
+.hero-sub{margin-top:34px;font-size:clamp(14px,1.7vw,18px);color:var(--dim);max-width:720px;}
+.hero-sub strong{color:var(--fg);}
+.fv-benefits{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px;}
+.fv-benefits li{
+  list-style:none;font-size:12.5px;letter-spacing:.1em;color:var(--fg);
+  border:1px solid rgba(var(--accent-rgb),.45);padding:8px 16px;border-radius:2px;
+  background:rgba(var(--accent-rgb),.07);
+}
+.fv-benefits li b{color:var(--accent);font-weight:700;}
+.hero-cta-row{margin-top:42px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.btn-primary{
+  display:inline-block;background:var(--accent);color:#0d0d0d;font-weight:700;
+  padding:19px 48px;font-size:15px;letter-spacing:.12em;border-radius:2px;
+  box-shadow:0 0 36px rgba(var(--accent-rgb),.32);transition:transform .3s,box-shadow .3s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 52px rgba(var(--accent-rgb),.55);}
+.btn-ghost{
+  display:inline-block;border:1px solid var(--faint);color:var(--dim);
+  padding:18px 40px;font-size:14px;letter-spacing:.14em;border-radius:2px;transition:border-color .3s,color .3s;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.cta-note{font-size:11px;letter-spacing:.1em;color:var(--dim);}
+.scroll-hint{
+  position:absolute;bottom:0;left:6vw;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  color:var(--faint);font-size:10px;letter-spacing:.4em;writing-mode:vertical-rl;
+}
+.scroll-hint::after{
+  content:"";width:1px;height:72px;background:linear-gradient(to bottom,var(--accent),transparent);
+  animation:drop 2.4s ease-in-out infinite;
+}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top;}55%{transform:scaleY(1);transform-origin:top;}56%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+@media (max-width:767px){.scroll-hint{display:none;}}
+
+/* ---------- sections ---------- */
+section{position:relative;padding:130px 6vw;}
+.v-label{
+  position:absolute;top:130px;left:20px;
+  writing-mode:vertical-rl;
+  font-size:10px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;
+}
+.v-label b{color:var(--accent);font-weight:400;}
+@media (max-width:767px){
+  section{padding:90px 7vw;}
+  .v-label{position:static;writing-mode:horizontal-tb;display:block;margin-bottom:18px;}
+}
+.inner{max-width:1160px;margin:0 auto;position:relative;}
+.sec-head{margin-bottom:64px;}
+.sec-en{font-size:11px;letter-spacing:.4em;color:var(--accent);margin-bottom:14px;}
+h2{color:var(--fg);font-size:clamp(25px,3.8vw,46px);font-weight:800;letter-spacing:.1em;line-height:1.5;}
+.sec-lead{margin-top:22px;font-size:14.5px;max-width:760px;}
+.gline{height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;margin-top:34px;opacity:.85;}
+.gline-v{width:1px;background:var(--accent);transform:scaleY(0);transform-origin:top;}
+
+/* char scrub */
+.scrub{
+  font-size:clamp(19px,2.7vw,32px);
+  font-weight:700;letter-spacing:.08em;line-height:2.15;
+  max-width:1000px;
+}
+.sc{color:var(--faint);transition:color .3s linear;}
+.sc.lit{color:var(--fg);}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* ---------- marquee ---------- */
+.marquee{
+  overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:30px 0;background:var(--bg2);
+}
+.marquee-track{display:flex;width:max-content;animation:mq 30s linear infinite;}
+.marquee-group{display:flex;flex:0 0 auto;align-items:center;}
+.marquee-group span{
+  font-size:clamp(18px,2.4vw,30px);font-weight:800;letter-spacing:.22em;
+  color:var(--faint);padding-right:70px;white-space:nowrap;
+}
+.marquee-group span i{font-style:normal;color:var(--accent);}
+@keyframes mq{to{transform:translateX(-50%);}}
+
+/* ---------- problem cards ---------- */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:900px){.prob-grid{grid-template-columns:1fr;}}
+.prob-card{background:var(--bg);padding:46px 36px;}
+.prob-num{font-size:11px;letter-spacing:.34em;color:var(--accent);margin-bottom:18px;}
+.prob-title{color:var(--fg);font-size:19px;font-weight:800;letter-spacing:.08em;line-height:1.7;}
+.prob-body{font-size:13.5px;margin-top:16px;}
+.prob-big{color:var(--fg);font-size:clamp(28px,3vw,40px);font-weight:800;margin-top:14px;letter-spacing:.02em;}
+.prob-big small{font-size:.4em;color:var(--accent);letter-spacing:.14em;margin-left:4px;}
+.prob-src{font-size:11px;color:var(--faint);margin-top:10px;letter-spacing:.1em;}
+
+/* ---------- steps(4段プラン) ---------- */
+.step-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);}
+.step-row{
+  background:var(--bg);display:grid;grid-template-columns:120px 1fr 260px;align-items:center;
+}
+@media (max-width:900px){.step-row{grid-template-columns:1fr;}}
+.step-no{
+  padding:40px 0;text-align:center;
+  color:var(--accent);font-size:26px;font-weight:800;letter-spacing:.1em;
+  border-right:1px solid var(--line);align-self:stretch;display:flex;align-items:center;justify-content:center;
+}
+@media (max-width:900px){.step-no{border-right:none;border-bottom:1px solid var(--line);padding:18px 0;}}
+.step-main{padding:38px 36px;}
+.step-name{color:var(--fg);font-size:20px;font-weight:800;letter-spacing:.1em;}
+.step-name small{font-size:11px;color:var(--accent);letter-spacing:.3em;margin-left:12px;}
+.step-desc{font-size:13px;margin-top:10px;}
+.step-price{
+  padding:30px 36px;text-align:right;
+  color:var(--fg);font-size:clamp(19px,2vw,25px);font-weight:800;letter-spacing:.04em;
+}
+.step-price small{display:block;font-size:11px;color:var(--dim);font-weight:400;letter-spacing:.14em;margin-top:6px;}
+@media (max-width:900px){.step-price{text-align:left;padding-top:0;}}
+
+/* ---------- strengths ---------- */
+.st-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:900px){.st-grid{grid-template-columns:1fr;}}
+.st-card{background:var(--bg2);padding:48px 38px;position:relative;overflow:hidden;}
+.st-card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(90% 60% at 50% 118%, rgba(var(--accent-rgb),.1) 0%, transparent 70%);
+  opacity:0;transition:opacity .5s;
+}
+.st-card:hover::after{opacity:1;}
+.st-num{font-size:11px;letter-spacing:.34em;color:var(--accent);margin-bottom:18px;}
+.st-title{color:var(--fg);font-size:19px;font-weight:800;letter-spacing:.08em;line-height:1.7;}
+.st-body{font-size:13.5px;margin-top:16px;}
+.st-vs{
+  margin-top:20px;border:1px dashed rgba(var(--accent-rgb),.45);padding:16px 18px;
+  font-size:12px;color:var(--fg);letter-spacing:.08em;
+}
+.st-vs b{color:var(--accent);}
+
+/* ---------- school bridge ---------- */
+.school-sec{background:var(--bg2);}
+.school-panel{
+  border:1px solid rgba(255,179,102,.45);background:var(--bg);
+  padding:52px 46px;display:flex;gap:36px;align-items:center;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.school-panel::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(80% 60% at 50% 120%, rgba(255,179,102,.1) 0%, transparent 70%);
+}
+.school-txt{flex:1;min-width:260px;position:relative;z-index:1;}
+.school-en{font-size:11px;letter-spacing:.4em;color:#ffb366;margin-bottom:12px;}
+.school-title{color:var(--fg);font-size:clamp(19px,2.4vw,26px);font-weight:800;letter-spacing:.08em;line-height:1.7;}
+.school-body{font-size:13.5px;margin-top:12px;}
+.btn-school{
+  position:relative;z-index:1;
+  display:inline-block;border:1px solid #ffb366;color:#ffb366;
+  padding:16px 34px;font-size:13px;letter-spacing:.14em;border-radius:2px;white-space:nowrap;
+  transition:background .3s,color .3s,box-shadow .3s;
+}
+.btn-school:hover{background:#ffb366;color:#0d0d0d;box-shadow:0 0 30px rgba(255,179,102,.4);}
+
+/* ---------- cta ---------- */
+.cta-sec{
+  background:radial-gradient(90% 100% at 50% 100%, rgba(var(--accent-rgb),.1) 0%, transparent 65%), var(--bg2);
+  text-align:center;
+}
+.cta-sec h2{margin-bottom:22px;}
+.cta-sec .lead{max-width:640px;margin:0 auto;font-size:14.5px;}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:70px 6vw 46px;background:#0f0f0f;}
+.f-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;gap:44px;justify-content:space-between;}
+.f-brand{max-width:340px;}
+.f-logo{color:var(--fg);font-weight:800;font-size:18px;letter-spacing:.16em;}
+.f-logo i{font-style:normal;color:var(--accent);}
+.f-tag{margin-top:14px;font-size:12px;color:var(--dim);}
+.f-nav{display:flex;flex-direction:column;gap:12px;font-size:12px;letter-spacing:.12em;}
+.f-nav-title{font-size:10px;letter-spacing:.4em;color:var(--faint);margin-bottom:6px;}
+.f-nav a{color:var(--dim);transition:color .3s;}
+.f-nav a:hover{color:var(--accent);}
+.f-copy{max-width:1160px;margin:56px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:10px;letter-spacing:.2em;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation:none !important;transition:none !important;}
+  .sc{color:var(--fg) !important;}
+  .gline,.gline-v{transform:none !important;}
+  .reveal{opacity:1 !important;transform:none !important;}
+  .marquee-track{animation:none !important;}
+}
+.reduced .sc{color:var(--fg) !important;}
+.reduced .gline,.reduced .gline-v{transform:none !important;}
+.reduced .reveal{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="yologuard_lp.html">ヨロガード<i>.</i></a>
+  <nav class="gnav">
+    <a href="#problem">課題</a>
+    <a href="#plans">4段階プラン</a>
+    <a href="#strength">選ばれる理由</a>
+    <a href="index.html">PORTAL</a>
+    <a href="yolos_hp.html">運営会社</a>
+    <a href="yoroliku_lp.html">ヨロリク</a>
+    <a href="yologuard_school_lp.html">スクール</a>
+  </nav>
+  <a class="header-cta" href="#cta">無料相談</a>
+</header>
+
+<!-- ===== FV ===== -->
+<div class="hero">
+  <canvas id="mv" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">YOLOGUARD — ACCOUNTING BPO</p>
+    <h1 class="catch">経理を、<br>経営の武器に。</h1>
+    <p class="hero-sub">記帳して、締めて、終わり——そんな経理はもったいない。経理BPOと管理部長代行で、<strong>数字が経営判断を動かすバックオフィス</strong>をつくります。</p>
+    <ul class="fv-benefits">
+      <li>まずは <b>経理の健康診断</b>（月20万円）から</li>
+      <li>担当は <b>1人2社</b> の高密度体制</li>
+      <li>正社員の管理部長より <b>低コスト</b></li>
+    </ul>
+    <div class="hero-cta-row">
+      <!-- リンク後日差し替え -->
+      <a class="btn-primary" href="#">無料相談を予約する</a>
+      <a class="btn-ghost" href="#plans">プランを見る</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</div>
+
+<!-- ===== マーキー ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>ACCOUNTING AS A WEAPON</span>
+      <span>経理BPO <i>×</i> 管理部長代行</span>
+      <span>1人2社の高密度</span>
+      <span>YOLOGUARD<i>.</i></span>
+    </div>
+    <div class="marquee-group">
+      <span>ACCOUNTING AS A WEAPON</span>
+      <span>経理BPO <i>×</i> 管理部長代行</span>
+      <span>1人2社の高密度</span>
+      <span>YOLOGUARD<i>.</i></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 課題 ===== -->
+<section id="problem">
+  <span class="v-label">PROBLEM <b>/</b> 01</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">WHY BACK OFFICE FAILS</p>
+      <h2>その経理、経営に使えていますか。</h2>
+    </div>
+    <p class="scrub" data-scrub>数字はある。でも、判断に使えない。担当はひとり。社長が経理を見ている。——それは、静かに進行する経営リスクです。</p>
+    <div class="gline" data-line></div>
+    <div class="prob-grid" style="margin-top:56px;">
+      <div class="prob-card reveal">
+        <p class="prob-num">ISSUE 01</p>
+        <p class="prob-title">属人化 — その人が抜けたら止まる</p>
+        <p class="prob-body">手順が一人の頭の中にしかない経理は、退職・休職と同時に会社の心臓が止まります。引き継ぎもできません。</p>
+      </div>
+      <div class="prob-card reveal d1">
+        <p class="prob-num">ISSUE 02</p>
+        <p class="prob-title">経営陣の忙殺 — 社長が経理をしている</p>
+        <p class="prob-body">請求、支払い、資金繰りの確認に経営者の時間が溶けていく。本来やるべき事業づくりが、後回しになっていきます。</p>
+      </div>
+      <div class="prob-card reveal d2">
+        <p class="prob-num">ISSUE 03</p>
+        <p class="prob-title">経理リーダーが、市場にいない</p>
+        <p class="prob-big">67.8<small>%</small></p>
+        <p class="prob-body">経理リーダー人材が「不足している」と答えた企業の割合。採用で解決しようにも、担い手がいないのが現実です。</p>
+        <p class="prob-src">出典：帝国データバンク 2025</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4段プラン ===== -->
+<section id="plans" style="background:var(--bg2);">
+  <span class="v-label">PLANS <b>/</b> 02</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">4 STEPS</p>
+      <h2>診断から顧問まで、4段階。</h2>
+      <p class="sec-lead">いきなり大きな契約はしません。まず現状を診断し、必要な深さだけ関与する。段階設計だから、無駄がありません。</p>
+    </div>
+    <div class="step-list">
+      <div class="step-row reveal">
+        <div class="step-no">01</div>
+        <div class="step-main">
+          <p class="step-name">経理の健康診断<small>DIAGNOSIS</small></p>
+          <p class="step-desc">現状の経理フロー・属人化リスク・数字の使われ方を棚卸しし、課題と処方箋をレポート。すべてはここから始まります。</p>
+        </div>
+        <p class="step-price">月20万円<small>診断フェーズ</small></p>
+      </div>
+      <div class="step-row reveal d1">
+        <div class="step-no">02</div>
+        <div class="step-main">
+          <p class="step-name">プロジェクト型支援<small>PROJECT</small></p>
+          <p class="step-desc">診断で見つかった課題をテーマ単位で解消。業務フロー再構築、月次早期化、仕組みの整備を個別プロジェクトで実行します。</p>
+        </div>
+        <p class="step-price">月30〜50万円<small>テーマ・範囲による</small></p>
+      </div>
+      <div class="step-row reveal d2">
+        <div class="step-no">03</div>
+        <div class="step-main">
+          <p class="step-name">管理部長代行（ミドル／フル）<small>BPO</small></p>
+          <p class="step-desc">経理実務から経営数字の設計・報告まで、管理部長の機能を代行。ミドルは月60〜100万円、経理部門を丸ごと担うフルは月100〜150万円。</p>
+        </div>
+        <p class="step-price">月60〜150万円<small>ミドル60〜100／フル100〜150</small></p>
+      </div>
+      <div class="step-row reveal d3">
+        <div class="step-no">04</div>
+        <div class="step-main">
+          <p class="step-name">顧問<small>ADVISORY</small></p>
+          <p class="step-desc">仕組みが自走し始めたら、関与を軽くして伴走へ。月次レビューと経営判断の壁打ちで、数字の使い方を磨き続けます。</p>
+        </div>
+        <p class="step-price">月20〜30万円<small>自走フェーズ</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 強み ===== -->
+<section id="strength">
+  <span class="v-label">STRENGTH <b>/</b> 03</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">WHY YOLOGUARD</p>
+      <h2>「安い記帳代行」でも「高い正社員」でもなく。</h2>
+    </div>
+    <p class="scrub" data-scrub>深く入るから、数字が武器になる。ヨロガードは、量ではなく密度で設計された経理チームです。</p>
+    <div class="gline" data-line></div>
+    <div class="st-grid" style="margin-top:56px;">
+      <div class="st-card reveal">
+        <p class="st-num">REASON 01</p>
+        <p class="st-title">1人2社の密度。<br>だから深く入れる。</p>
+        <p class="st-body">一般的なBPOでは、担当者1人が数十社を掛け持ちします。ヨロガードは1人2社。貴社の事業とお金の流れを深く理解した担当者が、「作業の代行」ではなく「経営の伴走」をします。</p>
+        <p class="st-vs">一般BPO：1人で数十社 ／ ヨロガード：<b>1人2社</b></p>
+      </div>
+      <div class="st-card reveal d1">
+        <p class="st-num">REASON 02</p>
+        <p class="st-title">Claude活用の<br>業務設計。</p>
+        <p class="st-body">AIアシスタントのClaude（クロード）を業務フローに組み込み、定型作業の処理とチェックを高速化。人の時間は「数字の解釈」と「経営への提言」という、人にしかできない仕事に集中させます。</p>
+      </div>
+      <div class="st-card reveal d2">
+        <p class="st-num">REASON 03</p>
+        <p class="st-title">正社員の管理部長より、<br>低コスト。</p>
+        <p class="st-body">管理部長クラスを正社員で雇うと、給与・社会保険・採用コストを含めた実効コストは月150〜200万円にのぼります。同等の機能を、より低コストで、「辞めない・属人化しない」形で。</p>
+        <p class="st-vs">正社員の実効コスト：月<b>150〜200万円</b> ／ ヨロガード：必要な分だけ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== スクール導線 ===== -->
+<section class="school-sec">
+  <span class="v-label">SCHOOL <b>/</b> 04</span>
+  <div class="inner">
+    <div class="school-panel reveal">
+      <div class="school-txt">
+        <p class="school-en">YOLOGUARD SCHOOL</p>
+        <p class="school-title">経理人材を「育てる」学校も、やっています。</p>
+        <p class="school-body">ヨロガードの現場ノウハウを教育プログラムにした「ヨロガードスクール」。経理を武器にキャリアをつくりたい個人の方は、こちらをご覧ください。</p>
+      </div>
+      <a class="btn-school" href="yologuard_school_lp.html">ヨロガードスクールを見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta" class="cta-sec">
+  <div class="inner">
+    <p class="sec-en" style="text-align:center;">FREE CONSULTATION</p>
+    <h2>まず、経理の健康診断から。</h2>
+    <p class="lead reveal">「うちの経理、どこが危ない？」——その問いに、診断で答えます。現状の体制と課題を伺い、4段階のどこから始めるべきか、率直にご提案します。</p>
+    <div class="hero-cta-row reveal" style="justify-content:center;margin-top:44px;">
+      <!-- リンク後日差し替え -->
+      <a class="btn-primary" href="#">無料相談を予約する</a>
+    </div>
+    <p class="cta-note reveal" style="margin-top:18px;">オンライン対応／診断の結果「外部は不要」ならその旨も正直にお伝えします</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="f-inner">
+    <div class="f-brand">
+      <p class="f-logo">ヨロガード<i>.</i></p>
+      <p class="f-tag">経理を、経営の武器に。<br>経理BPO・管理部長代行／運営：株式会社YOLO's</p>
+    </div>
+    <nav class="f-nav">
+      <p class="f-nav-title">SITES</p>
+      <a href="index.html">事業ポータル</a>
+      <a href="yolos_hp.html">株式会社YOLO's コーポレート</a>
+      <a href="yoroliku_lp.html">ヨロリク｜SNS採用支援</a>
+      <a href="yologuard_lp.html">ヨロガード｜経理BPO・管理部長代行（このページ）</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール｜経理教育</a>
+    </nav>
+    <nav class="f-nav">
+      <p class="f-nav-title">MENU</p>
+      <a href="#problem">課題</a>
+      <a href="#plans">4段階プラン</a>
+      <a href="#strength">選ばれる理由</a>
+      <a href="#cta">無料相談</a>
+    </nav>
+  </div>
+  <div class="f-copy">
+    <span>© 株式会社YOLO's</span>
+    <span>YOLOGUARD — ACCOUNTING BPO</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced) document.documentElement.classList.add('reduced');
+
+  /* ---- 1. charスクラブ ---- */
+  var scrubEls = Array.prototype.slice.call(document.querySelectorAll('[data-scrub]'));
+  scrubEls.forEach(function(el){
+    var chars = Array.from(el.textContent);
+    el.textContent = '';
+    var frag = document.createDocumentFragment();
+    chars.forEach(function(ch){
+      var s = document.createElement('span');
+      s.className = 'sc';
+      s.textContent = ch;
+      frag.appendChild(s);
+    });
+    el.appendChild(frag);
+    el._chars = el.querySelectorAll('.sc');
+    el._lit = -1;
+  });
+
+  /* ---- 2. スクロール連動ライン ---- */
+  var lines = Array.prototype.slice.call(document.querySelectorAll('[data-line]'));
+
+  function progressOf(el, startF, endF){
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight || 1;
+    var start = vh * startF, end = vh * endF;
+    var denom = r.height + start - end;
+    if(denom <= 0) denom = 1;
+    var p = (start - r.top) / denom;
+    return Math.max(0, Math.min(1, p));
+  }
+
+  var ticking = false;
+  function update(){
+    if(!reduced){
+      scrubEls.forEach(function(el){
+        var p = progressOf(el, .88, .38);
+        var n = Math.round(p * el._chars.length);
+        if(n !== el._lit){
+          for(var i = 0; i < el._chars.length; i++){
+            el._chars[i].classList.toggle('lit', i < n);
+          }
+          el._lit = n;
+        }
+      });
+      lines.forEach(function(el){
+        var p = progressOf(el, .94, .42);
+        if(el.classList.contains('gline-v')){
+          el.style.transform = 'scaleY(' + p.toFixed(4) + ')';
+        }else{
+          el.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        }
+      });
+    }
+    ticking = false;
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+
+  /* ---- フェードイン入場 ---- */
+  var reveals = document.querySelectorAll('.reveal');
+  if(reduced || !('IntersectionObserver' in window)){
+    reveals.forEach(function(el){ el.classList.add('visible'); });
+  }else{
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- 3. 抽象モーションMV ---- */
+  var canvas = document.getElementById('mv');
+  if(canvas && canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    var AC = {r:111, g:227, b:168};
+    var W = 0, H = 0, dots = [], glows = [];
+    function resize(){
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    function init(){
+      dots = [];
+      var n = Math.max(24, Math.min(90, Math.floor(W * H / 22000)));
+      for(var i = 0; i < n; i++){
+        dots.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: Math.random() * 1.6 + .4,
+          vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .14,
+          a: Math.random() * .5 + .15, tw: Math.random() * Math.PI * 2
+        });
+      }
+      glows = [
+        {x:.24, y:.42, r:.55, s:.00011, ph:0},
+        {x:.76, y:.62, r:.5,  s:.00008, ph:2.2}
+      ];
+    }
+    function frame(t){
+      ctx.clearRect(0, 0, W, H);
+      glows.forEach(function(g){
+        var gx = (g.x + Math.sin(t * g.s + g.ph) * .12) * W;
+        var gy = (g.y + Math.cos(t * g.s * 1.3 + g.ph) * .1) * H;
+        var rad = Math.max(W, H) * g.r;
+        var grd = ctx.createRadialGradient(gx, gy, 0, gx, gy, rad);
+        grd.addColorStop(0, 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',0.055)');
+        grd.addColorStop(1, 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, W, H);
+      });
+      dots.forEach(function(d){
+        d.x += d.vx; d.y += d.vy;
+        if(d.x < -4) d.x = W + 4; if(d.x > W + 4) d.x = -4;
+        if(d.y < -4) d.y = H + 4; if(d.y > H + 4) d.y = -4;
+        var a = d.a * (0.6 + 0.4 * Math.sin(t * .0012 + d.tw));
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',' + a.toFixed(3) + ')';
+        ctx.fill();
+      });
+      if(!reduced) requestAnimationFrame(frame);
+    }
+    resize(); init();
+    window.addEventListener('resize', function(){ resize(); init(); if(reduced) frame(0); });
+    if(reduced){ frame(0); } else { requestAnimationFrame(frame); }
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社YOLO's｜仕組みが、人を自由にする。</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#f7f6f5;
+  --ink:#39362f;
+  --sub:#6f6a62;
+  --line:#e6e2db;
+  --main:#8fb8ff;
+  --deep:#2d5a9e;
+  --tint:#edf3fc;
+  --yr:#6ea8ff;--yr-deep:#25569c;--yr-tint:#e9f1ff;
+  --yg:#6fe3a8;--yg-deep:#1e7a4f;--yg-tint:#e8f9f0;
+  --sc:#ffb366;--sc-deep:#b25f1a;--sc-tint:#fff2e3;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.9;font-size:16px;
+}
+a{color:inherit;text-decoration:none}
+svg{display:block;max-width:100%;height:auto}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+.site-header{position:sticky;top:0;z-index:50;background:rgba(247,246,245,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hd-in{max-width:1160px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-name{font-weight:800;font-size:17px;letter-spacing:.02em;line-height:1.3}
+.brand-name small{display:block;font-size:10px;font-weight:600;color:var(--sub);letter-spacing:.18em}
+.gnav{display:flex;gap:20px;font-size:13px;font-weight:700;color:var(--sub);white-space:nowrap}
+.gnav a{transition:color .2s}
+.gnav a:hover{color:var(--deep)}
+.btn{display:inline-block;background:var(--deep);color:#fff;border-radius:999px;padding:11px 26px;font-weight:700;font-size:14px;line-height:1.4;transition:transform .25s ease,box-shadow .25s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(45,90,158,.28)}
+.btn.big{padding:16px 46px;font-size:16px}
+@media(max-width:767px){.gnav{display:none}.brand-name{font-size:15px}}
+
+.hero{background:linear-gradient(180deg,#e3eeff 0%,#f0f5fc 62%,var(--bg) 100%);overflow:hidden}
+.hero-copy{max-width:1080px;margin:0 auto;padding:76px 24px 8px;text-align:center}
+.hero-copy .en{font-size:12px;font-weight:700;letter-spacing:.3em;color:var(--deep);margin-bottom:14px}
+.hero-copy h1{font-size:clamp(30px,5.6vw,56px);font-weight:800;letter-spacing:.05em;line-height:1.5}
+.hero-copy p.lead{margin:20px auto 0;max-width:660px;color:var(--sub);font-size:15.5px}
+.hero-scene{margin-top:12px}
+.hero-scene svg{width:100%;height:auto}
+
+@keyframes drift{from{transform:translateX(-320px)}to{transform:translateX(1560px)}}
+.cloud{animation:drift 58s linear infinite}
+.cloud.c2{animation-duration:76s;animation-delay:-34s}
+.cloud.c3{animation-duration:64s;animation-delay:-50s}
+@keyframes drive{from{transform:translateX(-180px)}to{transform:translateX(1380px)}}
+.car{animation:drive 18s linear infinite}
+.car.k2{animation-duration:26s;animation-delay:-11s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.balloon{animation:floaty 7s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sunrays{animation:spin 70s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blink{0%,58%,100%{opacity:.25}66%,90%{opacity:1}}
+.win{opacity:.25;animation:blink 5.4s ease-in-out infinite}
+.win.d1{animation-delay:1.2s}
+.win.d2{animation-delay:2.4s}
+.win.d3{animation-delay:3.5s}
+@keyframes wave{0%,100%{transform:skewY(0deg)}50%{transform:skewY(-8deg)}}
+.flag{animation:wave 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
+@keyframes gear{to{transform:rotate(360deg)}}
+.gearA{animation:gear 14s linear infinite;transform-box:fill-box;transform-origin:center}
+.gearB{animation:gear 14s linear infinite reverse;transform-box:fill-box;transform-origin:center}
+
+section.block{padding:88px 0}
+section.block.tint{background:var(--tint)}
+.sec-head{text-align:center;margin-bottom:48px}
+.sec-head .en{font-size:11px;font-weight:700;letter-spacing:.28em;color:var(--deep)}
+.sec-head h2{font-size:clamp(22px,3.6vw,32px);font-weight:800;letter-spacing:.06em;margin-top:6px}
+.sec-head p.note{color:var(--sub);font-size:14px;margin-top:14px;max-width:640px;margin-left:auto;margin-right:auto}
+
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.about-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 28px;transition:transform .3s ease,box-shadow .3s ease}
+.about-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(60,70,90,.12)}
+.about-card h3{font-size:17px;font-weight:800;letter-spacing:.04em}
+.about-card h3 small{display:block;font-size:10px;color:var(--deep);letter-spacing:.22em;font-weight:700;margin-bottom:4px}
+.about-card p{font-size:14px;color:var(--sub);margin-top:12px}
+
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.svc-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s ease,box-shadow .3s ease}
+a.svc-card:hover{transform:translateY(-6px);box-shadow:0 18px 38px rgba(60,70,90,.13)}
+.svc-card .bar{height:8px}
+.svc-card .body{padding:24px 26px 28px;display:flex;flex-direction:column;flex:1}
+.svc-card .en{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--sub)}
+.svc-card h3{font-size:18px;font-weight:800;margin-top:2px}
+.svc-card p{font-size:13.5px;color:var(--sub);margin-top:10px;flex:1}
+.svc-card .go{margin-top:16px;font-size:13px;font-weight:700}
+.svc-card .soon{margin-top:16px;display:inline-block;font-size:11px;font-weight:700;color:var(--sub);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 14px;align-self:flex-start}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 22px;text-align:center;transition:transform .3s ease,box-shadow .3s ease}
+.stat:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(60,70,90,.12)}
+.stat .label{font-size:12.5px;font-weight:700;color:var(--sub)}
+.stat .num{font-size:clamp(26px,3.2vw,36px);font-weight:800;color:var(--deep);margin-top:6px;line-height:1.3}
+.stat .num small{font-size:14px;font-weight:700;margin-left:2px}
+
+.message{background:#fff;border:1px solid var(--line);border-radius:24px;padding:44px 36px;display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap}
+.message .face{flex:0 0 130px;margin:0 auto}
+.message .txt{flex:1;min-width:260px}
+.message .txt h3{font-size:19px;font-weight:800;letter-spacing:.04em;line-height:1.7}
+.message .txt p{font-size:14.5px;color:var(--sub);margin-top:14px}
+.message .sig{margin-top:22px;font-size:14px;font-weight:700}
+.message .sig small{display:block;font-size:11px;color:var(--sub);font-weight:600}
+
+table.company{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+table.company th,table.company td{padding:20px 24px;font-size:14.5px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+table.company tr:last-child th,table.company tr:last-child td{border-bottom:none}
+table.company th{width:32%;background:var(--tint);font-weight:700;color:var(--deep);white-space:nowrap}
+@media(max-width:560px){
+  table.company th,table.company td{display:block;width:100%}
+  table.company th{padding-bottom:6px}
+  table.company td{padding-top:6px}
+}
+
+.cta-band{background:var(--deep);color:#fff;text-align:center;padding:80px 24px}
+.cta-band h2{font-size:clamp(22px,3.6vw,32px);font-weight:800;letter-spacing:.06em}
+.cta-band p{margin:16px auto 0;max-width:600px;font-size:14.5px;opacity:.9}
+.cta-band .btn{background:#fff;color:var(--deep);margin-top:32px}
+.cta-band .btn:hover{box-shadow:0 10px 26px rgba(0,0,0,.28)}
+
+footer{background:#2b2925;color:#d8d4cd;padding:56px 0 30px}
+.ft-in{max-width:1080px;margin:0 auto;padding:0 24px}
+.ft-title{font-weight:800;color:#fff;font-size:16px}
+.ft-links{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:18px;font-size:13.5px}
+.ft-links a{opacity:.85;transition:opacity .2s}
+.ft-links a:hover{opacity:1;text-decoration:underline}
+.copy{margin-top:34px;font-size:11.5px;opacity:.6}
+
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.on{opacity:1;transform:none}
+#toTop{position:fixed;right:18px;bottom:18px;width:46px;height:46px;border-radius:50%;background:var(--deep);color:#fff;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:0;pointer-events:none;transition:opacity .3s;z-index:60;box-shadow:0 8px 20px rgba(45,90,158,.3)}
+#toTop.show{opacity:1;pointer-events:auto}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="hd-in">
+    <a class="brand" href="yolos_hp.html" aria-label="株式会社YOLO's トップへ">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="18" fill="#2d5a9e"/>
+        <circle cx="20" cy="20" r="10" fill="#8fb8ff"/>
+        <circle cx="20" cy="20" r="4" fill="#f7f6f5"/>
+      </svg>
+      <span class="brand-name">株式会社YOLO's<small>YOLO's Inc.</small></span>
+    </a>
+    <nav class="gnav" aria-label="姉妹サイト">
+      <a href="index.html">ポータル</a>
+      <a href="yoroliku_lp.html">ヨロリク</a>
+      <a href="yologuard_lp.html">ヨロガード</a>
+      <a href="yologuard_school_lp.html">スクール</a>
+    </nav>
+    <a class="btn" href="#contact">お問い合わせ</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-copy">
+    <p class="en">YOLO = YOU ONLY LIVE ONCE</p>
+    <h1>仕組みが、<br>人を自由にする。</h1>
+    <p class="lead">人生は一度きり。だからこそ、根性や残業ではなく「仕組み」で成果が出つづける状態をつくる。株式会社YOLO'sは、採用・経理・教育の領域で、経営を前に進める仕組みを設計する会社です。</p>
+  </div>
+  <div class="hero-scene" aria-hidden="true">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" role="img" aria-label="仕組みが動く街のイラスト">
+      <g class="sunrays">
+        <g stroke="#ffce7a" stroke-width="4" stroke-linecap="round">
+          <line x1="120" y1="20" x2="120" y2="36"/>
+          <line x1="120" y1="120" x2="120" y2="136"/>
+          <line x1="62" y1="78" x2="78" y2="78"/>
+          <line x1="162" y1="78" x2="178" y2="78"/>
+          <line x1="80" y1="38" x2="91" y2="49"/>
+          <line x1="149" y1="107" x2="160" y2="118"/>
+          <line x1="160" y1="38" x2="149" y2="49"/>
+          <line x1="91" y1="107" x2="80" y2="118"/>
+        </g>
+      </g>
+      <circle cx="120" cy="78" r="30" fill="#ffd98a"/>
+      <g class="cloud" fill="#ffffff" opacity=".95">
+        <ellipse cx="60" cy="64" rx="46" ry="17"/><ellipse cx="96" cy="54" rx="30" ry="14"/>
+      </g>
+      <g class="cloud c2" fill="#ffffff" opacity=".8">
+        <ellipse cx="20" cy="128" rx="38" ry="14"/><ellipse cx="50" cy="120" rx="24" ry="11"/>
+      </g>
+      <g class="cloud c3" fill="#ffffff" opacity=".7">
+        <ellipse cx="40" cy="30" rx="30" ry="11"/><ellipse cx="64" cy="24" rx="18" ry="8"/>
+      </g>
+      <!-- gears in the sky = 仕組み -->
+      <g class="balloon">
+        <g class="gearA">
+          <circle cx="600" cy="96" r="26" fill="none" stroke="#8fb8ff" stroke-width="10" stroke-dasharray="10 8"/>
+          <circle cx="600" cy="96" r="10" fill="#2d5a9e"/>
+        </g>
+        <g class="gearB">
+          <circle cx="654" cy="126" r="18" fill="none" stroke="#b9d3ff" stroke-width="8" stroke-dasharray="8 7"/>
+          <circle cx="654" cy="126" r="7" fill="#2d5a9e"/>
+        </g>
+      </g>
+      <ellipse cx="240" cy="330" rx="340" ry="66" fill="#e4ecdb"/>
+      <ellipse cx="1000" cy="336" rx="360" ry="70" fill="#e9efe2"/>
+      <rect x="0" y="300" width="1200" height="100" fill="#dfe8d6"/>
+      <!-- headquarter tower -->
+      <g>
+        <rect x="200" y="104" width="140" height="196" rx="10" fill="#8fb8ff"/>
+        <rect x="200" y="104" width="140" height="18" rx="9" fill="#2d5a9e"/>
+        <rect x="222" y="140" width="22" height="17" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="258" y="140" width="22" height="17" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="294" y="140" width="22" height="17" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="222" y="172" width="22" height="17" rx="3" class="win d3" fill="#fffbe8"/>
+        <rect x="258" y="172" width="22" height="17" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="294" y="172" width="22" height="17" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="222" y="204" width="22" height="17" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="258" y="204" width="22" height="17" rx="3" class="win d3" fill="#fffbe8"/>
+        <rect x="294" y="204" width="22" height="17" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="222" y="236" width="22" height="17" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="294" y="236" width="22" height="17" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="254" y="256" width="32" height="44" rx="5" fill="#2d5a9e"/>
+        <g class="flag">
+          <line x1="340" y1="104" x2="340" y2="68" stroke="#2d5a9e" stroke-width="4"/>
+          <path d="M340 68 L378 77 L340 88Z" fill="#2d5a9e"/>
+        </g>
+      </g>
+      <!-- three business houses -->
+      <g>
+        <rect x="430" y="212" width="100" height="88" rx="8" fill="#6ea8ff"/>
+        <path d="M424 214 L480 176 L536 214Z" fill="#25569c"/>
+        <rect x="448" y="234" width="18" height="14" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="494" y="234" width="18" height="14" rx="3" class="win d3" fill="#fffbe8"/>
+        <rect x="468" y="258" width="24" height="42" rx="4" fill="#25569c"/>
+      </g>
+      <g>
+        <rect x="600" y="196" width="110" height="104" rx="8" fill="#6fe3a8"/>
+        <rect x="600" y="196" width="110" height="14" rx="7" fill="#1e7a4f"/>
+        <rect x="618" y="224" width="18" height="14" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="646" y="224" width="18" height="14" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="674" y="224" width="18" height="14" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="618" y="250" width="18" height="14" rx="3" class="win d3" fill="#fffbe8"/>
+        <rect x="674" y="250" width="18" height="14" rx="3" class="win" fill="#fffbe8"/>
+        <rect x="642" y="264" width="26" height="36" rx="4" fill="#1e7a4f"/>
+      </g>
+      <g>
+        <rect x="790" y="216" width="112" height="84" rx="8" fill="#ffb366"/>
+        <path d="M784 218 L846 174 L908 218Z" fill="#b25f1a"/>
+        <circle cx="846" cy="204" r="11" fill="#fff6ea"/>
+        <rect x="806" y="238" width="18" height="14" rx="3" class="win d2" fill="#fffbe8"/>
+        <rect x="868" y="238" width="18" height="14" rx="3" class="win d1" fill="#fffbe8"/>
+        <rect x="832" y="260" width="28" height="40" rx="4" fill="#b25f1a"/>
+      </g>
+      <!-- crane building the future -->
+      <g>
+        <rect x="990" y="238" width="90" height="62" rx="6" fill="#cdd7e4"/>
+        <line x1="1035" y1="238" x2="1035" y2="140" stroke="#aebccd" stroke-width="8"/>
+        <line x1="1035" y1="148" x2="1130" y2="148" stroke="#aebccd" stroke-width="6"/>
+        <line x1="1110" y1="148" x2="1110" y2="196" stroke="#8b98a8" stroke-width="3"/>
+        <rect x="1098" y="196" width="24" height="18" rx="4" fill="#8fb8ff"/>
+      </g>
+      <g>
+        <rect x="110" y="272" width="8" height="28" fill="#9c7a54"/><circle cx="114" cy="262" r="20" fill="#8fc98a"/>
+        <rect x="566" y="274" width="8" height="26" fill="#9c7a54"/><circle cx="570" cy="264" r="18" fill="#7dbd78"/>
+        <rect x="944" y="272" width="8" height="28" fill="#9c7a54"/><circle cx="948" cy="262" r="20" fill="#8fc98a"/>
+      </g>
+      <rect x="0" y="326" width="1200" height="40" fill="#cfd5dd"/>
+      <line x1="0" y1="346" x2="1200" y2="346" stroke="#ffffff" stroke-width="4" stroke-dasharray="26 22"/>
+      <g class="car">
+        <rect x="20" y="312" width="86" height="26" rx="10" fill="#2d5a9e"/>
+        <path d="M38 312 Q48 294 66 294 L84 294 Q96 296 100 312Z" fill="#4d79b8"/>
+        <rect x="52" y="298" width="22" height="12" rx="3" fill="#dcebff"/>
+        <circle cx="44" cy="340" r="9" fill="#39362f"/><circle cx="44" cy="340" r="4" fill="#cfd5dd"/>
+        <circle cx="90" cy="340" r="9" fill="#39362f"/><circle cx="90" cy="340" r="4" fill="#cfd5dd"/>
+      </g>
+      <g class="car k2">
+        <rect x="20" y="318" width="70" height="22" rx="9" fill="#6fe3a8"/>
+        <path d="M34 318 Q42 304 56 304 L70 304 Q80 306 84 318Z" fill="#8feebd"/>
+        <circle cx="40" cy="342" r="8" fill="#39362f"/><circle cx="40" cy="342" r="3.5" fill="#cfd5dd"/>
+        <circle cx="74" cy="342" r="8" fill="#39362f"/><circle cx="74" cy="342" r="3.5" fill="#cfd5dd"/>
+      </g>
+      <ellipse cx="150" cy="392" rx="70" ry="16" fill="#cfdec2"/>
+      <ellipse cx="1050" cy="392" rx="80" ry="16" fill="#cfdec2"/>
+    </svg>
+  </div>
+</div>
+
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">ABOUT</p>
+      <h2>YOLO'sについて</h2>
+      <p class="note">社名のYOLOは「You Only Live Once＝人生は一度きり」。私たちは、経営者と働く人の限りある時間を、仕組みの力で価値ある仕事へ振り向けるために存在しています。</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <h3><small>MISSION</small>仕組みが、人を自由にする。</h3>
+        <p>属人的な頑張りに依存した経営は、いつか限界を迎えます。誰がやっても回り、続けるほど強くなる仕組みをつくることが、私たちの仕事です。</p>
+      </div>
+      <div class="about-card reveal">
+        <h3><small>APPROACH</small>「資産になる」ものだけを提供する</h3>
+        <p>使い切りの施策ではなく、SNSアカウント・業務設計・人材のスキルといった、積み上がる資産をクライアントの手元に残すことにこだわります。</p>
+      </div>
+      <div class="about-card reveal">
+        <h3><small>STYLE</small>AIと人の、いいとこ取り</h3>
+        <p>反復作業や分析はAIに、判断と対話は人に。テクノロジーを道具として使い倒し、人にしかできない仕事の密度を上げるのがYOLO'sの流儀です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block tint" id="service">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">SERVICE</p>
+      <h2>4つの事業</h2>
+      <p class="note">採用・経理・教育・発信。中小企業の経営を支える領域で、それぞれ専門の事業を展開しています。</p>
+    </div>
+    <div class="svc-grid">
+      <a class="svc-card reveal" href="yoroliku_lp.html">
+        <div class="bar" style="background:var(--yr)"></div>
+        <div class="body">
+          <p class="en">SNS RECRUITING</p>
+          <h3>ヨロリク</h3>
+          <p>SNSショート動画で「採用メディア資産」を育てる採用支援。求人広告に払い続ける採用から、企業に積み上がる採用へ。</p>
+          <span class="go" style="color:var(--yr-deep)">詳しく見る →</span>
+        </div>
+      </a>
+      <a class="svc-card reveal" href="yologuard_lp.html">
+        <div class="bar" style="background:var(--yg)"></div>
+        <div class="body">
+          <p class="en">BACK OFFICE BPO</p>
+          <h3>ヨロガード</h3>
+          <p>経理BPO・管理部長代行。数字が見えない経営から、数字で意思決定できる経営へ。バックオフィスを武器に変えます。</p>
+          <span class="go" style="color:var(--yg-deep)">詳しく見る →</span>
+        </div>
+      </a>
+      <a class="svc-card reveal" href="yologuard_school_lp.html">
+        <div class="bar" style="background:var(--sc)"></div>
+        <div class="body">
+          <p class="en">ACCOUNTING SCHOOL</p>
+          <h3>ヨロガードスクール</h3>
+          <p>未経験から経理のプロフェッショナルを育てる教育事業。学びを「売れる商品」に変え、キャリアの土台をつくります。</p>
+          <span class="go" style="color:var(--sc-deep)">詳しく見る →</span>
+        </div>
+      </a>
+      <div class="svc-card reveal">
+        <div class="bar" style="background:var(--main)"></div>
+        <div class="body">
+          <p class="en">AI × SNS</p>
+          <h3>AI SNS Lab</h3>
+          <p>AIを活用したSNS発信・コンテンツづくりを研究・支援する新事業。詳細は公開までしばらくお待ちください。</p>
+          <span class="soon">COMING SOON — 準備中</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="results">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">RESULTS</p>
+      <h2>数字で見るYOLO's</h2>
+    </div>
+    <div class="stats">
+      <div class="stat reveal">
+        <p class="label">支援アカウント</p>
+        <p class="num">50<small>社以上</small></p>
+      </div>
+      <div class="stat reveal">
+        <p class="label">累計再生</p>
+        <p class="num">3<small>億回以上</small></p>
+      </div>
+      <div class="stat reveal">
+        <p class="label">動画制作</p>
+        <p class="num">5,000<small>本以上</small></p>
+      </div>
+      <div class="stat reveal">
+        <p class="label">最短3ヶ月での応募達成</p>
+        <p class="num">50<small>件以上</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block tint" id="message">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">MESSAGE</p>
+      <h2>代表メッセージ</h2>
+    </div>
+    <div class="message reveal">
+      <div class="face" aria-hidden="true">
+        <svg viewBox="0 0 130 130" width="130" height="130">
+          <circle cx="65" cy="65" r="63" fill="#edf3fc"/>
+          <circle cx="65" cy="52" r="24" fill="#8fb8ff"/>
+          <path d="M25 112 Q35 78 65 78 Q95 78 105 112" fill="#2d5a9e"/>
+        </svg>
+      </div>
+      <div class="txt">
+        <h3>「人を巻き込む力」と「仕組みの力」で、<br>働く時間の価値を最大化する。</h3>
+        <p>私はずっと、優秀な人の時間が単純作業や場当たり的な施策に溶けていく光景に、もったいなさを感じてきました。人生は一度きりです。だからこそ、人の頑張りに頼るのではなく、頑張りが積み上がって資産になる仕組みを、経営の中に組み込むべきだと考えています。</p>
+        <p>採用も、経理も、学びも。仕組みに変えれば、経営者は本来やるべき意思決定に集中でき、働く人は自分にしかできない仕事で輝けます。YOLO'sは、その転換を伴走する会社です。まずは気軽に、あなたの会社の課題を聞かせてください。</p>
+        <p class="sig">高木 武治<small>株式会社YOLO's 代表取締役</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="company">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="en">COMPANY</p>
+      <h2>会社概要</h2>
+    </div>
+    <div class="reveal">
+      <table class="company">
+        <tr>
+          <th>社名</th>
+          <td>株式会社YOLO's</td>
+        </tr>
+        <tr>
+          <th>代表取締役</th>
+          <td>高木 武治</td>
+        </tr>
+        <tr>
+          <th>事業内容</th>
+          <td>SNS採用支援事業（ヨロリク）／経理BPO・管理部長代行事業（ヨロガード）／経理教育事業（ヨロガードスクール）／AI活用SNS支援事業（AI SNS Lab・準備中）</td>
+        </tr>
+        <tr>
+          <th>URL</th>
+          <td><a href="https://www.yolo-shonan.com/" style="color:var(--deep);text-decoration:underline">https://www.yolo-shonan.com/</a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band" id="contact">
+  <div class="reveal">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.28em;opacity:.85">CONTACT</p>
+    <h2>まずは、話すことから始めましょう。</h2>
+    <p>採用のこと、経理のこと、仕組みづくりのこと。「何から相談すればいいか分からない」という段階で大丈夫です。現状を伺い、最初の一歩をご提案します。</p>
+    <a class="btn big" href="#">お問い合わせはこちら</a><!-- リンク後日差し替え -->
+  </div>
+</div>
+
+<footer>
+  <div class="ft-in">
+    <p class="ft-title">YOLO's SITE MAP</p>
+    <nav class="ft-links" aria-label="姉妹サイト一覧">
+      <a href="index.html">ポータル</a>
+      <a href="yolos_hp.html">株式会社YOLO's コーポレート（このページ）</a>
+      <a href="yoroliku_lp.html">ヨロリク｜SNS採用支援</a>
+      <a href="yologuard_lp.html">ヨロガード｜経理BPO・管理部長代行</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール｜経理教育</a>
+    </nav>
+    <p class="copy">© 株式会社YOLO's</p>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="ページトップへ戻る">↑</button>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    targets.forEach(function(el){ el.classList.add('on'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    targets.forEach(function(el){ io.observe(el); });
+  }
+  var tb = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){
+    tb.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  tb.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

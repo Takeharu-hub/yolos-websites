@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社YOLO's｜仕組みが、人を自由にする。</title>
+<style>
+:root{
+  --bg:#131313;
+  --bg2:#1d1d1d;
+  --line:#2b2b2b;
+  --fg:#e2e2e2;
+  --dim:#bababa;
+  --faint:#3a3a3a;
+  --accent:#8fb8ff;
+  --accent-rgb:143,184,255;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--dim);
+  font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  line-height:1.9;
+  letter-spacing:.05em;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+::selection{background:rgba(var(--accent-rgb),.35);color:#fff;}
+
+/* ---------- header ---------- */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(19,19,19,.78);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.logo{color:var(--fg);font-weight:800;font-size:17px;letter-spacing:.16em;white-space:nowrap;}
+.logo i{font-style:normal;color:var(--accent);}
+.gnav{display:flex;gap:24px;font-size:11px;letter-spacing:.16em;align-items:center;}
+.gnav a{color:var(--dim);transition:color .3s;}
+.gnav a:hover{color:var(--fg);}
+.gnav a.current{color:var(--accent);}
+.header-cta{
+  display:inline-block;
+  border:1px solid var(--accent);color:var(--accent);
+  padding:9px 20px;font-size:11px;letter-spacing:.16em;border-radius:2px;
+  transition:box-shadow .3s,background .3s,color .3s;white-space:nowrap;
+}
+.header-cta:hover{background:var(--accent);color:#0d0d0d;box-shadow:0 0 24px rgba(var(--accent-rgb),.45);}
+@media (max-width:767px){
+  .gnav{display:none;}
+  .site-header{padding:14px 18px;}
+}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:150px 6vw 110px;
+  overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%, #1d1d1d 0%, #131313 60%);
+}
+#mv{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.hero-inner{position:relative;z-index:2;max-width:1160px;}
+.hero-eyebrow{
+  color:var(--accent);font-size:12px;letter-spacing:.44em;margin-bottom:34px;
+  display:flex;align-items:center;gap:16px;
+}
+.hero-eyebrow::before{content:"";display:block;width:52px;height:1px;background:var(--accent);}
+h1.catch{
+  color:var(--fg);
+  font-size:clamp(34px,7.4vw,92px);
+  font-weight:800;letter-spacing:.06em;line-height:1.32;
+}
+.hero-sub{margin-top:34px;font-size:clamp(14px,1.6vw,17px);color:var(--dim);max-width:680px;}
+.hero-cta-row{margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-block;background:var(--accent);color:#0d0d0d;font-weight:700;
+  padding:18px 44px;font-size:14px;letter-spacing:.14em;border-radius:2px;
+  box-shadow:0 0 36px rgba(var(--accent-rgb),.32);transition:transform .3s,box-shadow .3s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 52px rgba(var(--accent-rgb),.55);}
+.btn-ghost{
+  display:inline-block;border:1px solid var(--faint);color:var(--dim);
+  padding:18px 40px;font-size:14px;letter-spacing:.14em;border-radius:2px;transition:border-color .3s,color .3s;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.scroll-hint{
+  position:absolute;bottom:0;left:6vw;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  color:var(--faint);font-size:10px;letter-spacing:.4em;writing-mode:vertical-rl;
+}
+.scroll-hint::after{
+  content:"";width:1px;height:72px;background:linear-gradient(to bottom,var(--accent),transparent);
+  animation:drop 2.4s ease-in-out infinite;
+}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top;}55%{transform:scaleY(1);transform-origin:top;}56%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+@media (max-width:767px){.scroll-hint{display:none;}}
+
+/* ---------- sections ---------- */
+section{position:relative;padding:130px 6vw;}
+.v-label{
+  position:absolute;top:130px;left:20px;
+  writing-mode:vertical-rl;
+  font-size:10px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;
+}
+.v-label b{color:var(--accent);font-weight:400;}
+@media (max-width:767px){
+  section{padding:90px 7vw;}
+  .v-label{position:static;writing-mode:horizontal-tb;display:block;margin-bottom:18px;}
+}
+.inner{max-width:1160px;margin:0 auto;position:relative;}
+.sec-head{margin-bottom:64px;}
+.sec-en{font-size:11px;letter-spacing:.4em;color:var(--accent);margin-bottom:14px;}
+h2{color:var(--fg);font-size:clamp(26px,3.8vw,46px);font-weight:800;letter-spacing:.1em;line-height:1.5;}
+.gline{height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;margin-top:34px;opacity:.85;}
+.gline-v{width:1px;background:var(--accent);transform:scaleY(0);transform-origin:top;}
+
+/* char scrub */
+.scrub{
+  font-size:clamp(19px,2.7vw,32px);
+  font-weight:700;letter-spacing:.08em;line-height:2.15;
+  max-width:1000px;
+}
+.sc{color:var(--faint);transition:color .3s linear;}
+.sc.lit{color:var(--fg);}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* ---------- marquee ---------- */
+.marquee{
+  overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:30px 0;background:var(--bg2);
+}
+.marquee-track{display:flex;width:max-content;animation:mq 30s linear infinite;}
+.marquee-group{display:flex;flex:0 0 auto;align-items:center;}
+.marquee-group span{
+  font-size:clamp(18px,2.4vw,30px);font-weight:800;letter-spacing:.22em;
+  color:var(--faint);padding-right:70px;white-space:nowrap;
+}
+.marquee-group span i{font-style:normal;color:var(--accent);}
+@keyframes mq{to{transform:translateX(-50%);}}
+
+/* ---------- business cards ---------- */
+.biz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:900px){.biz-grid{grid-template-columns:1fr;}}
+.biz-card{
+  --c:var(--accent);--c-rgb:var(--accent-rgb);
+  background:var(--bg2);padding:52px 42px 46px;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;transition:background .4s;
+}
+.biz-card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s;
+  background:radial-gradient(80% 60% at 50% 110%, rgba(var(--c-rgb),.14) 0%, transparent 70%);
+}
+.biz-card:hover::after{opacity:1;}
+.biz-en{font-size:11px;letter-spacing:.34em;color:var(--c);margin-bottom:12px;}
+.biz-name{color:var(--fg);font-size:clamp(21px,2.4vw,29px);font-weight:800;letter-spacing:.08em;}
+.biz-catch{color:var(--c);font-size:14.5px;font-weight:700;letter-spacing:.1em;margin-top:12px;}
+.biz-desc{font-size:13.5px;color:var(--dim);margin-top:16px;flex:1;}
+.biz-link{
+  margin-top:26px;align-self:flex-start;
+  color:var(--c);font-size:12px;letter-spacing:.26em;font-weight:700;
+  border-bottom:1px solid rgba(var(--c-rgb),.5);padding-bottom:6px;transition:letter-spacing .3s;
+}
+.biz-card:hover .biz-link{letter-spacing:.36em;}
+.biz-card .cardline{height:2px;width:100%;background:var(--c);transform:scaleX(0);transform-origin:left;margin-bottom:28px;box-shadow:0 0 14px rgba(var(--c-rgb),.6);}
+.badge-soon{
+  display:inline-block;margin-left:12px;vertical-align:middle;
+  font-size:10px;letter-spacing:.22em;color:var(--faint);
+  border:1px solid var(--faint);padding:3px 10px;border-radius:2px;
+}
+@media (max-width:767px){.biz-card{padding:40px 26px 36px;}}
+
+/* ---------- results ---------- */
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:960px){.result-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.result-grid{grid-template-columns:1fr;}}
+.result-cell{background:var(--bg);padding:52px 30px 46px;text-align:center;position:relative;}
+.result-label{font-size:12px;letter-spacing:.18em;color:var(--dim);margin-bottom:18px;min-height:3.4em;display:flex;align-items:center;justify-content:center;}
+.result-num{color:var(--fg);font-size:clamp(34px,3.8vw,52px);font-weight:800;letter-spacing:.04em;line-height:1.2;}
+.result-num small{font-size:.42em;font-weight:700;color:var(--accent);letter-spacing:.14em;margin-left:4px;}
+.result-cell .cellline{height:2px;width:44px;background:var(--accent);margin:22px auto 0;box-shadow:0 0 12px rgba(var(--accent-rgb),.6);}
+
+/* ---------- message ---------- */
+.msg-wrap{display:grid;grid-template-columns:220px 1fr;gap:60px;align-items:start;}
+@media (max-width:860px){.msg-wrap{grid-template-columns:1fr;gap:34px;}}
+.msg-side{position:relative;padding-left:26px;}
+.msg-side .gline-v{position:absolute;left:0;top:6px;height:150px;}
+.msg-role{font-size:11px;letter-spacing:.3em;color:var(--accent);}
+.msg-name{color:var(--fg);font-size:24px;font-weight:800;letter-spacing:.12em;margin-top:10px;}
+.msg-name-en{font-size:10px;letter-spacing:.34em;color:var(--faint);margin-top:6px;}
+.msg-body p{font-size:14.5px;color:var(--dim);margin-bottom:1.6em;}
+.msg-body p:last-child{margin-bottom:0;}
+.msg-body strong{color:var(--fg);font-weight:700;}
+
+/* ---------- company ---------- */
+.co-table{width:100%;border-collapse:collapse;max-width:860px;}
+.co-table th,.co-table td{
+  text-align:left;padding:26px 8px;border-bottom:1px solid var(--line);
+  font-size:14px;vertical-align:top;font-weight:400;
+}
+.co-table th{width:180px;color:var(--accent);letter-spacing:.2em;font-size:12px;white-space:nowrap;}
+.co-table td{color:var(--dim);}
+.co-table td a{color:var(--fg);border-bottom:1px solid var(--faint);transition:border-color .3s,color .3s;}
+.co-table td a:hover{color:var(--accent);border-color:var(--accent);}
+@media (max-width:600px){
+  .co-table th,.co-table td{display:block;width:100%;padding:14px 4px;}
+  .co-table th{border-bottom:none;padding-bottom:0;}
+}
+
+/* ---------- contact ---------- */
+.contact{
+  background:radial-gradient(90% 100% at 50% 100%, rgba(var(--accent-rgb),.09) 0%, transparent 65%), var(--bg2);
+  text-align:center;
+}
+.contact h2{margin-bottom:22px;}
+.contact p{max-width:620px;margin:0 auto;font-size:14.5px;}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:70px 6vw 46px;background:#0f0f0f;}
+.f-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;gap:44px;justify-content:space-between;}
+.f-brand{max-width:340px;}
+.f-logo{color:var(--fg);font-weight:800;font-size:18px;letter-spacing:.16em;}
+.f-logo i{font-style:normal;color:var(--accent);}
+.f-tag{margin-top:14px;font-size:12px;color:var(--dim);}
+.f-nav{display:flex;flex-direction:column;gap:12px;font-size:12px;letter-spacing:.12em;}
+.f-nav-title{font-size:10px;letter-spacing:.4em;color:var(--faint);margin-bottom:6px;}
+.f-nav a{color:var(--dim);transition:color .3s;}
+.f-nav a:hover{color:var(--accent);}
+.f-copy{max-width:1160px;margin:56px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:10px;letter-spacing:.2em;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation:none !important;transition:none !important;}
+  .sc{color:var(--fg) !important;}
+  .gline,.gline-v,.cardline{transform:none !important;}
+  .reveal{opacity:1 !important;transform:none !important;}
+  .marquee-track{animation:none !important;}
+}
+.reduced .sc{color:var(--fg) !important;}
+.reduced .gline,.reduced .gline-v,.reduced .cardline{transform:none !important;}
+.reduced .reveal{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="yolos_hp.html">YOLO<i>'</i>s</a>
+  <nav class="gnav">
+    <a href="#about">ABOUT</a>
+    <a href="#business">BUSINESS</a>
+    <a href="#results">RESULTS</a>
+    <a href="#message">MESSAGE</a>
+    <a href="#company">COMPANY</a>
+    <a href="index.html">PORTAL</a>
+    <a href="yoroliku_lp.html">ヨロリク</a>
+    <a href="yologuard_lp.html">ヨロガード</a>
+    <a href="yologuard_school_lp.html">スクール</a>
+  </nav>
+  <a class="header-cta" href="#contact">CONTACT</a>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <canvas id="mv" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">YOLO's — YOU ONLY LIVE ONCE</p>
+    <h1 class="catch">仕組みが、<br>人を自由にする。</h1>
+    <p class="hero-sub">YOLO = You Only Live Once。一度きりの人生を、労働に縛られたまま終わらせないために。株式会社YOLO'sは、採用・経理・学びを「仕組み」に変える会社です。</p>
+    <div class="hero-cta-row">
+      <a class="btn-primary" href="#business">事業を見る</a>
+      <a class="btn-ghost" href="#contact">お問い合わせ</a>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</div>
+
+<!-- ===== マーキー ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>YOU ONLY LIVE ONCE<i>.</i></span>
+      <span>SYSTEM <i>&gt;</i> LABOR</span>
+      <span>RECRUITING <i>/</i> BACKOFFICE <i>/</i> EDUCATION</span>
+      <span>YOLO<i>'</i>s INC<i>.</i></span>
+    </div>
+    <div class="marquee-group">
+      <span>YOU ONLY LIVE ONCE<i>.</i></span>
+      <span>SYSTEM <i>&gt;</i> LABOR</span>
+      <span>RECRUITING <i>/</i> BACKOFFICE <i>/</i> EDUCATION</span>
+      <span>YOLO<i>'</i>s INC<i>.</i></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <span class="v-label">ABOUT <b>/</b> 01</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">WHO WE ARE</p>
+      <h2>労働集約の外へ。</h2>
+    </div>
+    <p class="scrub" data-scrub>時間を切り売りする働き方は、どれだけ頑張っても人を自由にしない。私たちは、人がやらなくていい仕事を仕組みに任せ、人にしかできない仕事に時間を返す。採用は媒体費で消えるコストから積み上がる資産へ。経理は属人化した作業から経営の武器へ。学びは資格のコレクションから売れる商品へ。YOLO'sは、その転換をつくる会社です。</p>
+    <div class="gline" data-line></div>
+  </div>
+</section>
+
+<!-- ===== BUSINESS ===== -->
+<section id="business" style="background:var(--bg2);">
+  <span class="v-label">BUSINESS <b>/</b> 02</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">OUR BUSINESS</p>
+      <h2>4つの事業。</h2>
+    </div>
+    <div class="biz-grid">
+
+      <a class="biz-card reveal" href="yoroliku_lp.html" style="--c:#6ea8ff;--c-rgb:110,168,255;">
+        <div class="cardline" data-line></div>
+        <p class="biz-en">SNS RECRUITING</p>
+        <p class="biz-name">ヨロリク</p>
+        <p class="biz-catch">採用活動を、辞める。</p>
+        <p class="biz-desc">求人媒体に払い続ける採用をやめ、TikTokアカウントという「企業資産」で人が集まる状態をつくるSNS採用支援。動画制作から応募までの導線設計・運用を丸ごと担います。</p>
+        <span class="biz-link">VIEW SERVICE</span>
+      </a>
+
+      <a class="biz-card reveal d1" href="yologuard_lp.html" style="--c:#6fe3a8;--c-rgb:111,227,168;">
+        <div class="cardline" data-line></div>
+        <p class="biz-en">BACKOFFICE BPO</p>
+        <p class="biz-name">ヨロガード</p>
+        <p class="biz-catch">経理を、経営の武器に。</p>
+        <p class="biz-desc">記帳代行ではなく、管理部長の頭脳ごと外部化するBPO。属人化した経理を棚卸しし、業務を再設計して、経営判断を支える数字の仕組みに変えます。</p>
+        <span class="biz-link">VIEW SERVICE</span>
+      </a>
+
+      <a class="biz-card reveal d2" href="yologuard_school_lp.html" style="--c:#ffb366;--c-rgb:255,179,102;">
+        <div class="cardline" data-line></div>
+        <p class="biz-en">ACCOUNTING SCHOOL</p>
+        <p class="biz-name">ヨロガードスクール</p>
+        <p class="biz-catch">学んだのに、"売る商品"がないあなたへ。</p>
+        <p class="biz-desc">AIに消えない×景気に強い"手放せる鉄板ビジネス"を、経理で持つ学校。学び直しから雇用での安定、そして独立までを段階的に設計します。</p>
+        <span class="biz-link">VIEW SERVICE</span>
+      </a>
+
+      <div class="biz-card reveal d3" style="--c:#8fb8ff;--c-rgb:143,184,255;">
+        <div class="cardline" data-line></div>
+        <p class="biz-en">AI × SNS MARKETING</p>
+        <p class="biz-name">AI SNS Lab<span class="badge-soon">COMING SOON</span></p>
+        <p class="biz-catch">発信を、仕組みにする。</p>
+        <p class="biz-desc">AIを活用したSNSマーケティングの研究・支援事業。現在準備中です。公開まで今しばらくお待ちください。</p>
+        <span class="biz-link" style="opacity:.4;">PREPARING</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESULTS ===== -->
+<section id="results">
+  <span class="v-label">RESULTS <b>/</b> 03</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">TRACK RECORD</p>
+      <h2>数字は、仕組みの証明。</h2>
+    </div>
+    <div class="result-grid">
+      <div class="result-cell reveal">
+        <p class="result-label">SNS支援アカウント</p>
+        <p class="result-num">50<small>社以上</small></p>
+        <div class="cellline"></div>
+      </div>
+      <div class="result-cell reveal d1">
+        <p class="result-label">累計再生回数</p>
+        <p class="result-num">3<small>億回以上</small></p>
+        <div class="cellline"></div>
+      </div>
+      <div class="result-cell reveal d2">
+        <p class="result-label">動画制作本数</p>
+        <p class="result-num">5,000<small>本以上</small></p>
+        <div class="cellline"></div>
+      </div>
+      <div class="result-cell reveal d3">
+        <p class="result-label">最短3ヶ月での応募達成</p>
+        <p class="result-num">50<small>件以上</small></p>
+        <div class="cellline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MESSAGE ===== -->
+<section id="message" style="background:var(--bg2);">
+  <span class="v-label">MESSAGE <b>/</b> 04</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">MESSAGE</p>
+      <h2>代表メッセージ</h2>
+    </div>
+    <div class="msg-wrap">
+      <div class="msg-side">
+        <div class="gline-v" data-line></div>
+        <p class="msg-role">代表取締役</p>
+        <p class="msg-name">高木 武治</p>
+        <p class="msg-name-en">TAKEJI TAKAGI</p>
+      </div>
+      <div class="msg-body">
+        <p class="scrub" data-scrub style="font-size:clamp(17px,2vw,24px);margin-bottom:1.8em;">「頑張っているのに、自由にならない」。その原因は、努力の量ではなく、仕組みの不在にあると私は考えています。</p>
+        <p>時間を切り売りする働き方は、どれだけ優秀な人でも、いつか限界が来ます。だから私たちは、<strong>人の頑張りに依存するものを、仕組みに置き換える</strong>ことを事業にしました。採用は「資産として積み上がるメディア」に。経理は「経営判断を支える武器」に。学びは「自分で売れる商品」に。</p>
+        <p>YOLO'sのメンバーは、本当に優秀です。だからこそ、彼らの時間を雑務で溶かさないこと、人にしかできない仕事に集中してもらうことが、リーダーである私の仕事だと思っています。そしてその考え方を、そのままお客様にも届けたい。</p>
+        <p><strong>You Only Live Once。人生は一度きり。</strong>あなたの会社の時間も、あなた自身の時間も、仕組みで自由にする。私たちはそのために存在しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMPANY ===== -->
+<section id="company">
+  <span class="v-label">COMPANY <b>/</b> 05</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">COMPANY PROFILE</p>
+      <h2>会社概要</h2>
+    </div>
+    <table class="co-table reveal">
+      <tr>
+        <th>社名</th>
+        <td>株式会社YOLO's</td>
+      </tr>
+      <tr>
+        <th>代表取締役</th>
+        <td>高木 武治</td>
+      </tr>
+      <tr>
+        <th>事業内容</th>
+        <td>SNS採用支援事業（ヨロリク）／経理BPO・管理部長代行事業（ヨロガード）／経理教育事業（ヨロガードスクール）／AI×SNSマーケティング事業（AI SNS Lab・準備中）</td>
+      </tr>
+      <tr>
+        <th>URL</th>
+        <td><a href="https://www.yolo-shonan.com/">https://www.yolo-shonan.com/</a></td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="contact">
+  <div class="inner">
+    <p class="sec-en" style="text-align:center;">CONTACT</p>
+    <h2>まず、話しませんか。</h2>
+    <p class="reveal">採用のこと、経理のこと、事業のこと。「うちの場合はどうなる？」から始めていただいて構いません。売り込みではなく、状況の整理からご一緒します。</p>
+    <div class="hero-cta-row reveal" style="justify-content:center;margin-top:44px;">
+      <!-- リンク後日差し替え -->
+      <a class="btn-primary" href="#">お問い合わせはこちら</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="f-inner">
+    <div class="f-brand">
+      <p class="f-logo">YOLO<i>'</i>s</p>
+      <p class="f-tag">仕組みが、人を自由にする。<br>株式会社YOLO's</p>
+    </div>
+    <nav class="f-nav">
+      <p class="f-nav-title">SITES</p>
+      <a href="index.html">事業ポータル</a>
+      <a href="yolos_hp.html">株式会社YOLO's コーポレート（このページ）</a>
+      <a href="yoroliku_lp.html">ヨロリク｜SNS採用支援</a>
+      <a href="yologuard_lp.html">ヨロガード｜経理BPO・管理部長代行</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール｜経理教育</a>
+    </nav>
+    <nav class="f-nav">
+      <p class="f-nav-title">MENU</p>
+      <a href="#about">私たちについて</a>
+      <a href="#business">事業内容</a>
+      <a href="#results">実績</a>
+      <a href="#message">代表メッセージ</a>
+      <a href="#company">会社概要</a>
+    </nav>
+  </div>
+  <div class="f-copy">
+    <span>© 株式会社YOLO's</span>
+    <span>YOU ONLY LIVE ONCE.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced) document.documentElement.classList.add('reduced');
+
+  /* ---- 1. charスクラブ ---- */
+  var scrubEls = Array.prototype.slice.call(document.querySelectorAll('[data-scrub]'));
+  scrubEls.forEach(function(el){
+    var chars = Array.from(el.textContent);
+    el.textContent = '';
+    var frag = document.createDocumentFragment();
+    chars.forEach(function(ch){
+      var s = document.createElement('span');
+      s.className = 'sc';
+      s.textContent = ch;
+      frag.appendChild(s);
+    });
+    el.appendChild(frag);
+    el._chars = el.querySelectorAll('.sc');
+    el._lit = -1;
+  });
+
+  /* ---- 2. スクロール連動ライン ---- */
+  var lines = Array.prototype.slice.call(document.querySelectorAll('[data-line]'));
+
+  function progressOf(el, startF, endF){
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight || 1;
+    var start = vh * startF, end = vh * endF;
+    var denom = r.height + start - end;
+    if(denom <= 0) denom = 1;
+    var p = (start - r.top) / denom;
+    return Math.max(0, Math.min(1, p));
+  }
+
+  var ticking = false;
+  function update(){
+    if(!reduced){
+      scrubEls.forEach(function(el){
+        var p = progressOf(el, .88, .38);
+        var n = Math.round(p * el._chars.length);
+        if(n !== el._lit){
+          for(var i = 0; i < el._chars.length; i++){
+            el._chars[i].classList.toggle('lit', i < n);
+          }
+          el._lit = n;
+        }
+      });
+      lines.forEach(function(el){
+        var p = progressOf(el, .94, .42);
+        if(el.classList.contains('gline-v')){
+          el.style.transform = 'scaleY(' + p.toFixed(4) + ')';
+        }else{
+          el.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        }
+      });
+    }
+    ticking = false;
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+
+  /* ---- フェードイン入場 ---- */
+  var reveals = document.querySelectorAll('.reveal');
+  if(reduced || !('IntersectionObserver' in window)){
+    reveals.forEach(function(el){ el.classList.add('visible'); });
+  }else{
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- 3. 抽象モーションMV ---- */
+  var canvas = document.getElementById('mv');
+  if(canvas && canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    var AC = {r:143, g:184, b:255};
+    var W = 0, H = 0, dots = [], glows = [];
+    function resize(){
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    function init(){
+      dots = [];
+      var n = Math.max(24, Math.min(90, Math.floor(W * H / 22000)));
+      for(var i = 0; i < n; i++){
+        dots.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: Math.random() * 1.6 + .4,
+          vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .14,
+          a: Math.random() * .5 + .15, tw: Math.random() * Math.PI * 2
+        });
+      }
+      glows = [
+        {x:.24, y:.42, r:.55, s:.00011, ph:0},
+        {x:.76, y:.62, r:.5,  s:.00008, ph:2.2}
+      ];
+    }
+    function frame(t){
+      ctx.clearRect(0, 0, W, H);
+      glows.forEach(function(g){
+        var gx = (g.x + Math.sin(t * g.s + g.ph) * .12) * W;
+        var gy = (g.y + Math.cos(t * g.s * 1.3 + g.ph) * .1) * H;
+        var rad = Math.max(W, H) * g.r;
+        var grd = ctx.createRadialGradient(gx, gy, 0, gx, gy, rad);
+        grd.addColorStop(0, 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',0.055)');
+        grd.addColorStop(1, 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, W, H);
+      });
+      dots.forEach(function(d){
+        d.x += d.vx; d.y += d.vy;
+        if(d.x < -4) d.x = W + 4; if(d.x > W + 4) d.x = -4;
+        if(d.y < -4) d.y = H + 4; if(d.y > H + 4) d.y = -4;
+        var a = d.a * (0.6 + 0.4 * Math.sin(t * .0012 + d.tw));
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',' + a.toFixed(3) + ')';
+        ctx.fill();
+      });
+      if(!reduced) requestAnimationFrame(frame);
+    }
+    resize(); init();
+    window.addEventListener('resize', function(){ resize(); init(); if(reduced) frame(0); });
+    if(reduced){ frame(0); } else { requestAnimationFrame(frame); }
+  }
+})();
+</script>
+</body>
+</html>

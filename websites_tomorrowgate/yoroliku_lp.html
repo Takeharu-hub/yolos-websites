@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヨロリク｜採用活動を、辞める。— SNS採用支援</title>
+<style>
+:root{
+  --bg:#131313;
+  --bg2:#1d1d1d;
+  --line:#2b2b2b;
+  --fg:#e2e2e2;
+  --dim:#bababa;
+  --faint:#3a3a3a;
+  --accent:#6ea8ff;
+  --accent-rgb:110,168,255;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--dim);
+  font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  line-height:1.9;
+  letter-spacing:.05em;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+::selection{background:rgba(var(--accent-rgb),.35);color:#fff;}
+
+/* ---------- header ---------- */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(19,19,19,.78);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.logo{color:var(--fg);font-weight:800;font-size:17px;letter-spacing:.16em;white-space:nowrap;}
+.logo i{font-style:normal;color:var(--accent);}
+.gnav{display:flex;gap:24px;font-size:11px;letter-spacing:.16em;align-items:center;}
+.gnav a{color:var(--dim);transition:color .3s;}
+.gnav a:hover{color:var(--fg);}
+.gnav a.current{color:var(--accent);}
+.header-cta{
+  display:inline-block;
+  border:1px solid var(--accent);color:var(--accent);
+  padding:9px 20px;font-size:11px;letter-spacing:.16em;border-radius:2px;
+  transition:box-shadow .3s,background .3s,color .3s;white-space:nowrap;
+}
+.header-cta:hover{background:var(--accent);color:#0d0d0d;box-shadow:0 0 24px rgba(var(--accent-rgb),.45);}
+@media (max-width:767px){
+  .gnav{display:none;}
+  .site-header{padding:14px 18px;}
+}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:150px 6vw 110px;
+  overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%, #1d1d1d 0%, #131313 60%);
+}
+#mv{position:absolute;inset:0;width:100%;height:100%;display:block;}
+.hero-inner{position:relative;z-index:2;max-width:1160px;}
+.hero-eyebrow{
+  color:var(--accent);font-size:12px;letter-spacing:.44em;margin-bottom:34px;
+  display:flex;align-items:center;gap:16px;
+}
+.hero-eyebrow::before{content:"";display:block;width:52px;height:1px;background:var(--accent);}
+h1.catch{
+  color:var(--fg);
+  font-size:clamp(38px,8.4vw,104px);
+  font-weight:800;letter-spacing:.06em;line-height:1.28;
+}
+.hero-sub{margin-top:34px;font-size:clamp(14px,1.7vw,18px);color:var(--dim);max-width:700px;}
+.hero-sub strong{color:var(--fg);}
+.fv-benefits{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px;}
+.fv-benefits li{
+  list-style:none;font-size:12.5px;letter-spacing:.1em;color:var(--fg);
+  border:1px solid rgba(var(--accent-rgb),.45);padding:8px 16px;border-radius:2px;
+  background:rgba(var(--accent-rgb),.07);
+}
+.fv-benefits li b{color:var(--accent);font-weight:700;}
+.hero-cta-row{margin-top:42px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.btn-primary{
+  display:inline-block;background:var(--accent);color:#0d0d0d;font-weight:700;
+  padding:19px 48px;font-size:15px;letter-spacing:.12em;border-radius:2px;
+  box-shadow:0 0 36px rgba(var(--accent-rgb),.32);transition:transform .3s,box-shadow .3s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 52px rgba(var(--accent-rgb),.55);}
+.btn-ghost{
+  display:inline-block;border:1px solid var(--faint);color:var(--dim);
+  padding:18px 40px;font-size:14px;letter-spacing:.14em;border-radius:2px;transition:border-color .3s,color .3s;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.cta-note{font-size:11px;letter-spacing:.1em;color:var(--dim);}
+.scroll-hint{
+  position:absolute;bottom:0;left:6vw;z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  color:var(--faint);font-size:10px;letter-spacing:.4em;writing-mode:vertical-rl;
+}
+.scroll-hint::after{
+  content:"";width:1px;height:72px;background:linear-gradient(to bottom,var(--accent),transparent);
+  animation:drop 2.4s ease-in-out infinite;
+}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top;}55%{transform:scaleY(1);transform-origin:top;}56%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+@media (max-width:767px){.scroll-hint{display:none;}}
+
+/* ---------- sections ---------- */
+section{position:relative;padding:130px 6vw;}
+.v-label{
+  position:absolute;top:130px;left:20px;
+  writing-mode:vertical-rl;
+  font-size:10px;letter-spacing:.5em;color:var(--faint);text-transform:uppercase;
+}
+.v-label b{color:var(--accent);font-weight:400;}
+@media (max-width:767px){
+  section{padding:90px 7vw;}
+  .v-label{position:static;writing-mode:horizontal-tb;display:block;margin-bottom:18px;}
+}
+.inner{max-width:1160px;margin:0 auto;position:relative;}
+.sec-head{margin-bottom:64px;}
+.sec-en{font-size:11px;letter-spacing:.4em;color:var(--accent);margin-bottom:14px;}
+h2{color:var(--fg);font-size:clamp(25px,3.8vw,46px);font-weight:800;letter-spacing:.1em;line-height:1.5;}
+.sec-lead{margin-top:22px;font-size:14.5px;max-width:760px;}
+.gline{height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;margin-top:34px;opacity:.85;}
+.gline-v{width:1px;background:var(--accent);transform:scaleY(0);transform-origin:top;}
+
+/* char scrub */
+.scrub{
+  font-size:clamp(19px,2.7vw,32px);
+  font-weight:700;letter-spacing:.08em;line-height:2.15;
+  max-width:1000px;
+}
+.sc{color:var(--faint);transition:color .3s linear;}
+.sc.lit{color:var(--fg);}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* ---------- marquee ---------- */
+.marquee{
+  overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:30px 0;background:var(--bg2);
+}
+.marquee-track{display:flex;width:max-content;animation:mq 30s linear infinite;}
+.marquee-group{display:flex;flex:0 0 auto;align-items:center;}
+.marquee-group span{
+  font-size:clamp(18px,2.4vw,30px);font-weight:800;letter-spacing:.22em;
+  color:var(--faint);padding-right:70px;white-space:nowrap;
+}
+.marquee-group span i{font-style:normal;color:var(--accent);}
+@keyframes mq{to{transform:translateX(-50%);}}
+
+/* ---------- problem cards ---------- */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:900px){.prob-grid{grid-template-columns:1fr;}}
+.prob-card{background:var(--bg);padding:46px 36px;}
+.prob-num{font-size:11px;letter-spacing:.34em;color:var(--accent);margin-bottom:18px;}
+.prob-title{color:var(--fg);font-size:19px;font-weight:800;letter-spacing:.08em;line-height:1.7;}
+.prob-body{font-size:13.5px;margin-top:16px;}
+.prob-big{color:var(--fg);font-size:clamp(28px,3vw,40px);font-weight:800;margin-top:14px;letter-spacing:.02em;}
+.prob-big small{font-size:.4em;color:var(--accent);letter-spacing:.14em;margin-left:4px;}
+
+/* ---------- solution ---------- */
+.asset-compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:56px;}
+@media (max-width:820px){.asset-compare{grid-template-columns:1fr;}}
+.asset-col{background:var(--bg2);padding:48px 40px;}
+.asset-col.is-old{background:var(--bg);}
+.asset-tag{font-size:11px;letter-spacing:.3em;margin-bottom:16px;}
+.asset-col.is-old .asset-tag{color:var(--faint);}
+.asset-col.is-new .asset-tag{color:var(--accent);}
+.asset-title{font-size:21px;font-weight:800;letter-spacing:.08em;line-height:1.7;}
+.asset-col.is-old .asset-title{color:var(--dim);}
+.asset-col.is-new .asset-title{color:var(--fg);}
+.asset-body{font-size:13.5px;margin-top:16px;}
+.asset-col.is-new{position:relative;overflow:hidden;}
+.asset-col.is-new::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(90% 70% at 50% 115%, rgba(var(--accent-rgb),.13) 0%, transparent 70%);
+}
+
+/* ---------- flow ---------- */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:10px;}
+@media (max-width:900px){.flow{grid-template-columns:1fr;max-width:520px;}}
+.flow-step{
+  background:var(--bg);border:1px solid var(--line);padding:34px 26px;position:relative;
+}
+.flow-step::after{
+  content:"→";position:absolute;right:-16px;top:50%;transform:translateY(-50%);
+  color:var(--accent);font-weight:800;z-index:2;
+}
+.flow-step:last-child::after{content:none;}
+@media (max-width:900px){
+  .flow-step::after{content:"↓";right:auto;left:50%;top:auto;bottom:-24px;transform:translateX(-50%);}
+  .flow-step:last-child::after{content:none;}
+  .flow{gap:26px;}
+}
+.flow-num{font-size:10px;letter-spacing:.34em;color:var(--accent);}
+.flow-name{color:var(--fg);font-size:20px;font-weight:800;letter-spacing:.1em;margin-top:10px;}
+.flow-desc{font-size:12.5px;margin-top:12px;}
+.flow-note{
+  margin-top:44px;border:1px solid rgba(var(--accent-rgb),.4);background:rgba(var(--accent-rgb),.06);
+  padding:30px 34px;display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;
+}
+.flow-note-key{color:var(--accent);font-size:13px;letter-spacing:.2em;font-weight:700;white-space:nowrap;}
+.flow-note-body{font-size:14px;color:var(--fg);flex:1;min-width:240px;}
+.flow-note-body b{color:var(--accent);font-size:1.25em;}
+
+/* ---------- services 6 ---------- */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:900px){.svc-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.svc-grid{grid-template-columns:1fr;}}
+.svc-card{background:var(--bg2);padding:40px 32px;}
+.svc-num{font-size:10px;letter-spacing:.34em;color:var(--accent);margin-bottom:14px;}
+.svc-name{color:var(--fg);font-size:17.5px;font-weight:800;letter-spacing:.08em;line-height:1.6;}
+.svc-desc{font-size:13px;margin-top:12px;}
+
+/* ---------- pricing ---------- */
+.price-panel{
+  border:1px solid rgba(var(--accent-rgb),.45);background:var(--bg2);
+  padding:56px 48px;position:relative;overflow:hidden;
+}
+.price-panel::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(80% 60% at 50% 120%, rgba(var(--accent-rgb),.12) 0%, transparent 70%);
+}
+@media (max-width:600px){.price-panel{padding:40px 24px;}}
+.price-rows{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);position:relative;z-index:1;}
+@media (max-width:820px){.price-rows{grid-template-columns:1fr;}}
+.price-cell{background:var(--bg);padding:38px 28px;text-align:center;}
+.price-cap{font-size:11.5px;letter-spacing:.24em;color:var(--dim);margin-bottom:14px;}
+.price-val{color:var(--fg);font-size:clamp(30px,3.4vw,44px);font-weight:800;letter-spacing:.02em;line-height:1.3;}
+.price-val small{font-size:.4em;color:var(--accent);letter-spacing:.12em;}
+.price-sub{font-size:11.5px;color:var(--dim);margin-top:10px;}
+.lowrisk{
+  position:relative;z-index:1;margin-top:36px;text-align:center;
+  border:1px dashed rgba(var(--accent-rgb),.5);padding:30px 24px;
+}
+.lowrisk p.big{color:var(--fg);font-size:clamp(18px,2.2vw,26px);font-weight:800;letter-spacing:.08em;}
+.lowrisk p.big b{color:var(--accent);}
+.lowrisk p.small{font-size:12.5px;margin-top:10px;}
+.price-terms{position:relative;z-index:1;margin-top:26px;font-size:12px;color:var(--dim);text-align:center;letter-spacing:.08em;}
+
+/* ---------- target ---------- */
+.target-wrap{display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:start;}
+@media (max-width:820px){.target-wrap{grid-template-columns:1fr;gap:30px;}}
+.target-side{position:relative;padding-left:26px;min-height:170px;}
+.target-side .gline-v{position:absolute;left:0;top:6px;height:160px;}
+.target-tags{display:flex;flex-wrap:wrap;gap:12px;}
+.target-tags span{
+  border:1px solid rgba(var(--accent-rgb),.45);color:var(--fg);
+  padding:14px 26px;font-size:15px;font-weight:700;letter-spacing:.12em;border-radius:2px;
+  background:rgba(var(--accent-rgb),.06);
+}
+.target-note{margin-top:26px;font-size:13.5px;max-width:640px;}
+
+/* ---------- results ---------- */
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+@media (max-width:960px){.result-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.result-grid{grid-template-columns:1fr;}}
+.result-cell{background:var(--bg2);padding:52px 30px 46px;text-align:center;}
+.result-label{font-size:12px;letter-spacing:.18em;color:var(--dim);margin-bottom:18px;min-height:3.4em;display:flex;align-items:center;justify-content:center;}
+.result-num{color:var(--fg);font-size:clamp(34px,3.8vw,52px);font-weight:800;letter-spacing:.04em;line-height:1.2;}
+.result-num small{font-size:.42em;font-weight:700;color:var(--accent);letter-spacing:.14em;margin-left:4px;}
+.result-cell .cellline{height:2px;width:44px;background:var(--accent);margin:22px auto 0;box-shadow:0 0 12px rgba(var(--accent-rgb),.6);}
+
+/* ---------- cta ---------- */
+.cta-sec{
+  background:radial-gradient(90% 100% at 50% 100%, rgba(var(--accent-rgb),.1) 0%, transparent 65%), var(--bg2);
+  text-align:center;
+}
+.cta-sec h2{margin-bottom:22px;}
+.cta-sec .lead{max-width:640px;margin:0 auto;font-size:14.5px;}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:70px 6vw 46px;background:#0f0f0f;}
+.f-inner{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;gap:44px;justify-content:space-between;}
+.f-brand{max-width:340px;}
+.f-logo{color:var(--fg);font-weight:800;font-size:18px;letter-spacing:.16em;}
+.f-logo i{font-style:normal;color:var(--accent);}
+.f-tag{margin-top:14px;font-size:12px;color:var(--dim);}
+.f-nav{display:flex;flex-direction:column;gap:12px;font-size:12px;letter-spacing:.12em;}
+.f-nav-title{font-size:10px;letter-spacing:.4em;color:var(--faint);margin-bottom:6px;}
+.f-nav a{color:var(--dim);transition:color .3s;}
+.f-nav a:hover{color:var(--accent);}
+.f-copy{max-width:1160px;margin:56px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:10px;letter-spacing:.2em;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation:none !important;transition:none !important;}
+  .sc{color:var(--fg) !important;}
+  .gline,.gline-v{transform:none !important;}
+  .reveal{opacity:1 !important;transform:none !important;}
+  .marquee-track{animation:none !important;}
+}
+.reduced .sc{color:var(--fg) !important;}
+.reduced .gline,.reduced .gline-v{transform:none !important;}
+.reduced .reveal{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="logo" href="yoroliku_lp.html">ヨロリク<i>.</i></a>
+  <nav class="gnav">
+    <a href="#problem">課題</a>
+    <a href="#solution">解決策</a>
+    <a href="#service">サービス内容</a>
+    <a href="#price">料金</a>
+    <a href="index.html">PORTAL</a>
+    <a href="yolos_hp.html">運営会社</a>
+    <a href="yologuard_lp.html">ヨロガード</a>
+    <a href="yologuard_school_lp.html">スクール</a>
+  </nav>
+  <a class="header-cta" href="#cta">無料相談</a>
+</header>
+
+<!-- ===== FV ===== -->
+<div class="hero">
+  <canvas id="mv" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">YOROLIKU — SNS RECRUITING</p>
+    <h1 class="catch">採用活動を、<br>辞める。</h1>
+    <p class="hero-sub">求人媒体に払い続ける「消える採用コスト」から、TikTokアカウントという<strong>「積み上がる企業資産」</strong>へ。動画制作から応募までの導線を、ヨロリクが丸ごと運用します。</p>
+    <ul class="fv-benefits">
+      <li>初期費用 <b>0円</b></li>
+      <li>応募ゼロなら <b>月20万円のみ</b></li>
+      <li>SNS動画 <b>月8本</b>＋運用まで一括</li>
+    </ul>
+    <div class="hero-cta-row">
+      <!-- リンク後日差し替え -->
+      <a class="btn-primary" href="#">無料相談をLINEで予約する</a>
+      <span class="cta-note">オンライン対応／しつこい営業はしません</span>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</div>
+
+<!-- ===== マーキー ===== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>STOP RENTING<i>,</i> START OWNING</span>
+      <span>TIKTOK <i>=</i> COMPANY ASSET</span>
+      <span>SNS <i>→</i> LP <i>→</i> LINE <i>→</i> 応募</span>
+      <span>YOROLIKU<i>.</i></span>
+    </div>
+    <div class="marquee-group">
+      <span>STOP RENTING<i>,</i> START OWNING</span>
+      <span>TIKTOK <i>=</i> COMPANY ASSET</span>
+      <span>SNS <i>→</i> LP <i>→</i> LINE <i>→</i> 応募</span>
+      <span>YOROLIKU<i>.</i></span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 課題 ===== -->
+<section id="problem">
+  <span class="v-label">PROBLEM <b>/</b> 01</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">WHY RECRUITING FAILS</p>
+      <h2>その採用費、来年なにが残りますか。</h2>
+    </div>
+    <p class="scrub" data-scrub>媒体に載せる。お金が減る。掲載が終わる。何も残らない。また載せる。採用って、本当にこの繰り返しでいいんでしょうか。</p>
+    <div class="gline" data-line></div>
+    <div class="prob-grid" style="margin-top:56px;">
+      <div class="prob-card reveal">
+        <p class="prob-num">ISSUE 01</p>
+        <p class="prob-title">採用コストが重すぎる</p>
+        <p class="prob-big">約128<small>万円/人</small></p>
+        <p class="prob-body">中途採用1人あたりにかかるコストの目安。媒体費・紹介料・工数を合わせると、採るたびにこの負担が発生します。</p>
+      </div>
+      <div class="prob-card reveal d1">
+        <p class="prob-num">ISSUE 02</p>
+        <p class="prob-title">払い続けても、資産にならない</p>
+        <p class="prob-body">求人媒体への支払いは「掲載期間を借りる」費用。掲載が終われば露出はゼロに戻り、翌年もまた同じ金額を払うことになります。積み上がるものが何もありません。</p>
+      </div>
+      <div class="prob-card reveal d2">
+        <p class="prob-num">ISSUE 03</p>
+        <p class="prob-title">現場に採用をやる時間がない</p>
+        <p class="prob-body">建設・不動産・運送の現場は日々の業務で手一杯。SNSがいいと分かっていても、企画・撮影・編集・投稿・分析を自社で回すのは現実的ではありません。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 解決 ===== -->
+<section id="solution" style="background:var(--bg2);">
+  <span class="v-label">SOLUTION <b>/</b> 02</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">OUR ANSWER</p>
+      <h2>「採用メディア資産」を持つ。</h2>
+      <p class="sec-lead">ヨロリクがつくるのは、単発の求人広告ではありません。御社名義のTikTokアカウント＝<b style="color:var(--fg);">企業の資産</b>です。投稿した動画とフォロワーは御社のものとして積み上がり、発信を続けるほど「採用に強い会社」になっていきます。</p>
+    </div>
+    <div class="asset-compare">
+      <div class="asset-col is-old reveal">
+        <p class="asset-tag">これまで — 求人媒体</p>
+        <p class="asset-title">借りる採用</p>
+        <p class="asset-body">掲載費を払って枠を借りる。期間が終われば露出はゼロ。応募が来ても来なくても費用は同じ。翌年もまた同じ支出が続く。</p>
+      </div>
+      <div class="asset-col is-new reveal d1">
+        <p class="asset-tag">これから — 採用メディア資産</p>
+        <p class="asset-title">持つ採用</p>
+        <p class="asset-body">TikTokアカウントは御社の資産。動画・フォロワー・会社のファンが積み上がり、消えない。採用だけでなく、会社の認知やブランディングにも効いていく。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 導線 ===== -->
+<section id="flow">
+  <span class="v-label">FLOW <b>/</b> 03</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">HOW IT WORKS</p>
+      <h2>「見た人」を「応募者」に変える導線。</h2>
+      <p class="sec-lead">バズって終わり、では意味がありません。ヨロリクは動画の先に、応募までの一本道を設計します。</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step reveal">
+        <p class="flow-num">STEP 01</p>
+        <p class="flow-name">SNS</p>
+        <p class="flow-desc">TikTok動画で会社の空気・働く人・仕事のリアルを届け、「この会社ちょっといいかも」をつくる。</p>
+      </div>
+      <div class="flow-step reveal d1">
+        <p class="flow-num">STEP 02</p>
+        <p class="flow-name">LP</p>
+        <p class="flow-desc">興味を持った人が会社と募集内容を深く知るページへ。動画の温度感のまま情報を受け止める。</p>
+      </div>
+      <div class="flow-step reveal d2">
+        <p class="flow-num">STEP 03</p>
+        <p class="flow-name">LINE</p>
+        <p class="flow-desc">いきなり応募ではなく、まずLINEで友だちに。心理的ハードルを下げて接点を持ち続ける。</p>
+      </div>
+      <div class="flow-step reveal d3">
+        <p class="flow-num">STEP 04</p>
+        <p class="flow-name">応募</p>
+        <p class="flow-desc">LINE上のやり取りで不安を解消してから応募へ。「気になる」を「働きたい」に育てる。</p>
+      </div>
+    </div>
+    <div class="flow-note reveal">
+      <p class="flow-note-key">ここが違い</p>
+      <p class="flow-note-body">LINEに追加された候補者には、自動配信だけでなく<b>手動の「口説き」</b>を実施。ひとりひとりの温度に合わせた対話で、応募率は<b>約3倍</b>に変わります。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6役務 ===== -->
+<section id="service" style="background:var(--bg2);">
+  <span class="v-label">SERVICE <b>/</b> 04</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">WHAT'S INCLUDED</p>
+      <h2>月額に含まれる、6つの役務。</h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <p class="svc-num">SERVICE 01</p>
+        <p class="svc-name">SNS動画 月8本</p>
+        <p class="svc-desc">企画・撮影ディレクション・編集・投稿まで一括。現場の負担は撮影協力のみに絞ります。</p>
+      </div>
+      <div class="svc-card reveal d1">
+        <p class="svc-num">SERVICE 02</p>
+        <p class="svc-name">Indeed運用</p>
+        <p class="svc-desc">SNSと並行してIndeedも運用。今すぐ層と、これから層の両方に網を張ります。</p>
+      </div>
+      <div class="svc-card reveal d2">
+        <p class="svc-num">SERVICE 03</p>
+        <p class="svc-name">LINE構築</p>
+        <p class="svc-desc">友だち追加後の配信設計と、応募につなげる手動の口説き運用まで含みます。</p>
+      </div>
+      <div class="svc-card reveal">
+        <p class="svc-num">SERVICE 04</p>
+        <p class="svc-name">AI企画</p>
+        <p class="svc-desc">AIでトレンドと反応データを分析し、次に当たる動画企画を立案し続けます。</p>
+      </div>
+      <div class="svc-card reveal d1">
+        <p class="svc-num">SERVICE 05</p>
+        <p class="svc-name">AIレポート</p>
+        <p class="svc-desc">再生・遷移・友だち追加までの数字をAIが整理。感覚ではなく数字で振り返ります。</p>
+      </div>
+      <div class="svc-card reveal d2">
+        <p class="svc-num">SERVICE 06</p>
+        <p class="svc-name">月1回の定例MTG</p>
+        <p class="svc-desc">月1回、成果と次の一手をすり合わせ。方針のズレをためずに進めます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 料金 ===== -->
+<section id="price">
+  <span class="v-label">PRICE <b>/</b> 05</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">PRICING</p>
+      <h2>成果に連動する、ローリスク設計。</h2>
+    </div>
+    <div class="price-panel reveal">
+      <div class="price-rows">
+        <div class="price-cell">
+          <p class="price-cap">初期費用</p>
+          <p class="price-val">0<small> 円</small></p>
+          <p class="price-sub">アカウント設計・導線構築込み</p>
+        </div>
+        <div class="price-cell">
+          <p class="price-cap">月額</p>
+          <p class="price-val">20<small> 万円</small></p>
+          <p class="price-sub">6つの役務すべてを含む</p>
+        </div>
+        <div class="price-cell">
+          <p class="price-cap">成果報酬</p>
+          <p class="price-val">5<small> 万円/件</small></p>
+          <p class="price-sub">LINE友だち追加1件につき</p>
+        </div>
+      </div>
+      <div class="lowrisk">
+        <p class="big">応募ゼロなら、お支払いは<b>月20万円のみ。</b></p>
+        <p class="small">成果報酬は「LINE友だち追加」が発生したときだけ。成果が出ない月に費用が膨らむことはありません。</p>
+      </div>
+      <p class="price-terms">契約期間：最低3ヶ月〜（アカウントが資産として立ち上がるまでの初動期間です）</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 対象 ===== -->
+<section id="target" style="background:var(--bg2);">
+  <span class="v-label">TARGET <b>/</b> 06</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">FOR WHOM</p>
+      <h2>こんな会社に向いています。</h2>
+    </div>
+    <div class="target-wrap">
+      <div class="target-side">
+        <div class="gline-v" data-line></div>
+        <p style="color:var(--fg);font-weight:800;font-size:18px;letter-spacing:.1em;">対象業種<br>・規模</p>
+      </div>
+      <div>
+        <div class="target-tags reveal">
+          <span>建設</span>
+          <span>不動産</span>
+          <span>運送</span>
+          <span>従業員10〜100名</span>
+        </div>
+        <p class="target-note reveal d1">「いい会社なのに、求人を出しても伝わらない」。現場のリアルが最大の魅力になる業種ほど、動画との相性は抜群です。採用担当が専任でいない規模の会社でも、運用はヨロリクが巻き取ります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 実績 ===== -->
+<section id="results">
+  <span class="v-label">RESULTS <b>/</b> 07</span>
+  <div class="inner">
+    <div class="sec-head">
+      <p class="sec-en">TRACK RECORD</p>
+      <h2>運営会社YOLO'sの実績。</h2>
+    </div>
+    <div class="result-grid">
+      <div class="result-cell reveal">
+        <p class="result-label">SNS支援アカウント</p>
+        <p class="result-num">50<small>社以上</small></p>
+        <div class="cellline"></div>
+      </div>
+      <div class="result-cell reveal d1">
+        <p class="result-label">累計再生回数</p>
+        <p class="result-num">3<small>億回以上</small></p>
+        <div class="cellline"></div>
+      </div>
+      <div class="result-cell reveal d2">
+        <p class="result-label">動画制作本数</p>
+        <p class="result-num">5,000<small>本以上</small></p>
+        <div class="cellline"></div>
+      </div>
+      <div class="result-cell reveal d3">
+        <p class="result-label">最短3ヶ月での応募達成</p>
+        <p class="result-num">50<small>件以上</small></p>
+        <div class="cellline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta" class="cta-sec">
+  <div class="inner">
+    <p class="sec-en" style="text-align:center;">FREE CONSULTATION</p>
+    <h2>採用を「資産」に変える相談、<br>まず30分から。</h2>
+    <p class="lead reveal">御社の業種・エリア・募集職種を伺い、「採用メディア資産」をつくった場合の設計イメージをその場でお話しします。契約を迫る場ではありません。</p>
+    <div class="hero-cta-row reveal" style="justify-content:center;margin-top:44px;">
+      <!-- リンク後日差し替え -->
+      <a class="btn-primary" href="#">無料相談をLINEで予約する</a>
+    </div>
+    <p class="cta-note reveal" style="margin-top:18px;">オンライン対応／全国対応可</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="f-inner">
+    <div class="f-brand">
+      <p class="f-logo">ヨロリク<i>.</i></p>
+      <p class="f-tag">採用活動を、辞める。<br>SNS採用支援サービス／運営：株式会社YOLO's</p>
+    </div>
+    <nav class="f-nav">
+      <p class="f-nav-title">SITES</p>
+      <a href="index.html">事業ポータル</a>
+      <a href="yolos_hp.html">株式会社YOLO's コーポレート</a>
+      <a href="yoroliku_lp.html">ヨロリク｜SNS採用支援（このページ）</a>
+      <a href="yologuard_lp.html">ヨロガード｜経理BPO・管理部長代行</a>
+      <a href="yologuard_school_lp.html">ヨロガードスクール｜経理教育</a>
+    </nav>
+    <nav class="f-nav">
+      <p class="f-nav-title">MENU</p>
+      <a href="#problem">課題</a>
+      <a href="#solution">解決策</a>
+      <a href="#service">サービス内容</a>
+      <a href="#price">料金</a>
+      <a href="#cta">無料相談</a>
+    </nav>
+  </div>
+  <div class="f-copy">
+    <span>© 株式会社YOLO's</span>
+    <span>YOROLIKU — SNS RECRUITING</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced) document.documentElement.classList.add('reduced');
+
+  /* ---- 1. charスクラブ ---- */
+  var scrubEls = Array.prototype.slice.call(document.querySelectorAll('[data-scrub]'));
+  scrubEls.forEach(function(el){
+    var chars = Array.from(el.textContent);
+    el.textContent = '';
+    var frag = document.createDocumentFragment();
+    chars.forEach(function(ch){
+      var s = document.createElement('span');
+      s.className = 'sc';
+      s.textContent = ch;
+      frag.appendChild(s);
+    });
+    el.appendChild(frag);
+    el._chars = el.querySelectorAll('.sc');
+    el._lit = -1;
+  });
+
+  /* ---- 2. スクロール連動ライン ---- */
+  var lines = Array.prototype.slice.call(document.querySelectorAll('[data-line]'));
+
+  function progressOf(el, startF, endF){
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight || 1;
+    var start = vh * startF, end = vh * endF;
+    var denom = r.height + start - end;
+    if(denom <= 0) denom = 1;
+    var p = (start - r.top) / denom;
+    return Math.max(0, Math.min(1, p));
+  }
+
+  var ticking = false;
+  function update(){
+    if(!reduced){
+      scrubEls.forEach(function(el){
+        var p = progressOf(el, .88, .38);
+        var n = Math.round(p * el._chars.length);
+        if(n !== el._lit){
+          for(var i = 0; i < el._chars.length; i++){
+            el._chars[i].classList.toggle('lit', i < n);
+          }
+          el._lit = n;
+        }
+      });
+      lines.forEach(function(el){
+        var p = progressOf(el, .94, .42);
+        if(el.classList.contains('gline-v')){
+          el.style.transform = 'scaleY(' + p.toFixed(4) + ')';
+        }else{
+          el.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        }
+      });
+    }
+    ticking = false;
+  }
+  function onScroll(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+
+  /* ---- フェードイン入場 ---- */
+  var reveals = document.querySelectorAll('.reveal');
+  if(reduced || !('IntersectionObserver' in window)){
+    reveals.forEach(function(el){ el.classList.add('visible'); });
+  }else{
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- 3. 抽象モーションMV ---- */
+  var canvas = document.getElementById('mv');
+  if(canvas && canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    var AC = {r:110, g:168, b:255};
+    var W = 0, H = 0, dots = [], glows = [];
+    function resize(){
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    function init(){
+      dots = [];
+      var n = Math.max(24, Math.min(90, Math.floor(W * H / 22000)));
+      for(var i = 0; i < n; i++){
+        dots.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: Math.random() * 1.6 + .4,
+          vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .14,
+          a: Math.random() * .5 + .15, tw: Math.random() * Math.PI * 2
+        });
+      }
+      glows = [
+        {x:.24, y:.42, r:.55, s:.00011, ph:0},
+        {x:.76, y:.62, r:.5,  s:.00008, ph:2.2}
+      ];
+    }
+    function frame(t){
+      ctx.clearRect(0, 0, W, H);
+      glows.forEach(function(g){
+        var gx = (g.x + Math.sin(t * g.s + g.ph) * .12) * W;
+        var gy = (g.y + Math.cos(t * g.s * 1.3 + g.ph) * .1) * H;
+        var rad = Math.max(W, H) * g.r;
+        var grd = ctx.createRadialGradient(gx, gy, 0, gx, gy, rad);
+        grd.addColorStop(0, 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',0.055)');
+        grd.addColorStop(1, 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, W, H);
+      });
+      dots.forEach(function(d){
+        d.x += d.vx; d.y += d.vy;
+        if(d.x < -4) d.x = W + 4; if(d.x > W + 4) d.x = -4;
+        if(d.y < -4) d.y = H + 4; if(d.y > H + 4) d.y = -4;
+        var a = d.a * (0.6 + 0.4 * Math.sin(t * .0012 + d.tw));
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + AC.r + ',' + AC.g + ',' + AC.b + ',' + a.toFixed(3) + ')';
+        ctx.fill();
+      });
+      if(!reduced) requestAnimationFrame(frame);
+    }
+    resize(); init();
+    window.addEventListener('resize', function(){ resize(); init(); if(reduced) frame(0); });
+    if(reduced){ frame(0); } else { requestAnimationFrame(frame); }
+  }
+})();
+</script>
+</body>
+</html>
